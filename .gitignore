@@ -125,5 +125,10 @@ venv.bak/
 .dmypy.json
 dmypy.json
 
+
+
+*.mp4
+
+
 # Pyre type checker
 .pyre/
