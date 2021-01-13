@@ -5,7 +5,7 @@ import dlib
 cap=cv.VideoCapture("testvideo.mp4")
 detector=dlib.get_frontal_face_detector()
 predictor=dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
-def rescaleFrame(frame,scale=1):
+def rescaleFrame(frame,scale=0.5):
     width=int(frame.shape[1]*scale)#frame.shape[1] is width of image
     height=int(frame.shape[0]*scale)#frame.shape[0] is height of image
     dimension=(width,height)
@@ -32,9 +32,8 @@ while True:
         # cv.circle(frame,(x,y),1,(0,255,0),1)
     cv.imshow("frame",frame)
     
-    k = cv2.waitKey(1) & 0xff
-    if k == 27:
-        break
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+          break
 
 cap.release()
 cv2.destroyAllWindows()
