@@ -13,4 +13,4 @@ class mouseclass:
         mouse.click(Button.right,1)
 
     def navigateto(self,x,y):
-        print("navigate to")
+        mouse.position=(x,y)
