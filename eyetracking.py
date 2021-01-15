@@ -27,7 +27,7 @@ def eyetrack():
             x1,y1=face.top(),face.bottom()
             print("face top:",x1)
             print("face bottom:",y1)
-            facerect=cv2.rectangle(frame,(x,x1),(y,y1),(0,255,0),2)
+            facerect=cv2.rectangle(frame,(x,x1),(y,y1),(0,255,0),1)
             landmarks=predictor(gray,face)
             left_point=(landmarks.part(36).x,landmarks.part(36).y)
             right_point=(landmarks.part(39).x,landmarks.part(39).y)

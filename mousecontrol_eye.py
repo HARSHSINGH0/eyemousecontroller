@@ -10,6 +10,7 @@ class mouseclass:
         mouse.click(Button.left,1)
     def right_click(self):
         print("right click")
+        mouse.click(Button.right,1)
 
     def navigateto(self,x,y):
         print("navigate to")
