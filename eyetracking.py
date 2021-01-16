@@ -62,7 +62,7 @@ def eyetrack(blinking_frames):
                 blinking_frames+=1
                 # print((up_point_r[1]-down_point_r[1]))
                 if (blinking_frames>1):
-                    cv.putText(frame,"Right click",(250,150),cv.FONT_HERSHEY_SIMPLEX,2,(255,255,255),1)
+                    cv.putText(frame,"Right click",(250,150),cv.FONT_HERSHEY_SIMPLEX,1,(255,255,255),3)
                     mouseclass.right_click()
                     break
             else:
