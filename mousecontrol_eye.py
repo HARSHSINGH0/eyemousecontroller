@@ -7,9 +7,10 @@ class mouseclass:
 
     def left_click(self):
         mouse.click(Button.left,1)
+        time.sleep(0.5)#this small line removed multiple click
     def right_click(self):
         
         mouse.click(Button.right,1)
-
+        time.sleep(0.5)
     def navigateto(self,x,y):
         mouse.position=(x,y)

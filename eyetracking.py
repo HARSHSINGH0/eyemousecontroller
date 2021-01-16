@@ -7,7 +7,8 @@ cap=cv.VideoCapture(0)
 detector=dlib.get_frontal_face_detector()
 predictor=dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 blinking_frames=0
-def rescaleFrame(frame):#scale=0.20
+def rescaleFrame(frame):
+    # scale=0.20
     # width=int(frame.shape[1]*scale)#frame.shape[1] is width of image
     # height=int(frame.shape[0]*scale)#frame.shape[0] is height of image
     # dimension=(width,height)
@@ -48,8 +49,14 @@ def eyetrack(blinking_frames):
             value_of_blink=-3
 
             eyestonosepointx,eyestonosepointy=(landmarks.part(27).x,landmarks.part(27).y)
-            #mouseclass.navigateto(eyestonosepointx,eyestonosepointy)
+            #cv.rectangle(frame,(170,460),(320,202),(255,255,255),2)
+            # mouseclass.navigateto(eyestonosepointx,eyestonosepointy)
             # print("blinking_frames",blinking_frames)
+            print("y1-x1:",y1-x1)
+            print((up_point[1]-down_point[1]))
+            print(blinking_frames)
+            if((y1-x1)>170):
+                value_of_blink=-8
             if((y1-x1)>130):
                 value_of_blink=-4
             if((up_point[1]-down_point[1])>=value_of_blink):
