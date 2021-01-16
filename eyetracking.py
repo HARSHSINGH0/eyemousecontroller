@@ -57,7 +57,7 @@ def eyetrack(blinking_frames):
             print(blinking_frames)
             if((y1-x1)<105):
                 cv.putText(frame,"come close to the camera",(80,150),cv.FONT_HERSHEY_SIMPLEX,1,(0,0,0),3)
-                value_of_blink=
+                value_of_blink=10
             if((y1-x1)>170):
                 value_of_blink=-8
             if((y1-x1)>130):
