@@ -46,15 +46,18 @@ def eyetrack(blinking_frames):
             up_point_r=(midlinepoint(landmarks.part(43),landmarks.part(44)))
             down_point_r=(midlinepoint(landmarks.part(47),landmarks.part(46)))            
             ver_line_r=cv.line(frame,up_point_r,down_point_r,(255,255,255),2)
-            value_of_blink=-3
+            value_of_blink=-3#this is for distance about 1 feet
 
             eyestonosepointx,eyestonosepointy=(landmarks.part(27).x,landmarks.part(27).y)
             #cv.rectangle(frame,(170,460),(320,202),(255,255,255),2)
             # mouseclass.navigateto(eyestonosepointx,eyestonosepointy)
             # print("blinking_frames",blinking_frames)
-            print("y1-x1:",y1-x1)
-            print((up_point[1]-down_point[1]))
+            print("y1-x1 (for the area of the face):",y1-x1)
+            print("distance of eye tips from up to down",(up_point[1]-down_point[1]))
             print(blinking_frames)
+            if((y1-x1)<105):
+                cv.putText(frame,"come close to the camera",(80,150),cv.FONT_HERSHEY_SIMPLEX,1,(0,0,0),3)
+                value_of_blink=
             if((y1-x1)>170):
                 value_of_blink=-8
             if((y1-x1)>130):
@@ -65,7 +68,13 @@ def eyetrack(blinking_frames):
                     cv.putText(frame,"Left click",(250,150),cv.FONT_HERSHEY_SIMPLEX,1,(255,255,255),3)
                     mouseclass.left_click()
                     break
-            elif((up_point_r[1]-down_point_r[1])>=value_of_blink):
+            else:
+                #print((up_point[1]-down_point[1]))
+                while blinking_frames!=0:
+                    blinking_frames=10
+            #i could have done this with elif too but this will create priority to left clicks
+
+            if((up_point_r[1]-down_point_r[1])>=value_of_blink):
                 blinking_frames+=1
                 # print((up_point_r[1]-down_point_r[1]))
                 if (blinking_frames>1):
