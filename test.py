@@ -59,10 +59,12 @@ def eyetrack(blinking_frames):
             RE_right=landmarks.part(44).x,landmarks.part(44).y
             RE_dl=landmarks.part(47).x,landmarks.part(47).y
             RE_dr=landmarks.part(46).x,landmarks.part(46).y
+
             Right_leftlandmarkline=cv.line(frame,RE_left,RE_dl,(255,255,255),1)
             Right_rightlandmarkline=cv.line(frame,RE_right,RE_dr,(255,255,255),1)
-
-
+            print("LE_left[0]-LE_dl[0]",LE_left[0]-LE_dl[0])
+            print(LE_right[0]-LE_dr[0])
+            #print((LE_left[0],LE_left[1])-(LE_dl[0],LE_dl[1]))
             eyestonosepointx,eyestonosepointy=(landmarks.part(27).x,landmarks.part(27).y)
             #cv.rectangle(frame,(170,460),(320,202),(255,255,255),2)
             # mouseclass.navigateto(eyestonosepointx,eyestonosepointy)
@@ -71,6 +73,8 @@ def eyetrack(blinking_frames):
             # print("distance of eye tips from up to down",(up_point[1]-down_point[1]))
             # print(blinking_frames)
             
+            
+
             if((y1-x1)>170):
                 value_of_blink=-6
             elif((y1-x1)>140):
