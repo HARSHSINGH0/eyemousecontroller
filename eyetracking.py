@@ -57,9 +57,9 @@ def eyetrack(blinking_frames):
             print(blinking_frames)
             
             if((y1-x1)>170):
-                value_of_blink=-6
+                value_of_blink=-7
             elif((y1-x1)>140):
-                value_of_blink=-5
+                value_of_blink=-6
             elif((y1-x1)>130):
                 value_of_blink=-5
             elif((y1-x1)>120):
