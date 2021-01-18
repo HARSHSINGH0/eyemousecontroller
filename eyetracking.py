@@ -11,7 +11,7 @@ def rescaleFrame(frame):
     # scale=0.20
     # width=int(frame.shape[1]*scale)#frame.shape[1] is width of image
     # height=int(frame.shape[0]*scale)#frame.shape[0] is height of image
-    # dimension=(width,height)
+    # didimension=(600,450)mension=(width,height)
     dimension=(600,450)
     return cv.resize(frame,dimension,interpolation=cv.INTER_AREA)
 def midlinepoint(p1,p2):
@@ -70,17 +70,17 @@ def eyetrack(blinking_frames):
             
             if((up_point[1]-down_point[1])>=value_of_blink):
                 blinking_frames+=1
-                if (blinking_frames>1):
+                if (blinking_frames>2):
                     cv.putText(frame,"Left click",(250,150),cv.FONT_HERSHEY_SIMPLEX,1,(0,0,0),3)
                     mouseclass.left_click()
                     break
-            else:
-                #print((up_point[1]-down_point[1]))
-                while blinking_frames!=0:
-                    blinking_frames=0
-            #i could have done this with elif too but this will create priority to left clicks
+            # else:
+            #     #print((up_point[1]-down_point[1]))
+            #     while blinking_frames!=0:
+            #         blinking_frames=0
+            # #i could have done this with elif too but this will create priority to left clicks
 
-            if((up_point_r[1]-down_point_r[1])>=value_of_blink):
+            elif((up_point_r[1]-down_point_r[1])>=value_of_blink):
                 blinking_frames+=1
                 # print((up_point_r[1]-down_point_r[1]))
                 if (blinking_frames>1):
