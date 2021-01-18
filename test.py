@@ -68,18 +68,21 @@ def eyetrack(blinking_frames):
                 cv.putText(frame,"come close to the camera",(80,150),cv.FONT_HERSHEY_SIMPLEX,1,(0,0,0),3)
                 value_of_blink=10
             blinking_frames+=1
-            if(blinking_frames>2):
+            if(blinking_frames>3):
                 if((up_point[1]-down_point[1])>=value_of_blink):
                     cv.putText(frame,"Left click",(250,150),cv.FONT_HERSHEY_SIMPLEX,1,(0,0,0),3)
                     mouseclass.left_click()
-            
-            elif((up_point_r[1]-down_point_r[1])>=value_of_blink):
-                cv.putText(frame,"Right click",(250,150),cv.FONT_HERSHEY_SIMPLEX,1,(0,0,0),3)
-                mouseclass.right_click()
-            else:
-                #print((up_point[1]-down_point[1]))
-                while blinking_frames!=0:
-                    blinking_frames-=1
+                else:
+                    #print((up_point[1]-down_point[1]))
+                    while blinking_frames!=0:
+                        blinking_frames-=1
+                if((up_point_r[1]-down_point_r[1])>=value_of_blink):
+                    cv.putText(frame,"Right click",(250,150),cv.FONT_HERSHEY_SIMPLEX,1,(0,0,0),3)
+                    mouseclass.right_click()
+                else:
+                    #print((up_point[1]-down_point[1]))
+                    while blinking_frames!=0:
+                        blinking_frames-=1
             
             
         cv.imshow("frame",frame)
