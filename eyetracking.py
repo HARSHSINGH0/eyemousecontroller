@@ -7,11 +7,30 @@ cap=cv.VideoCapture(0)
 detector=dlib.get_frontal_face_detector()
 predictor=dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 blinking_frames=0
+
+
 def rescaleFrame(frame):
     dimension=(600,450)
     return cv.resize(frame,dimension,interpolation=cv.INTER_AREA)
 def midlinepoint(p1,p2):
     return int((p1.x+p2.x)/2),int((p1.y+p2.y)/2)
+def navigateto(x,y):
+    currentvalue=[]
+    print(currentvalue)
+    currentvalue1=currentvalue
+    print(currentvalue1)
+    currentvalue.append(x)
+    currentvalue.append(y)
+    print("currentvalue:",currentvalue)
+    print("currentvalue1:",currentvalue1)
+    if currentvalue1==[]:
+        currentvalue1.append(0)
+        currentvalue1.append(1)
+
+    currentvalue1=currentvalue[0],currentvalue[1]-currentvalue1[0]-currentvalue1[1]
+    mouse.move(currentvalue1[0],currentvalue1[1])
+    currentvalue1=currentvalue
+    # print(x,y)
 def eyetrack(blinking_frames):
     while True:
         _,frame=cap.read()
@@ -47,10 +66,10 @@ def eyetrack(blinking_frames):
             eyestonosepointx,eyestonosepointy=(landmarks.part(27).x,landmarks.part(27).y)
             #cv.rectangle(frame,(170,460),(320,202),(255,255,255),2)
             navigateto(eyestonosepointx,eyestonosepointy)
-            print("blinking_frames",blinking_frames)
-            print("y1-x1 (for the area of the face):",y1-x1)
-            print("distance of eye tips from up to down",(up_point[1]-down_point[1]))
-            print(blinking_frames)
+            # print("blinking_frames",blinking_frames)
+            # print("y1-x1 (for the area of the face):",y1-x1)
+            # print("distance of eye tips from up to down",(up_point[1]-down_point[1]))
+            # print(blinking_frames)
             
             if((y1-x1)>170):
                 value_of_blink=-7

@@ -6,22 +6,21 @@ tk=Tk()
 mouse=Controller()
 width = tk.winfo_screenwidth()
 height = tk.winfo_screenheight()
-currentvalue=0
 
 def firstpos(x,y):
     mouse.position=(x,y)
-def navigateto(x,y):
-    currentvalue1=x,y
-    currentvalue=currentvalue1-currentvalue
-    mouse.move(currentvalue)
-    currentvalue=currentvalue1
-    print(x,y)
+# def navigateto(x,y):
+#     currentvalue1=x,y
+#     currentvalue=currentvalue1-currentvalue
+#     mouse.move(currentvalue)
+#     currentvalue=currentvalue1
+#     print(x,y)
 def left_click():
-    mouse.click(Button.left,1)
+    # mouse.click(Button.left,1)
     print("left click")
 def right_click():
     print("right click")
-    mouse.click(Button.right,1)
+    # mouse.click(Button.right,1)
     
 
 middlepoint1,middlepoint2=0,0
