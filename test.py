@@ -71,8 +71,8 @@ def eyetrack(blinking_frames):
                 cv.putText(frame,"come close to the camera",(80,150),cv.FONT_HERSHEY_SIMPLEX,1,(0,0,0),3)
                 value_of_blink=10
             blinking_frames+=1
-            lefteyeblink(blinking_frames,value_of_blink,landmarks)
-            
+            lefteyeblink=lefteyeblink(blinking_frames,value_of_blink,landmarks)
+            lefteyeblink.lefteye()
             
         cv.imshow("frame",frame)
 

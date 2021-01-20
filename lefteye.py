@@ -12,7 +12,6 @@ class lefteyeblink:
         self.value_of_blink=value_of_blink
         self.blinking_frames=blinking_frames
         self.landmarks=landmarks
-        lefteye()
     def rescaleFrame(self,frame):
         dimension=(600,450)
         return cv.resize(frame,dimension,interpolation=cv.INTER_AREA)
