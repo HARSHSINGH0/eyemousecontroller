@@ -2,7 +2,7 @@ import cv2 as cv
 cv2=cv
 import dlib
 from mousecontrol_eye import *
-mouseclass=mouseclass()
+
 cap=cv.VideoCapture(0)
 detector=dlib.get_frontal_face_detector()
 predictor=dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
@@ -46,7 +46,7 @@ def eyetrack(blinking_frames):
 
             eyestonosepointx,eyestonosepointy=(landmarks.part(27).x,landmarks.part(27).y)
             #cv.rectangle(frame,(170,460),(320,202),(255,255,255),2)
-            #mouseclass.navigateto(eyestonosepointx,eyestonosepointy)
+            navigateto(eyestonosepointx,eyestonosepointy)
             print("blinking_frames",blinking_frames)
             print("y1-x1 (for the area of the face):",y1-x1)
             print("distance of eye tips from up to down",(up_point[1]-down_point[1]))
@@ -68,8 +68,8 @@ def eyetrack(blinking_frames):
                 blinking_frames+=1
                 if (blinking_frames>2):
                     cv.putText(frame,"Left click",(250,150),cv.FONT_HERSHEY_SIMPLEX,1,(0,0,0),3)
-                    mouseclass.left_click()
-                    break
+                    left_click()
+                    # break
             # else:
             #     #print((up_point[1]-down_point[1]))
             #     while blinking_frames!=0:
@@ -78,11 +78,10 @@ def eyetrack(blinking_frames):
 
             elif((up_point_r[1]-down_point_r[1])>=value_of_blink):
                 blinking_frames+=1
-                # print((up_point_r[1]-down_point_r[1]))
                 if (blinking_frames>1):
                     cv.putText(frame,"Right click",(250,150),cv.FONT_HERSHEY_SIMPLEX,1,(0,0,0),3)
-                    mouseclass.right_click()
-                    break
+                    right_click()
+                    # break
             else:
                 #print((up_point[1]-down_point[1]))
                 while blinking_frames!=0:
