@@ -2,19 +2,12 @@ import cv2 as cv
 cv2=cv
 import dlib
 from mousecontrol_eye import *
-from lefteye import *
 mouseclass=mouseclass()
-blinking_frames=0
-value_of_blink=10
-# lefteyeblink=lefteyeblink(blinking_frames,value_of_blink,landmarks)
 cap=cv.VideoCapture(0)
 detector=dlib.get_frontal_face_detector()
 predictor=dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
+blinking_frames=0
 def rescaleFrame(frame):
-    # scale=0.20
-    # width=int(frame.shape[1]*scale)#frame.shape[1] is width of image
-    # height=int(frame.shape[0]*scale)#frame.shape[0] is height of image
-    # didimension=(600,450)mension=(width,height)
     dimension=(600,450)
     return cv.resize(frame,dimension,interpolation=cv.INTER_AREA)
 def midlinepoint(p1,p2):
@@ -26,7 +19,7 @@ def eyetrack(blinking_frames):
         gray=rescaleFrame(gray)
         frame=rescaleFrame(frame)
         faces=detector(gray)
-        cv.putText(frame,"Q to exit",(230,50),cv.FONT_HERSHEY_SIMPLEX,1,(0,0,0),2)
+        cv.putText(frame,"Q to exit",(230,50),cv.FONT_HERSHEY_SIMPLEX,1,(255,0,0),2)
         for face in faces:
             #print(face)
             x,y=face.left(),face.right()
@@ -70,9 +63,30 @@ def eyetrack(blinking_frames):
             elif((y1-x1)<105):
                 cv.putText(frame,"come close to the camera",(80,150),cv.FONT_HERSHEY_SIMPLEX,1,(0,0,0),3)
                 value_of_blink=10
-            blinking_frames+=1
-            lefteyeblink=lefteyeblink(blinking_frames,value_of_blink,landmarks)
-            lefteyeblink.lefteye()
+            
+            if((up_point[1]-down_point[1])>=value_of_blink):
+                blinking_frames+=1
+                if (blinking_frames>2):
+                    cv.putText(frame,"Left click",(250,150),cv.FONT_HERSHEY_SIMPLEX,1,(0,0,0),3)
+                    mouseclass.left_click()
+                    break
+            # else:
+            #     #print((up_point[1]-down_point[1]))
+            #     while blinking_frames!=0:
+            #         blinking_frames=0
+            # #i could have done this with elif too but this will create priority to left clicks
+
+            elif((up_point_r[1]-down_point_r[1])>=value_of_blink):
+                blinking_frames+=1
+                # print((up_point_r[1]-down_point_r[1]))
+                if (blinking_frames>1):
+                    cv.putText(frame,"Right click",(250,150),cv.FONT_HERSHEY_SIMPLEX,1,(0,0,0),3)
+                    mouseclass.right_click()
+                    break
+            else:
+                #print((up_point[1]-down_point[1]))
+                while blinking_frames!=0:
+                    blinking_frames-=1
             
         cv.imshow("frame",frame)
 
