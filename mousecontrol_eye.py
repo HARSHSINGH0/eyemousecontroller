@@ -21,9 +21,18 @@ def left_click():
 def right_click():
     print("right click")
     # mouse.click(Button.right,1)
-    
+def navigateto(x,y,current_value):
+    current_value1=[]
+    current_value1.append(x)
+    current_value1.append(y)
+    mouse.move((current_value[0]-current_value[0]),(current_value1[1]-current_value1[1]))
+    current_value1.pop()
+    current_value1.pop()
+    current_value.pop()
+    current_value.pop()
+    current_value.append(current_value1[0])
+    current_value.append(current_value1[1])
 
-middlepoint1,middlepoint2=0,0
 if(width==1920):
     middlepoint1,middlepoint2=960,540
 firstpos(middlepoint1,middlepoint2)
