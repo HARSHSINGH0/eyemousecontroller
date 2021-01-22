@@ -23,7 +23,7 @@ def navigateto(x,y,current_value):
     movex=0
     movey=0
     
-    if((current_value1[0]-current_value[0])>=5):
+    if((current_value1[0]-current_value[0])>=5): # this is for value of x
         movex=11
     if((current_value1[0]-current_value[0])==4):
         movex=8
@@ -33,8 +33,18 @@ def navigateto(x,y,current_value):
         movex=4
     if((current_value1[0]-current_value[0])==1):
         movex=2
+    if((current_value1[0]-current_value[0])<=-5): # this is for negative value of x
+        movex=-11
+    if((current_value1[0]-current_value[0])==-4):
+        movex=-8
+    if((current_value1[0]-current_value[0])==-3):
+        movex=-6
+    if((current_value1[0]-current_value[0])==-2):
+        movex=-4
+    if((current_value1[0]-current_value[0])==-1):
+        movex=-2
         
-    if((current_value1[1]-current_value[0])>=5):
+    if((current_value1[1]-current_value[0])>=5): # this is for value of y
         movex=11
     if((current_value1[1]-current_value[1])==4):
         movex=8
@@ -45,11 +55,22 @@ def navigateto(x,y,current_value):
     if((current_value1[1]-current_value[1])==1):
         movex=2
 
+    if((current_value1[1]-current_value[0])<=-5): # this is for negative value of y
+        movex=-11
+    if((current_value1[1]-current_value[1])==-4):
+        movex=-8
+    if((current_value1[1]-current_value[1])==-3):
+        movex=-6
+    if((current_value1[1]-current_value[1])==-2):
+        movex=-4
+    if((current_value1[1]-current_value[1])==-1):
+        movex=-2
+
     mouse.move(movex,movey)
     #mouse.move(movex,movey)
     print("movex:",movex)
     print("movey:",movey)
-    print((current_value1[0]-current_value[0]),(current_value1[1]-current_value[1]))
+    # print((current_value1[0]-current_value[0]),(current_value1[1]-current_value[1]))
     current_value.pop()
     current_value.pop()
     current_value.append(current_value1[0])

@@ -48,7 +48,7 @@ def eyetrack(blinking_frames):
             ver_line_r=cv.line(frame,up_point_r,down_point_r,(255,255,255),2)
             value_of_blink=-3#this is for distance about 1 feet
 
-            eyestonosepointx,eyestonosepointy=(landmarks.part(27).x,landmarks.part(27).y)
+            eyestonosepointx,eyestonosepointy=landmarks.part(27).x,landmarks.part(27).y
             #cv.rectangle(frame,(170,460),(320,202),(255,255,255),2)
             navigateto(eyestonosepointx,eyestonosepointy,current_value)
             # print("blinking_frames",blinking_frames)
