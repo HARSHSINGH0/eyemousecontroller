@@ -30,20 +30,22 @@ def navigateto(x,y,current_value):
     #     movey=(current_value1[1]-current_value[1])+(-5)
     # elif((current_value1[1]-current_value[1])>0):
     #     movey=((current_value1[1]-current_value[1])+5)
-    if((current_value1[0]-current_value[0])>=5):
-        movex=10
-    if((current_value1[0]-current_value[0])>=2):
-        movex=5
-    if((current_value1[0]-current_value[0])>=1):
-        movex=3
-    if((current_value1[1]-current_value[1])>=5):
-        movey=10
-    if((current_value1[1]-current_value[1])>=2):
-        movey=5
-    if((current_value1[1]-current_value[1])>=1):
-        movey=3
     
-    mouse.move(movex,movey)
+    # if((current_value1[0]-current_value[0])>=5):
+    #     movex=10
+    # if((current_value1[0]-current_value[0])>=2):
+    #     movex=5
+    # if((current_value1[0]-current_value[0])>=1):
+    #     movex=3
+    # if((current_value1[1]-current_value[1])>=5):
+    #     movey=10
+    # if((current_value1[1]-current_value[1])>=2):
+    #     movey=5
+    # if((current_value1[1]-current_value[1])>=1):
+    #     movey=3
+
+    mouse.move((current_value1[0]-current_value[0]),(current_value1[1]-current_value[1]))
+    #mouse.move(movex,movey)
     print("movex:",movex)
     print("movey:",movey)
     print((current_value1[0]-current_value[0]),(current_value1[1]-current_value[1]))

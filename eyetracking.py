@@ -18,7 +18,7 @@ def midlinepoint(p1,p2):
     
 def eyetrack(blinking_frames):
     while True:
-        _,frame=cap.read().
+        _,frame=cap.read()
         gray=cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
         gray=rescaleFrame(gray)
         frame=rescaleFrame(frame)
