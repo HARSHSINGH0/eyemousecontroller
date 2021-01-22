@@ -22,14 +22,6 @@ def navigateto(x,y,current_value):
     current_value1.append(y)
     movex=0
     movey=0
-    # if((current_value1[0]-current_value[0])<0):
-    #     movex=(current_value1[0]-current_value[0])+(-5)
-    # elif((current_value1[0]-current_value[0])>0):
-    #     movey=(current_value1[0]-current_value[0])+5
-    # if((current_value1[1]-current_value[1])<0):
-    #     movey=(current_value1[1]-current_value[1])+(-5)
-    # elif((current_value1[1]-current_value[1])>0):
-    #     movey=((current_value1[1]-current_value[1])+5)
     
     if((current_value1[0]-current_value[0])>=5):
         movex=11
