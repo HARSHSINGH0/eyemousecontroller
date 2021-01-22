@@ -14,11 +14,11 @@ def rescaleFrame(frame):
     return cv.resize(frame,dimension,interpolation=cv.INTER_AREA)
 def midlinepoint(p1,p2):
     return int((p1.x+p2.x)/2),int((p1.y+p2.y)/2)
-
     # print(x,y)
+    
 def eyetrack(blinking_frames):
     while True:
-        _,frame=cap.read()
+        _,frame=cap.read().
         gray=cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
         gray=rescaleFrame(gray)
         frame=rescaleFrame(frame)
