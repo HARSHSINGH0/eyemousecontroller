@@ -53,7 +53,7 @@ def navigateto(x,y,current_value):
     if((current_value1[1]-current_value[1])==1):
         movex=2
 
-    mouse.move((current_value1[0]-current_value[0]),(current_value1[1]-current_value[1]))
+    mouse.move(movex,movey)
     #mouse.move(movex,movey)
     print("movex:",movex)
     print("movey:",movey)
