@@ -4,11 +4,11 @@ from tkinter import *
 import cv2 as cv
 from pynput.mouse import Listener,Button,Controller
 import dlib
-tk=Tk()
+# tk=Tk()
 cv2=cv
 mouse=Controller()
-width = tk.winfo_screenwidth()
-height = tk.winfo_screenheight()
+# width = tk.winfo_screenwidth()
+# height = tk.winfo_screenheight()
 cap=cv.VideoCapture(0)
 detector=dlib.get_frontal_face_detector()
 predictor=dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
@@ -17,6 +17,17 @@ current_value=[0,0]
 def rescaleFrame(frame):
     dimension=(600,450)
     return cv.resize(frame,dimension,interpolation=cv.INTER_AREA)
+def navigation_noserectangle(value):
+        
+        if value=="else":
+            #print("As wrong input given computer automatically switched to default mode 3")
+            rectangle_nav=cv.rectangle(frame,(250,225),(350,300),(255,255,255),2)
+        elif value==1:
+            rectangle_nav=cv.rectangle(frame,(250,125),(350,175),(255,255,255),2)
+        elif value==2:
+            rectangle_nav=cv.rectangle(frame,(250,175),(350,225),(255,255,255),2)
+        elif value==3:
+            rectangle_nav=cv.rectangle(frame,(250,225),(350,300),(255,255,255),2)
 def eyetrack(blinking_frames):
     print("choose navigation mode between 1/2/3")
     print("set this according to your camera angle")
@@ -28,32 +39,31 @@ def eyetrack(blinking_frames):
 
   
     while True:
+
         _,frame=cap.read()
         gray=cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
         gray=rescaleFrame(gray)
         frame=rescaleFrame(frame)
         faces=detector(gray)
         cv.putText(frame,"Q to exit",(230,50),cv.FONT_HERSHEY_SIMPLEX,1,(255,0,0),2)
-    def navigation_noserectangle(value):
+
+        if(navigationrectsmall==1):
+            navigation_noserectangle(1)
+        elif(navigationrectsmall==2):
+            navigation_noserectangle(2)
+        elif(navigationrectsmall==3):
+            navigation_noserectangle(3)
+        else:
+            navigation_noserectangle("else")
+
+        cv.imshow("frame",frame)
+
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
     
-        if value=="else":
-            print("As wrong input given computer automatically switched to default mode 3")
-            rectangle_nav=cv.rectangle(frame,(250,225),(350,300),(255,255,255),2)
-        elif value==1:
-            rectangle_nav=cv.rectangle(frame,(250,125),(350,175),(255,255,255),2)
-        elif value==2:
-            rectangle_nav=cv.rectangle(frame,(250,175),(350,225),(255,255,255),2)
-        elif value==3:
-            rectangle_nav=cv.rectangle(frame,(250,225),(350,300),(255,255,255),2)
     
-    if(navigationrectsmall==1):
-        navigation_noserectangle(1)
-    elif(navigationrectsmall==2):
-        navigation_noserectangle(2)
-    elif(navigationrectsmall==3):
-        navigation_noserectangle(3)
-    else:
-        navigation_noserectangle("else")
+    
+    
 
 def firstpos(x,y):
     mouse.position=(x,y)
@@ -83,6 +93,6 @@ def navigateto(x,y,current_value):
 
 eyetrack(blinking_frames)
   
-if(width==1920):
-    middlepoint1,middlepoint2=960,540
-firstpos(middlepoint1,middlepoint2)
+# if(width==1920):
+#     middlepoint1,middlepoint2=960,540
+# firstpos(middlepoint1,middlepoint2)
