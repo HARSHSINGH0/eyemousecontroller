@@ -7,4 +7,4 @@ pip install pyautogui
 pip install cmake
 make sure to install visual c++ and c#
 pip install dlib
-
+pip install pywin32

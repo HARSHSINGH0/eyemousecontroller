@@ -1,15 +1,14 @@
 import pyautogui
 pyautogui.FAILSAFE = True
-from tkinter import *
+from win32.win32api import GetSystemMetrics
 from pynput.mouse import Listener,Button,Controller
-tk=Tk()
-mouse=Controller()
-width = tk.winfo_screenwidth()
-height = tk.winfo_screenheight()
 
+mouse=Controller()
+width = GetSystemMetrics(0)
+height = GetSystemMetrics(1)
+print(width,height)
 def firstpos(x,y):
     mouse.position=(x,y)
-
 def left_click():
     # mouse.click(Button.left,1)
     print("left click")

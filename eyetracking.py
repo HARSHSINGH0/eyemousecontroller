@@ -16,34 +16,7 @@ def midlinepoint(p1,p2):
     return int((p1.x+p2.x)/2),int((p1.y+p2.y)/2)
     # print(x,y)
     
-def eyetrack(blinking_frames):
-    print("choose navigation mode between 1/2/3")
-    print("set this according to your camera angle")
-    print("choose 1 if your face in camera is in upper part")
-    print("choose 2 if your face in camera is in middle part")
-    print("choose 3 if your face in camera is in lower part")
-    print("most of the user prefer option 3 as all are sitting in chair")
-    navigationrectsmall=input()
-    def navigation_noserectangle(value):
-        _,frame=cap.read()
-        if value=="else":
-            print("As wrong input given computer automatically switched to default mode 3")
-            rectangle_nav=cv.rectangle(frame,(250,225),(350,300),(255,255,255),2)
-        elif value==1:
-            rectangle_nav=cv.rectangle(frame,(250,125),(350,175),(255,255,255),2)
-        elif value==2:
-            rectangle_nav=cv.rectangle(frame,(250,175),(350,225),(255,255,255),2)
-        elif value==3:
-            rectangle_nav=cv.rectangle(frame,(250,225),(350,300),(255,255,255),2)
-        
-    if(navigationrectsmall==1):
-        navigation_noserectangle(1)
-    elif(navigationrectsmall==2):
-        navigation_noserectangle(2)
-    elif(navigationrectsmall==3):
-        navigation_noserectangle(3)
-    else:
-        navigation_noserectangle("else")
+def eyetrack(blinking_frames,navigationrectsmall):
     
     while True:
         _,frame=cap.read()
@@ -51,9 +24,15 @@ def eyetrack(blinking_frames):
         gray=rescaleFrame(gray)
         frame=rescaleFrame(frame)
         faces=detector(gray)
-        
-        
-        
+        if(navigationrectsmall==1):
+            rectangle_nav=cv.rectangle(frame,(250,125),(350,175),(255,255,255),2)
+        elif(navigationrectsmall==2):
+            rectangle_nav=cv.rectangle(frame,(250,175),(350,225),(255,255,255),2)
+        elif(navigationrectsmall==3):
+            rectangle_nav=cv.rectangle(frame,(250,225),(350,300),(255,255,255),2)
+        else:
+            rectangle_nav=cv.rectangle(frame,(250,225),(350,300),(255,255,255),2)
+
         cv.putText(frame,"Q to exit",(230,50),cv.FONT_HERSHEY_SIMPLEX,1,(255,0,0),2)
         for face in faces:
             #print(face)
@@ -127,6 +106,14 @@ def eyetrack(blinking_frames):
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
               break
-eyetrack(blinking_frames)
+
+print("choose navigation mode between 1/2/3")
+print("set this according to your camera angle")
+print("choose 1 if your face in camera is in upper part")
+print("choose 2 if your face in camera is in middle part")
+print("choose 3 if your face in camera is in lower part")
+print("most of the user prefer option 3 as all are sitting in chair")
+navigationrectsmall=int(input())
+eyetrack(blinking_frames,navigationrectsmall)
 cap.release()
 cv2.destroyAllWindows()
