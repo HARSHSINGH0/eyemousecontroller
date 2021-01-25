@@ -11,9 +11,9 @@ def firstpos(x,y):
     mouse.position=(x,y)
 def left_click():
     # mouse.click(Button.left,1)
-    print("left click")
+    print("")
 def right_click():
-    print("right click")
+    print("")
     # mouse.click(Button.right,1)
 def navigateto(x,y,current_value):
     current_value1=[]
@@ -69,7 +69,7 @@ def navigateto(x,y,current_value):
     #mouse.move(movex,movey)
     # print("movex:",movex)
     # print("movey:",movey)
-    print((current_value1[0]-current_value[0]),(current_value1[1]-current_value[1]))
+    #print((current_value1[0]-current_value[0]),(current_value1[1]-current_value[1]))
     current_value.pop()
     current_value.pop()
     current_value.append(current_value1[0])

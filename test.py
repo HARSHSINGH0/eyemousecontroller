@@ -40,7 +40,7 @@ def eyetrack(blinking_frames,navigationrectsmall):
             rectangle_nav=cv.rectangle(frame,(300,300),(350,350),(255,255,255),2)
         else:
             rectangle_nav=cv.rectangle(frame,(300,300),(350,350),(255,255,255),2)
-
+        
         cv.imshow("frame",frame)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):

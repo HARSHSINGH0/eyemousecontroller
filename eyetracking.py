@@ -24,14 +24,32 @@ def eyetrack(blinking_frames,navigationrectsmall):
         gray=rescaleFrame(gray)
         frame=rescaleFrame(frame)
         faces=detector(gray)
+
         if(navigationrectsmall==1):
-            rectangle_nav=cv.rectangle(frame,(300,125),(350,175),(255,255,255),2)
+            xvaluerectsmall=300
+            yvaluerectsmall=125
+            xvaluerectsmall_r=350
+            yvaluerectsmall_r=175
+            cv.rectangle(frame,(xvaluerectsmall,yvaluerectsmall),(xvaluerectsmall_r,yvaluerectsmall_r),(255,255,255),2)
         elif(navigationrectsmall==2):
-            rectangle_nav=cv.rectangle(frame,(300,175),(350,225),(255,255,255),2)
+            xvaluerectsmall=300
+            yvaluerectsmall=175
+            xvaluerectsmall_r=350
+            yvaluerectsmall_r=225
+            cv.rectangle(frame,(xvaluerectsmall,yvaluerectsmall),(xvaluerectsmall_r,yvaluerectsmall_r),(255,255,255),2)
         elif(navigationrectsmall==3):
-            rectangle_nav=cv.rectangle(frame,(300,300),(350,350),(255,255,255),2)
+            xvaluerectsmall=300
+            yvaluerectsmall=300
+            xvaluerectsmall_r=350
+            yvaluerectsmall_r=350
+            cv.rectangle(frame,(xvaluerectsmall,yvaluerectsmall),(xvaluerectsmall_r,yvaluerectsmall_r),(255,255,255),2)
         else:
-            rectangle_nav=cv.rectangle(frame,(300,300),(350,350),(255,255,255),2)
+            xvaluerectsmall=300
+            yvaluerectsmall=300
+            xvaluerectsmall_r=350
+            yvaluerectsmall_r=350
+            cv.rectangle(frame,(xvaluerectsmall,yvaluerectsmall),(xvaluerectsmall_r,yvaluerectsmall_r),(255,255,255),2)
+        
 
         cv.putText(frame,"Q to exit",(230,50),cv.FONT_HERSHEY_SIMPLEX,1,(255,0,0),2)
         for face in faces:
@@ -43,6 +61,9 @@ def eyetrack(blinking_frames,navigationrectsmall):
 
             facerect=cv2.rectangle(frame,(x,x1),(y,y1),(255,255,255),2)
             landmarks=predictor(gray,face)
+            noselandmark=(landmarks.part(30).x,landmarks.part(30).y)
+            
+
             left_point=(landmarks.part(36).x,landmarks.part(36).y)
             right_point=(landmarks.part(39).x,landmarks.part(39).y)
             hor_line=cv.line(frame,left_point,right_point,(255,255,255),2)
