@@ -17,25 +17,9 @@ current_value=[0,0]
 def rescaleFrame(frame):
     dimension=(600,450)
     return cv.resize(frame,dimension,interpolation=cv.INTER_AREA)
-def navigation_noserectangle(value):
-        
-        if value=="else":
-            #print("As wrong input given computer automatically switched to default mode 3")
-            rectangle_nav=cv.rectangle(frame,(250,225),(350,300),(255,255,255),2)
-        elif value==1:
-            rectangle_nav=cv.rectangle(frame,(250,125),(350,175),(255,255,255),2)
-        elif value==2:
-            rectangle_nav=cv.rectangle(frame,(250,175),(350,225),(255,255,255),2)
-        elif value==3:
-            rectangle_nav=cv.rectangle(frame,(250,225),(350,300),(255,255,255),2)
-def eyetrack(blinking_frames):
-    print("choose navigation mode between 1/2/3")
-    print("set this according to your camera angle")
-    print("choose 1 if your face in camera is in upper part")
-    print("choose 2 if your face in camera is in middle part")
-    print("choose 3 if your face in camera is in lower part")
-    print("most of the user prefer option 3 as all are sitting in chair")
-    navigationrectsmall=input()
+
+def eyetrack(blinking_frames,navigationrectsmall):
+    
 
   
     while True:
@@ -47,14 +31,16 @@ def eyetrack(blinking_frames):
         faces=detector(gray)
         cv.putText(frame,"Q to exit",(230,50),cv.FONT_HERSHEY_SIMPLEX,1,(255,0,0),2)
 
+        
         if(navigationrectsmall==1):
-            navigation_noserectangle(1)
+            rectangle_nav=cv.rectangle(frame,(250,125),(350,175),(255,255,255),2)
         elif(navigationrectsmall==2):
-            navigation_noserectangle(2)
+            rectangle_nav=cv.rectangle(frame,(250,175),(350,225),(255,255,255),2)
         elif(navigationrectsmall==3):
-            navigation_noserectangle(3)
+            rectangle_nav=cv.rectangle(frame,(250,225),(350,300),(255,255,255),2)
         else:
-            navigation_noserectangle("else")
+            
+            rectangle_nav=cv.rectangle(frame,(250,225),(350,300),(255,255,255),2)
 
         cv.imshow("frame",frame)
 
@@ -90,8 +76,14 @@ def navigateto(x,y,current_value):
     current_value1.pop()
     current_value1.pop()
 
-
-eyetrack(blinking_frames)
+print("choose navigation mode between 1/2/3")
+print("set this according to your camera angle")
+print("choose 1 if your face in camera is in upper part")
+print("choose 2 if your face in camera is in middle part")
+print("choose 3 if your face in camera is in lower part")
+print("most of the user prefer option 3 as all are sitting in chair")
+navigationrectsmall=int(input())
+eyetrack(blinking_frames,navigationrectsmall)
   
 # if(width==1920):
 #     middlepoint1,middlepoint2=960,540
