@@ -25,13 +25,13 @@ def eyetrack(blinking_frames,navigationrectsmall):
         frame=rescaleFrame(frame)
         faces=detector(gray)
         if(navigationrectsmall==1):
-            rectangle_nav=cv.rectangle(frame,(250,125),(350,175),(255,255,255),2)
+            rectangle_nav=cv.rectangle(frame,(300,125),(350,175),(255,255,255),2)
         elif(navigationrectsmall==2):
-            rectangle_nav=cv.rectangle(frame,(250,175),(350,225),(255,255,255),2)
+            rectangle_nav=cv.rectangle(frame,(300,175),(350,225),(255,255,255),2)
         elif(navigationrectsmall==3):
-            rectangle_nav=cv.rectangle(frame,(250,225),(350,300),(255,255,255),2)
+            rectangle_nav=cv.rectangle(frame,(300,300),(350,350),(255,255,255),2)
         else:
-            rectangle_nav=cv.rectangle(frame,(250,225),(350,300),(255,255,255),2)
+            rectangle_nav=cv.rectangle(frame,(300,300),(350,350),(255,255,255),2)
 
         cv.putText(frame,"Q to exit",(230,50),cv.FONT_HERSHEY_SIMPLEX,1,(255,0,0),2)
         for face in faces:
