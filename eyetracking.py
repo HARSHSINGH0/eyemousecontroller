@@ -26,27 +26,27 @@ def eyetrack(blinking_frames,navigationrectsmall):
         faces=detector(gray)
 
         if(navigationrectsmall==1):
-            xvaluerectsmall=300
+            xvaluerectsmall=275
             yvaluerectsmall=125
-            xvaluerectsmall_r=350
+            xvaluerectsmall_r=325
             yvaluerectsmall_r=175
             cv.rectangle(frame,(xvaluerectsmall,yvaluerectsmall),(xvaluerectsmall_r,yvaluerectsmall_r),(255,255,255),2)
         elif(navigationrectsmall==2):
-            xvaluerectsmall=300
+            xvaluerectsmall=275
             yvaluerectsmall=175
-            xvaluerectsmall_r=350
+            xvaluerectsmall_r=325
             yvaluerectsmall_r=225
             cv.rectangle(frame,(xvaluerectsmall,yvaluerectsmall),(xvaluerectsmall_r,yvaluerectsmall_r),(255,255,255),2)
         elif(navigationrectsmall==3):
-            xvaluerectsmall=300
+            xvaluerectsmall=275
             yvaluerectsmall=300
-            xvaluerectsmall_r=350
+            xvaluerectsmall_r=325
             yvaluerectsmall_r=350
             cv.rectangle(frame,(xvaluerectsmall,yvaluerectsmall),(xvaluerectsmall_r,yvaluerectsmall_r),(255,255,255),2)
         else:
-            xvaluerectsmall=300
+            xvaluerectsmall=275
             yvaluerectsmall=300
-            xvaluerectsmall_r=350
+            xvaluerectsmall_r=325
             yvaluerectsmall_r=350
             cv.rectangle(frame,(xvaluerectsmall,yvaluerectsmall),(xvaluerectsmall_r,yvaluerectsmall_r),(255,255,255),2)
         
@@ -62,7 +62,7 @@ def eyetrack(blinking_frames,navigationrectsmall):
             facerect=cv2.rectangle(frame,(x,x1),(y,y1),(255,255,255),2)
             landmarks=predictor(gray,face)
             noselandmark=(landmarks.part(30).x,landmarks.part(30).y)
-            
+                
 
             left_point=(landmarks.part(36).x,landmarks.part(36).y)
             right_point=(landmarks.part(39).x,landmarks.part(39).y)
