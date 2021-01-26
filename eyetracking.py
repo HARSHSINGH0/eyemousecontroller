@@ -25,30 +25,7 @@ def eyetrack(blinking_frames,navigationrectsmall):
         frame=rescaleFrame(frame)
         faces=detector(gray)
 
-        if(navigationrectsmall==1):
-            xvaluerectsmall=275
-            yvaluerectsmall=125
-            xvaluerectsmall_r=325
-            yvaluerectsmall_r=175
-            cv.rectangle(frame,(xvaluerectsmall,yvaluerectsmall),(xvaluerectsmall_r,yvaluerectsmall_r),(255,255,255),2)
-        elif(navigationrectsmall==2):
-            xvaluerectsmall=275
-            yvaluerectsmall=175
-            xvaluerectsmall_r=325
-            yvaluerectsmall_r=225
-            cv.rectangle(frame,(xvaluerectsmall,yvaluerectsmall),(xvaluerectsmall_r,yvaluerectsmall_r),(255,255,255),2)
-        elif(navigationrectsmall==3):
-            xvaluerectsmall=275
-            yvaluerectsmall=300
-            xvaluerectsmall_r=325
-            yvaluerectsmall_r=350
-            cv.rectangle(frame,(xvaluerectsmall,yvaluerectsmall),(xvaluerectsmall_r,yvaluerectsmall_r),(255,255,255),2)
-        else:
-            xvaluerectsmall=275
-            yvaluerectsmall=300
-            xvaluerectsmall_r=325
-            yvaluerectsmall_r=350
-            cv.rectangle(frame,(xvaluerectsmall,yvaluerectsmall),(xvaluerectsmall_r,yvaluerectsmall_r),(255,255,255),2)
+        
         
 
         cv.putText(frame,"Q to exit",(230,50),cv.FONT_HERSHEY_SIMPLEX,1,(255,0,0),2)
@@ -63,6 +40,33 @@ def eyetrack(blinking_frames,navigationrectsmall):
             landmarks=predictor(gray,face)
             noselandmark=(landmarks.part(30).x,landmarks.part(30).y)
                 
+            if(navigationrectsmall==1):
+                xvaluerectsmall=275
+                yvaluerectsmall=125
+                xvaluerectsmall_r=325
+                yvaluerectsmall_r=175
+                cv.rectangle(frame,(xvaluerectsmall,yvaluerectsmall),(xvaluerectsmall_r,yvaluerectsmall_r),(255,255,255),2)
+            elif(navigationrectsmall==2):
+                xvaluerectsmall=275
+                yvaluerectsmall=175
+                xvaluerectsmall_r=325
+                yvaluerectsmall_r=225
+                cv.rectangle(frame,(xvaluerectsmall,yvaluerectsmall),(xvaluerectsmall_r,yvaluerectsmall_r),(255,255,255),2)
+            elif(navigationrectsmall==3):
+                xvaluerectsmall=275
+                yvaluerectsmall=300
+                xvaluerectsmall_r=325
+                yvaluerectsmall_r=350
+                eyestonosepointx,eyestonosepointy=landmarks.part(30).x,landmarks.part(30).y
+                
+                navigateto(eyestonosepointx,eyestonosepointy,current_value)
+                cv.rectangle(frame,(xvaluerectsmall,yvaluerectsmall),(xvaluerectsmall_r,yvaluerectsmall_r),(255,255,255),2)
+            else:
+                xvaluerectsmall=275
+                yvaluerectsmall=300
+                xvaluerectsmall_r=325
+                yvaluerectsmall_r=350
+                cv.rectangle(frame,(xvaluerectsmall,yvaluerectsmall),(xvaluerectsmall_r,yvaluerectsmall_r),(255,255,255),2)
 
             left_point=(landmarks.part(36).x,landmarks.part(36).y)
             right_point=(landmarks.part(39).x,landmarks.part(39).y)

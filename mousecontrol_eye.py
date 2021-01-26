@@ -69,7 +69,7 @@ def navigateto(x,y,current_value):
     #mouse.move(movex,movey)
     # print("movex:",movex)
     # print("movey:",movey)
-    #print((current_value1[0]-current_value[0]),(current_value1[1]-current_value[1]))
+    print((current_value1[0]-current_value[0]),(current_value1[1]-current_value[1]))
     current_value.pop()
     current_value.pop()
     current_value.append(current_value1[0])
