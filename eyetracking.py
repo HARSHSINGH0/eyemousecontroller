@@ -58,8 +58,11 @@ def eyetrack(blinking_frames,navigationrectsmall):
                 xvaluerectsmall_r=325
                 yvaluerectsmall_r=350
                 eyestonosepointx,eyestonosepointy=landmarks.part(30).x,landmarks.part(30).y
+                print("eyestonosepointx",eyestonosepointx)
+                print("eyestonosepointy",eyestonosepointy)
                 if(eyestonosepointx<275 | eyestonosepointx>325):
                     if(eyestonosepointy<300 | eyestonosepointy>350):
+                        
                         navigateto(eyestonosepointx,eyestonosepointy,current_value)
                 cv.rectangle(frame,(xvaluerectsmall,yvaluerectsmall),(xvaluerectsmall_r,yvaluerectsmall_r),(255,255,255),2)
             else:
