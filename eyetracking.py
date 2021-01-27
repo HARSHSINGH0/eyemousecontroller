@@ -2,8 +2,8 @@ import cv2 as cv
 cv2=cv
 import dlib
 from mousecontrol_eye import *
-
-cap=cv.VideoCapture(0)
+videocapture=int(input("Enter the Camera Number:"))
+cap=cv.VideoCapture(videocapture-1)
 detector=dlib.get_frontal_face_detector()
 predictor=dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 blinking_frames=0
@@ -58,8 +58,9 @@ def eyetrack(blinking_frames,navigationrectsmall):
                 xvaluerectsmall_r=325
                 yvaluerectsmall_r=350
                 eyestonosepointx,eyestonosepointy=landmarks.part(30).x,landmarks.part(30).y
-                
-                navigateto(eyestonosepointx,eyestonosepointy,current_value)
+                if(eyestonosepointx<275 | eyestonosepointx>325):
+                    if(eyestonosepointy<300 | eyestonosepointy>350):
+                        navigateto(eyestonosepointx,eyestonosepointy,current_value)
                 cv.rectangle(frame,(xvaluerectsmall,yvaluerectsmall),(xvaluerectsmall_r,yvaluerectsmall_r),(255,255,255),2)
             else:
                 xvaluerectsmall=275
