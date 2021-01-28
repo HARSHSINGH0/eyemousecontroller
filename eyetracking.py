@@ -61,10 +61,12 @@ def eyetrack(blinking_frames,navigationrectsmall):
                 if(eyestonosepointx<275 | eyestonosepointx>325 & eyestonosepointy<300 | eyestonosepointy>350):
                     if(eyestonosepointx>eyestonosepointy):
                         navigateto(eyestonosepointx,0,current_value)
+                    if(eyestonosepointy>eyestonosepointx):
+                        navigateto(eyestonosepointx,0,current_value)
                 if(eyestonosepointx>275 | eyestonosepointx<325 & eyestonosepointy>300 | eyestonosepointy<350):
                     if(width==1920):
                         middlepoint1,middlepoint2=960,540
-                    mouse.move(middlepoint1,middlepoint2)
+                    # mouse.position(middlepoint1,middlepoint2,2)
                 cv.rectangle(frame,(xvaluerectsmall,yvaluerectsmall),(xvaluerectsmall_r,yvaluerectsmall_r),(255,255,255),2)
             else:
                 xvaluerectsmall=275
