@@ -2,13 +2,15 @@ import cv2 as cv
 cv2=cv
 import dlib
 from mousecontrol_eye import *
+from win32.win32api import GetSystemMetrics
 videocapture=int(input("Enter the Camera Number:"))
 cap=cv.VideoCapture(videocapture-1)
 detector=dlib.get_frontal_face_detector()
 predictor=dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 blinking_frames=0
 current_value=[0,0]
-
+width = GetSystemMetrics(0)
+height = GetSystemMetrics(1)
 def rescaleFrame(frame):
     dimension=(600,450)
     return cv.resize(frame,dimension,interpolation=cv.INTER_AREA)
@@ -24,9 +26,6 @@ def eyetrack(blinking_frames,navigationrectsmall):
         gray=rescaleFrame(gray)
         frame=rescaleFrame(frame)
         faces=detector(gray)
-
-        
-        
 
         cv.putText(frame,"Q to exit",(230,50),cv.FONT_HERSHEY_SIMPLEX,1,(255,0,0),2)
         for face in faces:
@@ -58,12 +57,14 @@ def eyetrack(blinking_frames,navigationrectsmall):
                 xvaluerectsmall_r=325
                 yvaluerectsmall_r=350
                 eyestonosepointx,eyestonosepointy=landmarks.part(30).x,landmarks.part(30).y
-                print("eyestonosepointx",eyestonosepointx)
-                print("eyestonosepointy",eyestonosepointy)
-                if(eyestonosepointx<275 | eyestonosepointx>325):
-                    if(eyestonosepointy<300 | eyestonosepointy>350):
-                        
-                        navigateto(eyestonosepointx,eyestonosepointy,current_value)
+                
+                if(eyestonosepointx<275 | eyestonosepointx>325 & eyestonosepointy<300 | eyestonosepointy>350):
+                    if(eyestonosepointx>eyestonosepointy):
+                        navigateto(eyestonosepointx,0,current_value)
+                if(eyestonosepointx>275 | eyestonosepointx<325 & eyestonosepointy>300 | eyestonosepointy<350):
+                    if(width==1920):
+                        middlepoint1,middlepoint2=960,540
+                    mouse.move(middlepoint1,middlepoint2)
                 cv.rectangle(frame,(xvaluerectsmall,yvaluerectsmall),(xvaluerectsmall_r,yvaluerectsmall_r),(255,255,255),2)
             else:
                 xvaluerectsmall=275
@@ -87,9 +88,9 @@ def eyetrack(blinking_frames,navigationrectsmall):
             ver_line_r=cv.line(frame,up_point_r,down_point_r,(255,255,255),2)
             value_of_blink=-3#this is for distance about 1 feet
 
-            eyestonosepointx,eyestonosepointy=landmarks.part(30).x,landmarks.part(30).y
+            #eyestonosepointx,eyestonosepointy=landmarks.part(30).x,landmarks.part(30).y
             #cv.rectangle(frame,(170,460),(320,202),(255,255,255),2)
-            navigateto(eyestonosepointx,eyestonosepointy,current_value)
+            #navigateto(eyestonosepointx,eyestonosepointy,current_value)
             # print("blinking_frames",blinking_frames)
             # print("y1-x1 (for the area of the face):",y1-x1)
             # print("distance of eye tips from up to down",(up_point[1]-down_point[1]))
