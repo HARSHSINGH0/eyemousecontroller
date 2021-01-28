@@ -3,6 +3,7 @@ cv2=cv
 import dlib
 from mousecontrol_eye import *
 from win32.win32api import GetSystemMetrics
+import pyautogui
 videocapture=int(input("Enter the Camera Number:"))
 cap=cv.VideoCapture(videocapture-1)
 detector=dlib.get_frontal_face_detector()
@@ -19,7 +20,6 @@ def midlinepoint(p1,p2):
     # print(x,y)
     
 def eyetrack(blinking_frames,navigationrectsmall):
-    
     while True:
         _,frame=cap.read()
         gray=cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
@@ -59,14 +59,11 @@ def eyetrack(blinking_frames,navigationrectsmall):
                 eyestonosepointx,eyestonosepointy=landmarks.part(30).x,landmarks.part(30).y
                 
                 if(eyestonosepointx<275 | eyestonosepointx>325 & eyestonosepointy<300 | eyestonosepointy>350):
-                    if(eyestonosepointx>eyestonosepointy):
-                        navigateto(eyestonosepointx,0,current_value)
-                    if(eyestonosepointy>eyestonosepointx):
-                        navigateto(eyestonosepointx,0,current_value)
+                    navigateto(eyestonosepointx,eyestonosepointy,current_value)
                 if(eyestonosepointx>275 | eyestonosepointx<325 & eyestonosepointy>300 | eyestonosepointy<350):
                     if(width==1920):
                         middlepoint1,middlepoint2=960,540
-                    # mouse.position(middlepoint1,middlepoint2,2)
+                        pyautogui.moveTo(middlepoint1, middlepoint2, duration=2, tween=pyautogui.easeInOutQuad)
                 cv.rectangle(frame,(xvaluerectsmall,yvaluerectsmall),(xvaluerectsmall_r,yvaluerectsmall_r),(255,255,255),2)
             else:
                 xvaluerectsmall=275
