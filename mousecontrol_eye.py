@@ -1,5 +1,5 @@
-import pyautogui
-pyautogui.FAILSAFE = False
+# import pyautogui
+# pyautogui.FAILSAFE = False
 from win32.win32api import GetSystemMetrics
 from pynput.mouse import Listener,Button,Controller
 
@@ -62,12 +62,13 @@ def navigateto(x,y,current_value):
         movex=-6
     if((current_value1[1]-current_value[1])==-2):
         movex=-2
+        
     if((current_value1[1]-current_value[1])==-1):
         movex=-1
 
     #mouse.move(movex,movey)
-    #mouse.move((current_value1[0]-current_value[0]),(current_value1[1]-current_value[1]))
-    pyautogui.moveTo((current_value1[0]-current_value[0]),(current_value1[1]-current_value[1]),duration=2,tween=pyautogui.linear)
+    mouse.move((current_value1[0]-current_value[0]),(current_value1[1]-current_value[1]))
+    #pyautogui.moveTo((current_value1[0]-current_value[0]),(current_value1[1]-current_value[1]),duration=2,tween=pyautogui.linear)
     # print("movex:",movex)
     # print("movey:",movey)
     # print((current_value1[0]-current_value[0]),(current_value1[1]-current_value[1]))

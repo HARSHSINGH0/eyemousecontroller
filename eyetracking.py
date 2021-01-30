@@ -19,7 +19,7 @@ def midlinepoint(p1,p2):
     return int((p1.x+p2.x)/2),int((p1.y+p2.y)/2)
     # print(x,y)
     
-def eyetrack(blinking_frames,navigationrectsmall):
+def eyetrack(blinking_frames):
     while True:
         _,frame=cap.read()
         gray=cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
@@ -38,40 +38,59 @@ def eyetrack(blinking_frames,navigationrectsmall):
             facerect=cv2.rectangle(frame,(x,x1),(y,y1),(255,255,255),2)
             landmarks=predictor(gray,face)
             noselandmark=(landmarks.part(30).x,landmarks.part(30).y)
-                
-            if(navigationrectsmall==1):
-                xvaluerectsmall=275
-                yvaluerectsmall=125
-                xvaluerectsmall_r=325
-                yvaluerectsmall_r=175
-                cv.rectangle(frame,(xvaluerectsmall,yvaluerectsmall),(xvaluerectsmall_r,yvaluerectsmall_r),(255,255,255),2)
-            elif(navigationrectsmall==2):
-                xvaluerectsmall=275
-                yvaluerectsmall=175
-                xvaluerectsmall_r=325
-                yvaluerectsmall_r=225
-                cv.rectangle(frame,(xvaluerectsmall,yvaluerectsmall),(xvaluerectsmall_r,yvaluerectsmall_r),(255,255,255),2)
-            elif(navigationrectsmall==3):
-                xvaluerectsmall=275
-                yvaluerectsmall=300
-                xvaluerectsmall_r=325
-                yvaluerectsmall_r=350
-                eyestonosepointx,eyestonosepointy=landmarks.part(30).x,landmarks.part(30).y
-                
-                if(eyestonosepointx<275 | eyestonosepointx>325 & eyestonosepointy<300 | eyestonosepointy>350):
-                    navigateto(eyestonosepointx,eyestonosepointy,current_value)
-                if(eyestonosepointx>275 | eyestonosepointx<325 & eyestonosepointy>300 | eyestonosepointy<350):
-                    if(width==1920):
-                        middlepoint1,middlepoint2=960,540
-                        pyautogui.moveTo(middlepoint1, middlepoint2, duration=2, tween=pyautogui.easeInOutQuad)
-                cv.rectangle(frame,(xvaluerectsmall,yvaluerectsmall),(xvaluerectsmall_r,yvaluerectsmall_r),(255,255,255),2)
-            else:
-                xvaluerectsmall=275
-                yvaluerectsmall=300
-                xvaluerectsmall_r=325
-                yvaluerectsmall_r=350
-                cv.rectangle(frame,(xvaluerectsmall,yvaluerectsmall),(xvaluerectsmall_r,yvaluerectsmall_r),(255,255,255),2)
+            xvaluerectsmall=275
+            yvaluerectsmall=300
+            xvaluerectsmall_r=325
+            yvaluerectsmall_r=350
+            # cv.rectangle(frame,(xvaluerectsmall,yvaluerectsmall),(xvaluerectsmall_r,yvaluerectsmall_r),(255,255,255),2)
+            # if(navigationrectsmall==1):
+            #     xvaluerectsmall=275
+            #     yvaluerectsmall=125
+            #     xvaluerectsmall_r=325
+            #     yvaluerectsmall_r=175
+            #     cv.rectangle(frame,(xvaluerectsmall,yvaluerectsmall),(xvaluerectsmall_r,yvaluerectsmall_r),(255,255,255),2)
+            # elif(navigationrectsmall==2):
+            #     xvaluerectsmall=275
+            #     yvaluerectsmall=175
+            #     xvaluerectsmall_r=325
+            #     yvaluerectsmall_r=225
+            #     cv.rectangle(frame,(xvaluerectsmall,yvaluerectsmall),(xvaluerectsmall_r,yvaluerectsmall_r),(255,255,255),2)
+            # elif(navigationrectsmall==3):
+            #     xvaluerectsmall=275
+            #     yvaluerectsmall=300
+            #     xvaluerectsmall_r=325
+            #     yvaluerectsmall_r=350
+            #     eyestonosepointx,eyestonosepointy=landmarks.part(30).x,landmarks.part(30).y
+            #     navigateto(eyestonosepointx,eyestonosepointy,current_value)
+            #     # if(eyestonosepointx<275 or eyestonosepointx>325 and eyestonosepointy<300 or eyestonosepointy>350):
+            #     #     navigateto(eyestonosepointx,eyestonosepointy,current_value)
+            #     # if(eyestonosepointx>275 or eyestonosepointx<325 and eyestonosepointy>300 or eyestonosepointy<350):
+            #     #     middlepoint1,middlepoint2=960,540
+            #     #     #mouse.move(middlepoint1,middlepoint2)
+            #     cv.rectangle(frame,(xvaluerectsmall,yvaluerectsmall),(xvaluerectsmall_r,yvaluerectsmall_r),(255,255,255),2)
+            # else:
+            #     xvaluerectsmall=275
+            #     yvaluerectsmall=300
+            #     xvaluerectsmall_r=325
+            #     yvaluerectsmall_r=350
+            #     cv.rectangle(frame,(xvaluerectsmall,yvaluerectsmall),(xvaluerectsmall_r,yvaluerectsmall_r),(255,255,255),2)
+            eyestonosepointx,eyestonosepointy=landmarks.part(30).x,landmarks.part(30).y
+            
+            #navigateto(eyestonosepointx,eyestonosepointy,current_value)
+            nose_to_cursorx=325
+            nose_to_cursory=290
 
+            cv.rectangle(frame,(eyestonosepointx,eyestonosepointy),(eyestonosepointx,eyestonosepointy),(255,255,255),thickness=4)
+            cv.rectangle(frame,(nose_to_cursorx,nose_to_cursory),(nose_to_cursorx,nose_to_cursory),(255,255,255),thickness=4)
+            cv.line(frame,(eyestonosepointx,eyestonosepointy),(nose_to_cursorx,nose_to_cursory),(255,255,255),thickness=2)
+            if((eyestonosepointx-nose_to_cursorx)>5):
+                mouse.move(5,0)#this is moving right
+            if(eyestonosepointx-nose_to_cursorx)<-5:
+                mouse.move(-5,0)#this is moving left
+            if(eyestonosepointy-nose_to_cursory)<-5:
+                mouse.move(0,-5)#this is moving up
+            if(eyestonosepointy-nose_to_cursory)>5:
+                mouse.move(0,5)# this is moving down
             left_point=(landmarks.part(36).x,landmarks.part(36).y)
             right_point=(landmarks.part(39).x,landmarks.part(39).y)
             hor_line=cv.line(frame,left_point,right_point,(255,255,255),2)
@@ -136,13 +155,14 @@ def eyetrack(blinking_frames,navigationrectsmall):
         if cv2.waitKey(1) & 0xFF == ord('q'):
               break
 
-print("choose navigation mode between 1/2/3")
-print("set this according to your camera angle")
-print("choose 1 if your face in camera is in upper part")
-print("choose 2 if your face in camera is in middle part")
-print("choose 3 if your face in camera is in lower part")
-print("most of the user prefer option 3 as all are sitting in chair")
-navigationrectsmall=int(input())
-eyetrack(blinking_frames,navigationrectsmall)
+# print("choose navigation mode between 1/2/3")
+# print("set this according to your camera angle")
+# print("choose 1 if your face in camera is in upper part")
+# print("choose 2 if your face in camera is in middle part")
+# print("choose 3 if your face in camera is in lower part")
+# print("most of the user prefer option 3 as all are sitting in chair")
+# navigationrectsmall=int(input())
+# eyetrack(blinking_frames,navigationrectsmall)
+eyetrack(blinking_frames)
 cap.release()
 cv2.destroyAllWindows()
