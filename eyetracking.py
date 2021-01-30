@@ -17,7 +17,6 @@ def rescaleFrame(frame):
     return cv.resize(frame,dimension,interpolation=cv.INTER_AREA)
 def midlinepoint(p1,p2):
     return int((p1.x+p2.x)/2),int((p1.y+p2.y)/2)
-    # print(x,y)
     
 def eyetrack(blinking_frames):
     while True:
@@ -29,12 +28,9 @@ def eyetrack(blinking_frames):
 
         cv.putText(frame,"Q to exit",(230,50),cv.FONT_HERSHEY_SIMPLEX,1,(255,0,0),2)
         for face in faces:
-            #print(face)
             x,y=face.left(),face.right()
             x1,y1=face.top(),face.bottom()
-            # print("face top:",x1)
-            # print("face bottom:",y1)
-
+           
             facerect=cv2.rectangle(frame,(x,x1),(y,y1),(255,255,255),2)
             landmarks=predictor(gray,face)
             noselandmark=(landmarks.part(30).x,landmarks.part(30).y)
@@ -42,41 +38,8 @@ def eyetrack(blinking_frames):
             yvaluerectsmall=300
             xvaluerectsmall_r=325
             yvaluerectsmall_r=350
-            # cv.rectangle(frame,(xvaluerectsmall,yvaluerectsmall),(xvaluerectsmall_r,yvaluerectsmall_r),(255,255,255),2)
-            # if(navigationrectsmall==1):
-            #     xvaluerectsmall=275
-            #     yvaluerectsmall=125
-            #     xvaluerectsmall_r=325
-            #     yvaluerectsmall_r=175
-            #     cv.rectangle(frame,(xvaluerectsmall,yvaluerectsmall),(xvaluerectsmall_r,yvaluerectsmall_r),(255,255,255),2)
-            # elif(navigationrectsmall==2):
-            #     xvaluerectsmall=275
-            #     yvaluerectsmall=175
-            #     xvaluerectsmall_r=325
-            #     yvaluerectsmall_r=225
-            #     cv.rectangle(frame,(xvaluerectsmall,yvaluerectsmall),(xvaluerectsmall_r,yvaluerectsmall_r),(255,255,255),2)
-            # elif(navigationrectsmall==3):
-            #     xvaluerectsmall=275
-            #     yvaluerectsmall=300
-            #     xvaluerectsmall_r=325
-            #     yvaluerectsmall_r=350
-            #     eyestonosepointx,eyestonosepointy=landmarks.part(30).x,landmarks.part(30).y
-            #     navigateto(eyestonosepointx,eyestonosepointy,current_value)
-            #     # if(eyestonosepointx<275 or eyestonosepointx>325 and eyestonosepointy<300 or eyestonosepointy>350):
-            #     #     navigateto(eyestonosepointx,eyestonosepointy,current_value)
-            #     # if(eyestonosepointx>275 or eyestonosepointx<325 and eyestonosepointy>300 or eyestonosepointy<350):
-            #     #     middlepoint1,middlepoint2=960,540
-            #     #     #mouse.move(middlepoint1,middlepoint2)
-            #     cv.rectangle(frame,(xvaluerectsmall,yvaluerectsmall),(xvaluerectsmall_r,yvaluerectsmall_r),(255,255,255),2)
-            # else:
-            #     xvaluerectsmall=275
-            #     yvaluerectsmall=300
-            #     xvaluerectsmall_r=325
-            #     yvaluerectsmall_r=350
-            #     cv.rectangle(frame,(xvaluerectsmall,yvaluerectsmall),(xvaluerectsmall_r,yvaluerectsmall_r),(255,255,255),2)
             eyestonosepointx,eyestonosepointy=landmarks.part(30).x,landmarks.part(30).y
             
-            #navigateto(eyestonosepointx,eyestonosepointy,current_value)
             nose_to_cursorx=325
             nose_to_cursory=290
 
@@ -106,15 +69,6 @@ def eyetrack(blinking_frames):
             ver_line_r=cv.line(frame,up_point_r,down_point_r,(255,255,255),2)
             value_of_blink=-3#this is for distance about 1 feet
 
-            #eyestonosepointx,eyestonosepointy=landmarks.part(30).x,landmarks.part(30).y
-            #cv.rectangle(frame,(170,460),(320,202),(255,255,255),2)
-            #navigateto(eyestonosepointx,eyestonosepointy,current_value)
-            # print("blinking_frames",blinking_frames)
-            # print("y1-x1 (for the area of the face):",y1-x1)
-            # print("distance of eye tips from up to down",(up_point[1]-down_point[1]))
-            # print(blinking_frames)
-            
-            
             if((y1-x1)>170):
                 value_of_blink=-7
             elif((y1-x1)>140):
@@ -132,21 +86,16 @@ def eyetrack(blinking_frames):
                 if (blinking_frames>2):
                     cv.putText(frame,"Left click",(250,150),cv.FONT_HERSHEY_SIMPLEX,1,(0,0,0),3)
                     left_click()
-                    # break
-            # else:
-            #     #print((up_point[1]-down_point[1]))
-            #     while blinking_frames!=0:
-            #         blinking_frames=0
-            # #i could have done this with elif too but this will create priority to left clicks
+                    
 
             elif((up_point_r[1]-down_point_r[1])>=value_of_blink):
                 blinking_frames+=1
                 if (blinking_frames>1):
                     cv.putText(frame,"Right click",(250,150),cv.FONT_HERSHEY_SIMPLEX,1,(0,0,0),3)
                     right_click()
-                    # break
+                    
             else:
-                #print((up_point[1]-down_point[1]))
+                
                 while blinking_frames!=0:
                     blinking_frames-=1
             
@@ -155,14 +104,6 @@ def eyetrack(blinking_frames):
         if cv2.waitKey(1) & 0xFF == ord('q'):
               break
 
-# print("choose navigation mode between 1/2/3")
-# print("set this according to your camera angle")
-# print("choose 1 if your face in camera is in upper part")
-# print("choose 2 if your face in camera is in middle part")
-# print("choose 3 if your face in camera is in lower part")
-# print("most of the user prefer option 3 as all are sitting in chair")
-# navigationrectsmall=int(input())
-# eyetrack(blinking_frames,navigationrectsmall)
 eyetrack(blinking_frames)
 cap.release()
 cv2.destroyAllWindows()
