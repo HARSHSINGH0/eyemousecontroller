@@ -12,14 +12,14 @@ In our system the cursor movement of computer is controlled by finding mean of b
 ![](outputimage4.png)
 ![](outputimage5.png)
 # Dependencies
-before running project
-anaconda python (better for working on venv)
-opencv-python (for working with video capture)
-numpy (for mathematical purpose)
-pynput (for mouse handle)
-cmake (for installing dlib)
-make sure to install visual c++ (this is required for installation of dlib)
-dlib (for pointing out the landmarks of face)
-pywin32 (for getting screen size)
-pyqt5 (for making interface)
-pyqt5-tools (for working on pyqt designer)
+before running project<br />
+anaconda python (better for working on venv)<br />
+opencv-python (for working with video capture)<br />
+numpy (for mathematical purpose)<br />
+pynput (for mouse handle)<br />
+cmake (for installing dlib)<br />
+make sure to install visual c++ (this is required for installation of dlib)<br />
+dlib (for pointing out the landmarks of face)<br />
+pywin32 (for getting screen size)<br />
+pyqt5 (for making interface)<br />
+pyqt5-tools (for working on pyqt designer)<br />
