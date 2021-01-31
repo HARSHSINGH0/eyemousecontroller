@@ -106,23 +106,17 @@
      <string>If default camera is installed then choose camera number 1</string>
     </property>
    </widget>
-   <widget class="QFrame" name="EyetrackingFrame">
+   <widget class="QLabel" name="VideoFrame">
     <property name="geometry">
      <rect>
       <x>420</x>
-      <y>150</y>
+      <y>160</y>
       <width>600</width>
       <height>450</height>
      </rect>
     </property>
-    <property name="cursor">
-     <cursorShape>CrossCursor</cursorShape>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
+    <property name="text">
+     <string/>
     </property>
    </widget>
   </widget>
