@@ -3,8 +3,8 @@ anaconda python
 pip install opencv-python
 pip install numpy
 pip install pynput
-pip install pyautogui
 pip install cmake
 make sure to install visual c++ and c#
 pip install dlib
 pip install pywin32
+
