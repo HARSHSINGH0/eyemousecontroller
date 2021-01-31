@@ -4,6 +4,7 @@ import dlib
 from mousecontrol_eye import *
 from win32.win32api import GetSystemMetrics
 import pyautogui
+import PyQt5.QtWidgets
 videocapture=int(input("Enter the Camera Number:"))
 cap=cv.VideoCapture(videocapture-1)
 detector=dlib.get_frontal_face_detector()
