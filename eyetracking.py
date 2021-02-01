@@ -40,7 +40,7 @@ def eyetrack(blinking_frames):
             nose_to_cursorx=325
             nose_to_cursory=290
             cv.rectangle(frame,(eyestonosepointx,eyestonosepointy),(eyestonosepointx,eyestonosepointy),(255,255,255),thickness=4)
-            cv.rectangle(frame,(nose_to_cursorx,nose_to_cursory),(nose_to_cursorx,nose_to_cursory),(255,255,255),thickness=4)
+            cv.rectangle(frame,(nose_to_cursorx,nose_to_cursory),(nose_to_cursorx,nose_to_cursory),(0,0,0),thickness=5)
             cv.line(frame,(eyestonosepointx,eyestonosepointy),(nose_to_cursorx,nose_to_cursory),(255,255,255),thickness=2)
             positivecursorvalue=15
             negativesursorvalue=-15
@@ -58,16 +58,15 @@ def eyetrack(blinking_frames):
                 elif((eyestonosepointx-nose_to_cursorx)<-15):
                     mouse.move(-2,0)#this is moving left
             if(eyestonosepointy-nose_to_cursory)<positivecursorvalue:
-                
-                if(eyestonosepointy-nose_to_cursory)<40:
-                    mouse.move(0,-8)
-                elif(eyestonosepointy-nose_to_cursory)<15:
-                    mouse.move(0,-2)#this is moving up
+                # if(eyestonosepointy-nose_to_cursory)<40:
+                #     mouse.move(0,-8)
+                if(eyestonosepointy-nose_to_cursory)<15:
+                    mouse.move(0,-4)#this is moving up
             if(eyestonosepointy-nose_to_cursory)>negativesursorvalue:
-                if(eyestonosepointy-nose_to_cursory)>-40:
-                    mouse.move(0,8)
-                elif(eyestonosepointy-nose_to_cursory)>-15:
-                    mouse.move(0,2)# this is moving down
+                # if(eyestonosepointy-nose_to_cursory)>-40:
+                #     mouse.move(0,8)
+                if(eyestonosepointy-nose_to_cursory)>-15:
+                    mouse.move(0,4)# this is moving down
                 
             left_point=(landmarks.part(36).x,landmarks.part(36).y)
             right_point=(landmarks.part(39).x,landmarks.part(39).y)
