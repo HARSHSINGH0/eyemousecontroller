@@ -2,7 +2,7 @@
 # pyautogui.FAILSAFE = False
 from win32.win32api import GetSystemMetrics
 from pynput.mouse import Listener,Button,Controller
-
+from time import *
 mouse=Controller()
 width = GetSystemMetrics(0)
 height = GetSystemMetrics(1)
@@ -10,11 +10,12 @@ print(width,height)
 def firstpos(x,y):
     mouse.position=(x,y)
 def left_click():
-    # mouse.click(Button.left,1)
-    print("")
+    mouse.click(Button.left,1)
+    time.sleep(0.5)
 def right_click():
-    print("")
-    # mouse.click(Button.right,1)
+    
+    mouse.click(Button.right,1)
+    time.sleep(0.5)
 def navigateto(x,y,current_value):
     current_value1=[]
     current_value1.append(x)

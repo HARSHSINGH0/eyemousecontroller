@@ -42,16 +42,34 @@ def eyetrack(blinking_frames):
             cv.rectangle(frame,(eyestonosepointx,eyestonosepointy),(eyestonosepointx,eyestonosepointy),(255,255,255),thickness=4)
             cv.rectangle(frame,(nose_to_cursorx,nose_to_cursory),(nose_to_cursorx,nose_to_cursory),(255,255,255),thickness=4)
             cv.line(frame,(eyestonosepointx,eyestonosepointy),(nose_to_cursorx,nose_to_cursory),(255,255,255),thickness=2)
-            positivecursorvalue=5
-            negativesursorvalue=-5
+            positivecursorvalue=15
+            negativesursorvalue=-15
             if((eyestonosepointx-nose_to_cursorx)>positivecursorvalue):
-                mouse.move(5,0)#this is moving right
-            if(eyestonosepointx-nose_to_cursorx)<negativesursorvalue:
-                mouse.move(-5,0)#this is moving left
+                
+                if((eyestonosepointx-nose_to_cursorx)>40):
+                    mouse.move(8,0) #this is for gradually increasing the speed
+                elif((eyestonosepointx-nose_to_cursorx)>15):
+                    mouse.move(2,0)#this is moving right
+
+            if((eyestonosepointx-nose_to_cursorx)<negativesursorvalue):
+                
+                if((eyestonosepointx-nose_to_cursorx)<-40):
+                    mouse.move(-8,0) #this is for gradually increasing the speed
+                elif((eyestonosepointx-nose_to_cursorx)<-15):
+                    mouse.move(-2,0)#this is moving left
             if(eyestonosepointy-nose_to_cursory)<positivecursorvalue:
-                mouse.move(0,-5)#this is moving up
+                
+                if(eyestonosepointy-nose_to_cursory)<40:
+                    mouse.move(0,-8)
+                elif(eyestonosepointy-nose_to_cursory)<15:
+                    mouse.move(0,-2)#this is moving up
             if(eyestonosepointy-nose_to_cursory)>negativesursorvalue:
-                mouse.move(0,5)# this is moving down
+                
+                if(eyestonosepointy-nose_to_cursory)>-40:
+                    mouse.move(0,8)
+                elif(eyestonosepointy-nose_to_cursory)>-15:
+                    mouse.move(0,2)# this is moving down
+                
             left_point=(landmarks.part(36).x,landmarks.part(36).y)
             right_point=(landmarks.part(39).x,landmarks.part(39).y)
             hor_line=cv.line(frame,left_point,right_point,(255,255,255),2)
