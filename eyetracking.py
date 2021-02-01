@@ -50,9 +50,7 @@ def eyetrack(blinking_frames):
                     mouse.move(8,0) #this is for gradually increasing the speed
                 elif((eyestonosepointx-nose_to_cursorx)>15):
                     mouse.move(2,0)#this is moving right
-
             if((eyestonosepointx-nose_to_cursorx)<negativesursorvalue):
-                
                 if((eyestonosepointx-nose_to_cursorx)<-40):
                     mouse.move(-8,0) #this is for gradually increasing the speed
                 elif((eyestonosepointx-nose_to_cursorx)<-15):
@@ -67,7 +65,6 @@ def eyetrack(blinking_frames):
                 #     mouse.move(0,8)
                 if(eyestonosepointy-nose_to_cursory)>-15:
                     mouse.move(0,4)# this is moving down
-                
             left_point=(landmarks.part(36).x,landmarks.part(36).y)
             right_point=(landmarks.part(39).x,landmarks.part(39).y)
             hor_line=cv.line(frame,left_point,right_point,(255,255,255),2)
@@ -94,12 +91,15 @@ def eyetrack(blinking_frames):
                 value_of_blink=10
             if((up_point[1]-down_point[1])>=value_of_blink):
                 blinking_frames+=1
+                print(blinking_frames)
                 if (blinking_frames>2):
+                    blinking_frames=0#this will reduce multiple clicks
                     cv.putText(frame,"Left click",(250,150),cv.FONT_HERSHEY_SIMPLEX,1,(0,0,0),3)
                     left_click()
             elif((up_point_r[1]-down_point_r[1])>=value_of_blink):
                 blinking_frames+=1
                 if (blinking_frames>1):
+                    blinking_frames=0#this will reduce multiple clicks
                     cv.putText(frame,"Right click",(250,150),cv.FONT_HERSHEY_SIMPLEX,1,(0,0,0),3)
                     right_click()
             else:
