@@ -64,7 +64,6 @@ def eyetrack(blinking_frames):
                 elif(eyestonosepointy-nose_to_cursory)<15:
                     mouse.move(0,-2)#this is moving up
             if(eyestonosepointy-nose_to_cursory)>negativesursorvalue:
-                
                 if(eyestonosepointy-nose_to_cursory)>-40:
                     mouse.move(0,8)
                 elif(eyestonosepointy-nose_to_cursory)>-15:
