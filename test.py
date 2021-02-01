@@ -10,31 +10,32 @@ videocapture=int(input("Enter the Camera Number:"))
 
 if(videocapture==0):
     videocapture=1
-cap=cv.VideoCapture(videocapture-1)
+cap=cv.VideoCapture(videocapture-1,cv2.CAP_DSHOW)#this is some kind of error which happens in windows only accroding to stackoverflow
 detector=dlib.get_frontal_face_detector()
 predictor=dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 blinking_frames=0
 current_value=[0,0]
 width = GetSystemMetrics(0)
 height = GetSystemMetrics(1)
-class eye_mouse():
-    
+class eye_mouse:
+    def __init__(self,blinking_frames):
+            # super().__init__()
+            self.blinking_frames=blinking_frames
     def rescaleFrame(self,frame):
         dimension=(600,450)
         return cv.resize(frame,dimension,interpolation=cv.INTER_AREA)
     def midlinepoint(self,p1,p2):
         return int((p1.x+p2.x)/2),int((p1.y+p2.y)/2)
-    def __del__(self,objecttodelete):
-        del objecttodelete
-    def eyetrack(self,blinking_frames):
-        
+    
+    def eyetrack(self):
+        blinking_frames=self.blinking_frames
         while True:
             try:
                 errornumber=0
                 _,frame=cap.read()
                 gray=cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
-                gray=rescaleFrame(gray)
-                frame=rescaleFrame(frame)
+                gray=self.rescaleFrame(gray)
+                frame=self.rescaleFrame(frame)
                 faces=detector(gray)
                 cv.putText(frame,"Q to exit",(230,50),cv.FONT_HERSHEY_SIMPLEX,1,(255,0,0),2)
                 for face in faces:
@@ -79,14 +80,14 @@ class eye_mouse():
                     left_point=(landmarks.part(36).x,landmarks.part(36).y)
                     right_point=(landmarks.part(39).x,landmarks.part(39).y)
                     hor_line=cv.line(frame,left_point,right_point,(255,255,255),2)
-                    up_point=(midlinepoint(landmarks.part(37),landmarks.part(38)))
-                    down_point=(midlinepoint(landmarks.part(41),landmarks.part(40)))
+                    up_point=(self.midlinepoint(landmarks.part(37),landmarks.part(38)))
+                    down_point=(self.midlinepoint(landmarks.part(41),landmarks.part(40)))
                     ver_line=cv.line(frame,up_point,down_point,(255,255,255),2)
                     left_point_r=(landmarks.part(42).x,landmarks.part(42).y)
                     right_point_r=(landmarks.part(45).x,landmarks.part(45).y)
                     hor_line_r=cv.line(frame,left_point_r,right_point_r,(255,255,255),2)
-                    up_point_r=(midlinepoint(landmarks.part(43),landmarks.part(44)))
-                    down_point_r=(midlinepoint(landmarks.part(47),landmarks.part(46)))            
+                    up_point_r=(self.midlinepoint(landmarks.part(43),landmarks.part(44)))
+                    down_point_r=(self.midlinepoint(landmarks.part(47),landmarks.part(46)))            
                     ver_line_r=cv.line(frame,up_point_r,down_point_r,(255,255,255),2)
                     value_of_blink=-3#this is for distance about 1 feet
                     if((y1-x1)>170):
@@ -122,16 +123,15 @@ class eye_mouse():
             except(cv2.error):
                 errornumber=1
                 print("No camera or camera number wrong inserted")
-                __del__(firstinst)
+                
                 break
-        def __init__(self,blinking_frames):
-            super().__init__()
-            self.blinking_frames=blinking_frames
-            eyetrack(blinking_frames)
+            
+        
 
 while(errornumber==1):
     print("rerunning program because of error")
-    firstinst=eye_mouse.__init__(blinking_frames)
-firstinst=eye_mouse.__init__(blinking_frames)
+    firstinst=eye_mouse(blinking_frames)
+firstinst=eye_mouse(blinking_frames)
+firstinst.eyetrack()
 cap.release()
 cv2.destroyAllWindows()
