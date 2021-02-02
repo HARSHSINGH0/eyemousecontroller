@@ -26,7 +26,16 @@ class eye_mouse:
         return cv.resize(frame,dimension,interpolation=cv.INTER_AREA)
     def midlinepoint(self,p1,p2):
         return int((p1.x+p2.x)/2),int((p1.y+p2.y)/2)
-    
+    def errornumbercheck(self,objectgiven):
+        
+        del objectgiven
+        videocapture=int(input("Enter the Camera Number:"))
+
+        if(videocapture==0):
+            videocapture=1
+        cap=cv.VideoCapture(videocapture-1,cv2.CAP_DSHOW)
+        firstinst=eye_mouse(blinking_frames)
+        firstinst.eyetrack()
     def eyetrack(self):
         blinking_frames=self.blinking_frames
         while True:
@@ -120,9 +129,11 @@ class eye_mouse:
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                       break
             except(cv2.error):
-                errornumber=1
+                # errornumber=1
                 print("No camera or camera number wrong inserted")
-                break
+                self.errornumbercheck(firstinst)
+                break   
+                
                 
 
 firstinst=eye_mouse(blinking_frames)

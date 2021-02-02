@@ -5,12 +5,8 @@ from mousecontrol_eye import *
 from win32.win32api import GetSystemMetrics
 import pyautogui
 import PyQt5.QtWidgets
-errornumber=0
-videocapture=int(input("Enter the Camera Number:"))
-
-if(videocapture==0):
-    videocapture=1
-cap=cv.VideoCapture(videocapture-1,cv2.CAP_DSHOW)#this is some kind of error which happens in windows only accroding to stackoverflow
+from subprocess import Popen
+import sys
 detector=dlib.get_frontal_face_detector()
 predictor=dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 blinking_frames=0
@@ -18,6 +14,10 @@ current_value=[0,0]
 width = GetSystemMetrics(0)
 height = GetSystemMetrics(1)
 class eye_mouse:
+    videocapture=int(input("Enter the Camera Number:"))
+    if(videocapture==0):
+        videocapture=1
+    cap=cv.VideoCapture(videocapture-1,cv2.CAP_DSHOW)#this is some kind of error which happens in windows only accroding to stackoverflow   
     def __init__(self,blinking_frames):
             # super().__init__()
             self.blinking_frames=blinking_frames
@@ -29,9 +29,10 @@ class eye_mouse:
     
     def eyetrack(self):
         blinking_frames=self.blinking_frames
+        cap=self.cap
         while True:
             try:
-                errornumber=0
+                
                 _,frame=cap.read()
                 gray=cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
                 gray=self.rescaleFrame(gray)
@@ -119,19 +120,21 @@ class eye_mouse:
                             blinking_frames-=1
                 cv.imshow("frame",frame)
                 if cv2.waitKey(1) & 0xFF == ord('q'):
-                      break
-            except(cv2.error):
-                errornumber=1
+                    cap.release()
+                    cv2.destroyAllWindows()
+                    break
+            except(Exception):
                 print("No camera or camera number wrong inserted")
-                
+                cap.release()
+                cv2.destroyAllWindows()
                 break
-            
         
 
-while(errornumber==1):
-    print("rerunning program because of error")
-    firstinst=eye_mouse(blinking_frames)
-firstinst=eye_mouse(blinking_frames)
-firstinst.eyetrack()
-cap.release()
+def queryRepeatedly():
+    while True:
+
+        firstinst=eye_mouse(blinking_frames)
+        firstinst.eyetrack()
+queryRepeatedly()
+# cap.release()
 cv2.destroyAllWindows()
