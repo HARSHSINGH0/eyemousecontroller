@@ -5,8 +5,10 @@ from mousecontrol_eye import *
 from win32.win32api import GetSystemMetrics
 import pyautogui
 import PyQt5.QtWidgets
-from subprocess import Popen
-import sys
+videocapture=int(input("Enter the Camera Number:"))
+if(videocapture==0):
+    videocapture=1
+cap=cv.VideoCapture(videocapture-1,cv2.CAP_DSHOW)#this is some kind of error which happens in windows only accroding to stackoverflow
 detector=dlib.get_frontal_face_detector()
 predictor=dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 blinking_frames=0
@@ -14,10 +16,6 @@ current_value=[0,0]
 width = GetSystemMetrics(0)
 height = GetSystemMetrics(1)
 class eye_mouse:
-    videocapture=int(input("Enter the Camera Number:"))
-    if(videocapture==0):
-        videocapture=1
-    cap=cv.VideoCapture(videocapture-1,cv2.CAP_DSHOW)#this is some kind of error which happens in windows only accroding to stackoverflow   
     def __init__(self,blinking_frames):
             # super().__init__()
             self.blinking_frames=blinking_frames
@@ -26,13 +24,21 @@ class eye_mouse:
         return cv.resize(frame,dimension,interpolation=cv.INTER_AREA)
     def midlinepoint(self,p1,p2):
         return int((p1.x+p2.x)/2),int((p1.y+p2.y)/2)
-    
+    def errornumbercheck(self,objectgiven):
+        
+        del objectgiven
+        videocapture=int(input("Enter the Camera Number:"))
+
+        if(videocapture==0):
+            videocapture=1
+        cap=cv.VideoCapture(videocapture-1,cv2.CAP_DSHOW)
+        firstinst=eye_mouse(blinking_frames)
+        firstinst.eyetrack()
     def eyetrack(self):
         blinking_frames=self.blinking_frames
-        cap=self.cap
         while True:
             try:
-                
+                errornumber=0
                 _,frame=cap.read()
                 gray=cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
                 gray=self.rescaleFrame(gray)
@@ -58,7 +64,6 @@ class eye_mouse:
                     positivecursorvalue=15
                     negativesursorvalue=-15
                     if((eyestonosepointx-nose_to_cursorx)>positivecursorvalue):
-
                         if((eyestonosepointx-nose_to_cursorx)>40):
                             mouse.move(8,0) #this is for gradually increasing the speed
                         elif((eyestonosepointx-nose_to_cursorx)>15):
@@ -72,12 +77,12 @@ class eye_mouse:
                         # if(eyestonosepointy-nose_to_cursory)<40:
                         #     mouse.move(0,-8)
                         if(eyestonosepointy-nose_to_cursory)<15:
-                            mouse.move(0,-4)#this is moving up
+                            mouse.move(0,-3)#this is moving up
                     if(eyestonosepointy-nose_to_cursory)>negativesursorvalue:
                         # if(eyestonosepointy-nose_to_cursory)>-40:
                         #     mouse.move(0,8)
                         if(eyestonosepointy-nose_to_cursory)>-15:
-                            mouse.move(0,4)# this is moving down
+                            mouse.move(0,3)# this is moving down
                     left_point=(landmarks.part(36).x,landmarks.part(36).y)
                     right_point=(landmarks.part(39).x,landmarks.part(39).y)
                     hor_line=cv.line(frame,left_point,right_point,(255,255,255),2)
@@ -120,21 +125,15 @@ class eye_mouse:
                             blinking_frames-=1
                 cv.imshow("frame",frame)
                 if cv2.waitKey(1) & 0xFF == ord('q'):
-                    cap.release()
-                    cv2.destroyAllWindows()
-                    break
-            except(Exception):
+                      break
+            except(cv2.error):
                 print("No camera or camera number wrong inserted")
-                cap.release()
-                cv2.destroyAllWindows()
-                break
-        
+                
+                break   
+                
+                
 
-def queryRepeatedly():
-    while True:
-
-        firstinst=eye_mouse(blinking_frames)
-        firstinst.eyetrack()
-queryRepeatedly()
-# cap.release()
+firstinst=eye_mouse(blinking_frames)
+firstinst.eyetrack()
+cap.release()
 cv2.destroyAllWindows()

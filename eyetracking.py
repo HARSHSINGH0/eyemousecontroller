@@ -5,9 +5,7 @@ from mousecontrol_eye import *
 from win32.win32api import GetSystemMetrics
 import pyautogui
 import PyQt5.QtWidgets
-errornumber=0
 videocapture=int(input("Enter the Camera Number:"))
-
 if(videocapture==0):
     videocapture=1
 cap=cv.VideoCapture(videocapture-1,cv2.CAP_DSHOW)#this is some kind of error which happens in windows only accroding to stackoverflow
@@ -26,16 +24,7 @@ class eye_mouse:
         return cv.resize(frame,dimension,interpolation=cv.INTER_AREA)
     def midlinepoint(self,p1,p2):
         return int((p1.x+p2.x)/2),int((p1.y+p2.y)/2)
-    def errornumbercheck(self,objectgiven):
-        
-        del objectgiven
-        videocapture=int(input("Enter the Camera Number:"))
-
-        if(videocapture==0):
-            videocapture=1
-        cap=cv.VideoCapture(videocapture-1,cv2.CAP_DSHOW)
-        firstinst=eye_mouse(blinking_frames)
-        firstinst.eyetrack()
+    
     def eyetrack(self):
         blinking_frames=self.blinking_frames
         while True:
@@ -79,12 +68,12 @@ class eye_mouse:
                         # if(eyestonosepointy-nose_to_cursory)<40:
                         #     mouse.move(0,-8)
                         if(eyestonosepointy-nose_to_cursory)<15:
-                            mouse.move(0,-4)#this is moving up
+                            mouse.move(0,-3)#this is moving up
                     if(eyestonosepointy-nose_to_cursory)>negativesursorvalue:
                         # if(eyestonosepointy-nose_to_cursory)>-40:
                         #     mouse.move(0,8)
                         if(eyestonosepointy-nose_to_cursory)>-15:
-                            mouse.move(0,4)# this is moving down
+                            mouse.move(0,3)# this is moving down
                     left_point=(landmarks.part(36).x,landmarks.part(36).y)
                     right_point=(landmarks.part(39).x,landmarks.part(39).y)
                     hor_line=cv.line(frame,left_point,right_point,(255,255,255),2)
@@ -129,9 +118,8 @@ class eye_mouse:
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                       break
             except(cv2.error):
-                # errornumber=1
                 print("No camera or camera number wrong inserted")
-                self.errornumbercheck(firstinst)
+                
                 break   
                 
                 
@@ -140,7 +128,3 @@ firstinst=eye_mouse(blinking_frames)
 firstinst.eyetrack()
 cap.release()
 cv2.destroyAllWindows()
-print("this is running and value of errornumber is ",errornumber)
-while(errornumber==1):
-    print("rerunning program because of error")
-    firstinst=eye_mouse(blinking_frames)
