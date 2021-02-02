@@ -57,7 +57,6 @@ class eye_mouse:
                     positivecursorvalue=15
                     negativesursorvalue=-15
                     if((eyestonosepointx-nose_to_cursorx)>positivecursorvalue):
-
                         if((eyestonosepointx-nose_to_cursorx)>40):
                             mouse.move(8,0) #this is for gradually increasing the speed
                         elif((eyestonosepointx-nose_to_cursorx)>15):
@@ -123,15 +122,14 @@ class eye_mouse:
             except(cv2.error):
                 errornumber=1
                 print("No camera or camera number wrong inserted")
-                
                 break
-            
-        
+                
 
-while(errornumber==1):
-    print("rerunning program because of error")
-    firstinst=eye_mouse(blinking_frames)
 firstinst=eye_mouse(blinking_frames)
 firstinst.eyetrack()
 cap.release()
 cv2.destroyAllWindows()
+print("this is running and value of errornumber is ",errornumber)
+while(errornumber==1):
+    print("rerunning program because of error")
+    firstinst=eye_mouse(blinking_frames)
