@@ -17,14 +17,12 @@ width = GetSystemMetrics(0)
 height = GetSystemMetrics(1)
 class eye_mouse:
     def __init__(self,blinking_frames):
-            # super().__init__()
             self.blinking_frames=blinking_frames
     def rescaleFrame(self,frame):
         dimension=(600,450)
         return cv.resize(frame,dimension,interpolation=cv.INTER_AREA)
     def midlinepoint(self,p1,p2):
         return int((p1.x+p2.x)/2),int((p1.y+p2.y)/2)
-    
     def eyetrack(self):
         blinking_frames=self.blinking_frames
         while True:
@@ -65,13 +63,9 @@ class eye_mouse:
                         elif((eyestonosepointx-nose_to_cursorx)<-15):
                             mouse.move(-2,0)#this is moving left
                     if(eyestonosepointy-nose_to_cursory)<positivecursorvalue:
-                        # if(eyestonosepointy-nose_to_cursory)<40:
-                        #     mouse.move(0,-8)
                         if(eyestonosepointy-nose_to_cursory)<15:
                             mouse.move(0,-3)#this is moving up
                     if(eyestonosepointy-nose_to_cursory)>negativesursorvalue:
-                        # if(eyestonosepointy-nose_to_cursory)>-40:
-                        #     mouse.move(0,8)
                         if(eyestonosepointy-nose_to_cursory)>-15:
                             mouse.move(0,3)# this is moving down
                     left_point=(landmarks.part(36).x,landmarks.part(36).y)
@@ -119,11 +113,7 @@ class eye_mouse:
                       break
             except(cv2.error):
                 print("No camera or camera number wrong inserted")
-                
                 break   
-                
-                
-
 firstinst=eye_mouse(blinking_frames)
 firstinst.eyetrack()
 cap.release()

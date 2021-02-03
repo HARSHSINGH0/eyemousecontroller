@@ -1,3 +1,8 @@
+import sys
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtCore import *
+import cv2
 import cv2 as cv
 cv2=cv
 import dlib
@@ -15,17 +20,38 @@ blinking_frames=0
 current_value=[0,0]
 width = GetSystemMetrics(0)
 height = GetSystemMetrics(1)
-class eye_mouse:
+class MainWindow(QWidget):
     def __init__(self,blinking_frames):
-            self.blinking_frames=blinking_frames
+        super(MainWindow, self).__init__()
+        self.VBL = QVBoxLayout()
+        self.FeedLabel = QLabel()
+        self.VBL.addWidget(self.FeedLabel)
+        self.CancelBTN = QPushButton("Cancel")
+        self.CancelBTN.clicked.connect(self.CancelFeed)
+        self.VBL.addWidget(self.CancelBTN)
+        self.Worker1 = Worker1()
+        self.Worker1.start()
+        self.Worker1.ImageUpdate.connect(self.ImageUpdateSlot)
+        self.blinking_frames=blinking_frames
+        self.setLayout(self.VBL)
+    def ImageUpdateSlot(self, Image):
+        self.FeedLabel.setPixmap(QPixmap.fromImage(Image))
     def rescaleFrame(self,frame):
         dimension=(600,450)
         return cv.resize(frame,dimension,interpolation=cv.INTER_AREA)
     def midlinepoint(self,p1,p2):
         return int((p1.x+p2.x)/2),int((p1.y+p2.y)/2)
-    def eyetrack(self):
+    def stop(self):
+        self.ThreadActive = False
+        self.quit()
+              
+    def CancelFeed(self):
+        self.Worker1.stop()
+    def eyetrack(self,QThread):
         blinking_frames=self.blinking_frames
-        while True:
+        self.ThreadActive = True
+        ImageUpdate = pyqtSignal(QImage)
+        while self.ThreadActive:
             try:
                 errornumber=0
                 _,frame=cap.read()
@@ -108,13 +134,12 @@ class eye_mouse:
                     else:
                         while blinking_frames!=0:
                             blinking_frames-=1
-                # cv.imshow("frame",frame)
-                if cv2.waitKey(1) & 0xFF == ord('q'):
-                      break
-            except(cv2.error):
-                print("No camera or camera number wrong inserted")
-                break   
-firstinst=eye_mouse(blinking_frames)
-firstinst.eyetrack()
-cap.release()
-cv2.destroyAllWindows()
+                
+                    Pic = frame
+                    self.ImageUpdate.emit(Pic)
+                    ImageUpdate = pyqtSignal(QImage)
+
+App = QApplication(sys.argv)
+Root = MainWindow()
+Root.show()
+sys.exit(App.exec())
