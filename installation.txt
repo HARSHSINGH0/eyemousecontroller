@@ -12,4 +12,4 @@ pip install pyqt5-tools
 pip install opencv-python-headless
 pip install pygubu-designer
 pip install pygubu
-
+pip install device

@@ -5,10 +5,12 @@ from mousecontrol_eye import *
 from win32.win32api import GetSystemMetrics
 import pyautogui
 import PyQt5.QtWidgets
-videocapture=int(input("Enter the Camera Number:"))
-if(videocapture==0):
-    videocapture=1
-cap=cv.VideoCapture(videocapture-1,cv2.CAP_DSHOW)#this is some kind of error which happens in windows only accroding to stackoverflow
+# videocapture=int(input("Enter the Camera Number:"))
+# if(videocapture==0):
+#     videocapture=1
+
+# cap=cv.VideoCapture(videocapture-1,cv2.CAP_DSHOW)#this is some kind of error which happens in windows only accroding to stackoverflow
+cap=cv.VideoCapture(0,cv.CAP_DSHOW)
 detector=dlib.get_frontal_face_detector()
 predictor=dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 blinking_frames=0

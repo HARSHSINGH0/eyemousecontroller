@@ -1,67 +1,32 @@
-import device
-import cv2
+from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QApplication,QMainWindow
+import sys
+class MyWindow(QMainWindow):
+    def __init__(self):
+        super(MyWindow,self).__init__()
+        self.setGeometry(200,200,1366,768)
+        self.setWindowTitle("Eye Mouse Handler")
+        self.initUI()
+    def initUI(self):
+        self.label=QtWidgets.QLabel(self)
+        self.label.setText("Label")
+        self.label.move(200,200)
+        
 
-def select_camera(last_index):
-    number = 0
-    hint = "Select a camera (0 to " + str(last_index) + "): "
-    try:
-        number = int(input(hint))
-        # select = int(select)
-    except Exception ,e:
-        print("It's not a number!")
-        return select_camera(last_index)
+        self.b1=QtWidgets.QPushButton(self)
+        self.b1.setText("Click me")
+        self.b1.clicked.connect(self.clicked)
 
-    if number > last_index:
-        print("Invalid number! Retry!")
-        return select_camera(last_index)
-
-    return number
-
-def open_camera(index):
-    cap = cv2.VideoCapture(index)
-    return cap
-
-def main():
-    # print OpenCV version
-    print("OpenCV version: " + cv2.__version__)
-
-    # Get camera list
-    device_list = device.getDeviceList()
-    index = 0
-
-    for name in device_list:
-        print(str(index) + ': ' + name)
-        index += 1
-
-    last_index = index - 1
-
-    if last_index < 0:
-        print("No device is connected")
-        return
-
-    # Select a camera
-    camera_number = select_camera(last_index)
+    def clicked(self):
+        self.label.setText("you pressed the button")
+        self.update()
+    def update(self):
+        self.label.adjustSize()
+def window():
+    app=QApplication(sys.argv)
+    win=MyWindow()
     
-    # Open camera
-    cap = open_camera(camera_number)
-
-    if cap.isOpened():
-        width = cap.get(3) # Frame Width
-        height = cap.get(4) # Frame Height
-        print('Default width: ' + str(width) + ', height: ' + str(height))
-
-        while True:
-            
-            ret, frame = cap.read();
-            cv2.imshow("frame", frame)
-
-            # key: 'ESC'
-            key = cv2.waitKey(20)
-            if key == 27:
-                break
-
-        cap.release() 
-        cv2.destroyAllWindows() 
-
-if __name__ == "__main__":
-    main()
+    
+    win.show()
+    sys.exit(app.exec_())
+window()
