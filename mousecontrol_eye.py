@@ -5,8 +5,6 @@ import time
 class mousecontrol:
     def __init__(self):
         self.mouse=Controller()
-        
-        
     # print(width,height)
     def firstpos(self,x,y):
         self.mouse.position=(x,y)
