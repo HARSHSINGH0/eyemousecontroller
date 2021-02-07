@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>800</height>
+    <width>1092</width>
+    <height>861</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -56,8 +56,8 @@
    <widget class="QPushButton" name="EnterButton">
     <property name="geometry">
      <rect>
-      <x>460</x>
-      <y>740</y>
+      <x>580</x>
+      <y>730</y>
       <width>121</width>
       <height>51</height>
      </rect>
@@ -80,11 +80,14 @@
       <height>16</height>
      </size>
     </property>
+    <property name="shortcut">
+     <string>Return</string>
+    </property>
    </widget>
    <widget class="QLabel" name="Eyemouselabel">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>200</x>
       <y>0</y>
       <width>761</width>
       <height>91</height>
@@ -120,9 +123,9 @@
    <widget class="QLabel" name="instructionimagelabel">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>100</y>
-      <width>751</width>
+      <x>50</x>
+      <y>90</y>
+      <width>991</width>
       <height>621</height>
      </rect>
     </property>
@@ -136,7 +139,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>instruction2.png</pixmap>
+     <pixmap>instruction.png</pixmap>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -145,8 +148,8 @@
    <widget class="QLabel" name="cameralabel">
     <property name="geometry">
      <rect>
-      <x>180</x>
-      <y>730</y>
+      <x>300</x>
+      <y>720</y>
       <width>211</width>
       <height>61</height>
      </rect>
@@ -181,8 +184,8 @@
    <widget class="QLineEdit" name="lineEdit">
     <property name="geometry">
      <rect>
-      <x>400</x>
-      <y>740</y>
+      <x>520</x>
+      <y>730</y>
       <width>51</width>
       <height>51</height>
      </rect>
@@ -201,6 +204,78 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="camerastatus">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>780</y>
+      <width>421</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="font">
+     <font>
+      <family>Rockwell</family>
+      <pointsize>20</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Current Camera Status : GOOD</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::AutoText</enum>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="wordWrap">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="cameralabel_3">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>810</y>
+      <width>421</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="font">
+     <font>
+      <family>Rockwell</family>
+      <pointsize>9</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>NOTE: Only one person in frame is needed for program to work fine</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::AutoText</enum>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="wordWrap">
+     <bool>false</bool>
     </property>
    </widget>
   </widget>
