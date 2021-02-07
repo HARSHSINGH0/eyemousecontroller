@@ -112,12 +112,13 @@ class eye_mouse:
                     else:
                         while blinking_frames!=0:
                             blinking_frames-=1
+                
                 cv.imshow("frame",frame)
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     self.cap.release()
                     cv2.destroyAllWindows()
                     break
-            except : 
-                print("Unexpected error:", sys.exc_info()[0])
+            except :
+                cv2.destroyAllWindows()
                 break
 cv2.destroyAllWindows()

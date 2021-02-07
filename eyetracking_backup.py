@@ -1,10 +1,13 @@
 import cv2 as cv
 cv2=cv
 import dlib
-from mousecontrol_eye import *
+import mousecontrol_eye
 from win32.win32api import GetSystemMetrics
 import pyautogui
 import PyQt5.QtWidgets
+from pynput.mouse import Listener,Button,Controller
+mouse=Controller()
+
 # videocapture=int(input("Enter the Camera Number:"))
 # if(videocapture==0):
 #     videocapture=1
@@ -30,6 +33,7 @@ class eye_mouse:
     def eyetrack(self):
         blinking_frames=self.blinking_frames
         cap=cv.VideoCapture(self.camerainput-1,cv.CAP_DSHOW)
+        
         while True:
             try:
                 errornumber=0
@@ -103,13 +107,13 @@ class eye_mouse:
                         if (blinking_frames>2):
                             blinking_frames=0#this will reduce multiple clicks
                             cv.putText(frame,"Left click",(250,150),cv.FONT_HERSHEY_SIMPLEX,1,(0,0,0),3)
-                            left_click()
+                            mousecontrol_eye.left_click()
                     elif((up_point_r[1]-down_point_r[1])>=value_of_blink):
                         blinking_frames+=1
                         if (blinking_frames>1):
                             blinking_frames=0#this will reduce multiple clicks
                             cv.putText(frame,"Right click",(250,150),cv.FONT_HERSHEY_SIMPLEX,1,(0,0,0),3)
-                            right_click()
+                            mousecontrol_eye.right_click()
                     else:
                         while blinking_frames!=0:
                             blinking_frames-=1
@@ -120,7 +124,7 @@ class eye_mouse:
             except(cv2.error):
                 print("No camera or camera number wrong inserted")
                 break   
-# firstinst=eye_mouse(blinking_frames,1)
-# firstinst.eyetrack()
+firstinst=eye_mouse(blinking_frames,1)
+firstinst.eyetrack()
 # cap.release()
 cv2.destroyAllWindows()
