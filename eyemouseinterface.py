@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-import test
+import eyetracking
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -101,10 +101,8 @@ class Ui_MainWindow(object):
         self.lineEdit.setText(_translate("MainWindow", "1"))
     def Enterbuttonclicked(self):
         camerainput=int(self.lineEdit.text())
-        eyemouse=test.eye_mouse(camerainput)
+        eyemouse=eyetracking.eye_mouse(camerainput)
         eyemouse.eyetrack()
-
-
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)

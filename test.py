@@ -6,10 +6,7 @@ from win32.win32api import GetSystemMetrics
 import pyautogui
 from pynput.mouse import Listener,Button,Controller
 import sys
-# blinking_frames=0
-# current_value=[0,0]
-# width = GetSystemMetrics(0)
-# height = GetSystemMetrics(1)
+
 class eye_mouse:
     def __init__(self,camerainput):
             self.camerainput=int(camerainput)
@@ -124,7 +121,5 @@ class eye_mouse:
                 print("Unexpected error:", sys.exc_info()[0])
                 break
 
-# firstinst=eye_mouse(blinking_frames,1)
-# firstinst.eyetrack()
-# cap.release()
+
 cv2.destroyAllWindows()

@@ -1,27 +1,23 @@
 import cv2 as cv
 cv2=cv
 import dlib
-from mousecontrol_eye import *
+import mousecontrol_eye
 from win32.win32api import GetSystemMetrics
 import pyautogui
-import PyQt5.QtWidgets
-# videocapture=int(input("Enter the Camera Number:"))
-# if(videocapture==0):
-#     videocapture=1
+from pynput.mouse import Listener,Button,Controller
+import sys
 
-# cap=cv.VideoCapture(videocapture-1,cv2.CAP_DSHOW)#this is some kind of error which happens in windows only accroding to stackoverflow
-# cap=cv.VideoCapture(0,cv.CAP_DSHOW)
-detector=dlib.get_frontal_face_detector()
-predictor=dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
-blinking_frames=0
-current_value=[0,0]
-width = GetSystemMetrics(0)
-height = GetSystemMetrics(1)
 class eye_mouse:
-    def __init__(self,blinking_frames,camerainput):
-            self.camerainput=camerainput
-            self.blinking_frames=blinking_frames
-            
+    def __init__(self,camerainput):
+            self.camerainput=int(camerainput)
+            self.blinking_frames=0
+            self.mousecontrol=mousecontrol_eye.mousecontrol()
+            width = GetSystemMetrics(0)
+            height = GetSystemMetrics(1)
+            middlepoint1=width/2
+            middlepoint2=height/2
+            self.mousecontrol.firstpos(middlepoint1,middlepoint2)
+
     def rescaleFrame(self,frame):
         dimension=(600,450)
         return cv.resize(frame,dimension,interpolation=cv.INTER_AREA)
@@ -29,21 +25,24 @@ class eye_mouse:
         return int((p1.x+p2.x)/2),int((p1.y+p2.y)/2)
     def eyetrack(self):
         blinking_frames=self.blinking_frames
-        cap=cv.VideoCapture(self.camerainput-1,cv.CAP_DSHOW)
+        self.cap=cv.VideoCapture(self.camerainput-1,cv.CAP_DSHOW)
+        self.detector=dlib.get_frontal_face_detector()
+        self.predictor=dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
+        mouse=Controller()
         while True:
             try:
                 errornumber=0
-                _,frame=cap.read()
+                _,frame=self.cap.read()
                 gray=cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
                 gray=self.rescaleFrame(gray)
                 frame=self.rescaleFrame(frame)
-                faces=detector(gray)
+                faces=self.detector(gray)
                 cv.putText(frame,"Q to exit",(230,50),cv.FONT_HERSHEY_SIMPLEX,1,(255,0,0),2)
                 for face in faces:
                     x,y=face.left(),face.right()
                     x1,y1=face.top(),face.bottom()
                     facerect=cv2.rectangle(frame,(x,x1),(y,y1),(255,255,255),2)
-                    landmarks=predictor(gray,face)
+                    landmarks=self.predictor(gray,face)
                     noselandmark=(landmarks.part(30).x,landmarks.part(30).y)
                     xvaluerectsmall=275
                     yvaluerectsmall=300
@@ -103,24 +102,22 @@ class eye_mouse:
                         if (blinking_frames>2):
                             blinking_frames=0#this will reduce multiple clicks
                             cv.putText(frame,"Left click",(250,150),cv.FONT_HERSHEY_SIMPLEX,1,(0,0,0),3)
-                            left_click()
+                            self.mousecontrol.left_click()
                     elif((up_point_r[1]-down_point_r[1])>=value_of_blink):
                         blinking_frames+=1
                         if (blinking_frames>1):
                             blinking_frames=0#this will reduce multiple clicks
                             cv.putText(frame,"Right click",(250,150),cv.FONT_HERSHEY_SIMPLEX,1,(0,0,0),3)
-                            right_click()
+                            self.mousecontrol.right_click()
                     else:
                         while blinking_frames!=0:
                             blinking_frames-=1
                 cv.imshow("frame",frame)
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     self.cap.release()
+                    cv2.destroyAllWindows()
                     break
-            except(cv2.error):
-                print("No camera or camera number wrong inserted")
-                break   
-# firstinst=eye_mouse(blinking_frames,1)
-# firstinst.eyetrack()
-# cap.release()
+            except : 
+                print("Unexpected error:", sys.exc_info()[0])
+                break
 cv2.destroyAllWindows()
