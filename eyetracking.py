@@ -10,7 +10,7 @@ import PyQt5.QtWidgets
 #     videocapture=1
 
 # cap=cv.VideoCapture(videocapture-1,cv2.CAP_DSHOW)#this is some kind of error which happens in windows only accroding to stackoverflow
-cap=cv.VideoCapture(0,cv.CAP_DSHOW)
+# cap=cv.VideoCapture(0,cv.CAP_DSHOW)
 detector=dlib.get_frontal_face_detector()
 predictor=dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 blinking_frames=0
@@ -18,8 +18,10 @@ current_value=[0,0]
 width = GetSystemMetrics(0)
 height = GetSystemMetrics(1)
 class eye_mouse:
-    def __init__(self,blinking_frames):
+    def __init__(self,blinking_frames,camerainput):
+            self.camerainput=camerainput
             self.blinking_frames=blinking_frames
+            
     def rescaleFrame(self,frame):
         dimension=(600,450)
         return cv.resize(frame,dimension,interpolation=cv.INTER_AREA)
@@ -27,6 +29,7 @@ class eye_mouse:
         return int((p1.x+p2.x)/2),int((p1.y+p2.y)/2)
     def eyetrack(self):
         blinking_frames=self.blinking_frames
+        cap=cv.VideoCapture(self.camerainput-1,cv.CAP_DSHOW)
         while True:
             try:
                 errornumber=0
@@ -112,11 +115,12 @@ class eye_mouse:
                             blinking_frames-=1
                 cv.imshow("frame",frame)
                 if cv2.waitKey(1) & 0xFF == ord('q'):
-                      break
+                    self.cap.release()
+                    break
             except(cv2.error):
                 print("No camera or camera number wrong inserted")
                 break   
-firstinst=eye_mouse(blinking_frames)
-firstinst.eyetrack()
-cap.release()
+# firstinst=eye_mouse(blinking_frames,1)
+# firstinst.eyetrack()
+# cap.release()
 cv2.destroyAllWindows()

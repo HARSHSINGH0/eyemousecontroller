@@ -9,28 +9,41 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+import test
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(779, 831)
+        MainWindow.setEnabled(True)
+        MainWindow.resize(800, 800)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
         MainWindow.setSizePolicy(sizePolicy)
+        MainWindow.setContextMenuPolicy(QtCore.Qt.NoContextMenu)
+        MainWindow.setWindowTitle("EYE MOUSE ")
+        MainWindow.setToolTip("")
+        MainWindow.setStatusTip("")
+        MainWindow.setWhatsThis("")
+        MainWindow.setAccessibleName("")
+        MainWindow.setAccessibleDescription("")
+        MainWindow.setWindowFilePath("")
+        MainWindow.setDocumentMode(False)
+        MainWindow.setTabShape(QtWidgets.QTabWidget.Rounded)
+        MainWindow.setDockNestingEnabled(False)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.EnterButton = QtWidgets.QPushButton(self.centralwidget)
-        self.EnterButton.setGeometry(QtCore.QRect(490, 740, 121, 51))
+        self.EnterButton.setGeometry(QtCore.QRect(500, 740, 121, 51))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
         font.setPointSize(18)
         self.EnterButton.setFont(font)
-        self.EnterButton.setCursor(QtGui.QCursor(QtCore.Qt.CrossCursor))
+        self.EnterButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.EnterButton.setIconSize(QtCore.QSize(16, 16))
         self.EnterButton.setObjectName("EnterButton")
+        self.EnterButton.clicked.connect(self.clicked)
         self.Eyemouselabel = QtWidgets.QLabel(self.centralwidget)
         self.Eyemouselabel.setGeometry(QtCore.QRect(10, 0, 761, 91))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
@@ -49,7 +62,7 @@ class Ui_MainWindow(object):
         self.Eyemouselabel.setWordWrap(False)
         self.Eyemouselabel.setObjectName("Eyemouselabel")
         self.instructionimagelabel = QtWidgets.QLabel(self.centralwidget)
-        self.instructionimagelabel.setGeometry(QtCore.QRect(10, 100, 751, 621))
+        self.instructionimagelabel.setGeometry(QtCore.QRect(20, 100, 751, 621))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -60,7 +73,7 @@ class Ui_MainWindow(object):
         self.instructionimagelabel.setAlignment(QtCore.Qt.AlignCenter)
         self.instructionimagelabel.setObjectName("instructionimagelabel")
         self.cameralabel = QtWidgets.QLabel(self.centralwidget)
-        self.cameralabel.setGeometry(QtCore.QRect(110, 720, 271, 91))
+        self.cameralabel.setGeometry(QtCore.QRect(120, 730, 271, 71))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -78,19 +91,23 @@ class Ui_MainWindow(object):
         self.cameralabel.setObjectName("cameralabel")
         self.textEditcamera = QtWidgets.QTextEdit(self.centralwidget)
         self.textEditcamera.setGeometry(QtCore.QRect(390, 740, 91, 51))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.textEditcamera.sizePolicy().hasHeightForWidth())
+        self.textEditcamera.setSizePolicy(sizePolicy)
+        self.textEditcamera.setOverwriteMode(False)
+        self.textEditcamera.setAcceptRichText(False)
         self.textEditcamera.setObjectName("textEditcamera")
         MainWindow.setCentralWidget(self.centralwidget)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
-        self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.EnterButton.setText(_translate("MainWindow", "Enter"))
+        self.EnterButton.setShortcut(_translate("MainWindow", "Return"))
         self.Eyemouselabel.setText(_translate("MainWindow", "Eye Mouse Controller"))
         self.cameralabel.setText(_translate("MainWindow", "Camera Number"))
         self.textEditcamera.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
@@ -99,6 +116,11 @@ class Ui_MainWindow(object):
 "</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
 "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:20pt; font-weight:600;\">1</span></p></body></html>"))
 
+    def clicked(self):
+        camerainput=1
+        camerainput=int(self.textEditcamera.toPlainText())
+        eyemouse=test.eye_mouse(camerainput)
+        eyemouse.eyetrack()
 
 if __name__ == "__main__":
     import sys
