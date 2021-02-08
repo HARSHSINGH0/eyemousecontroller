@@ -7,6 +7,10 @@ import pyautogui
 from pynput.mouse import Listener,Button,Controller
 import sys
 import eyemouseinterface2
+
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
 class eye_mouse:
     def __init__(self,camerainput):
             self.camerainput=int(camerainput)
@@ -17,7 +21,7 @@ class eye_mouse:
             middlepoint1=width/2
             middlepoint2=height/2
             self.mousecontrol.firstpos(middlepoint1,middlepoint2)
-
+            
     def rescaleFrame(self,frame):
         dimension=(600,450)
         return cv.resize(frame,dimension,interpolation=cv.INTER_AREA)
@@ -29,6 +33,8 @@ class eye_mouse:
         self.detector=dlib.get_frontal_face_detector()
         self.predictor=dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
         mouse=Controller()
+        
+        # self.interfaceclass.changestatus(self.interfaceclass,"good")
         while True:
             try:
                 errornumber=0
@@ -119,8 +125,8 @@ class eye_mouse:
                     cv2.destroyAllWindows()
                     break
             except :
-                interface=eyemouseinterface2.Ui_MainWindow()
-                interface.camerastatus.setText("MainWindow", "Current Camera Status : BAD")
+                
                 cv2.destroyAllWindows()
                 break
+
 cv2.destroyAllWindows()

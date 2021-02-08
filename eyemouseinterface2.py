@@ -11,7 +11,8 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 import eyetracking
-class Ui_MainWindow(object):
+class Ui_MainWindow:
+    
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setEnabled(True)
@@ -139,14 +140,16 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "EYE MOUSE "))
-        self.EnterButton.setText(_translate("MainWindow", "Enter"))
+        self.EnterButton.setText(_translate("MainWindow", "Submit"))
         self.EnterButton.setShortcut(_translate("MainWindow", "Return"))
         self.Eyemouselabel.setText(_translate("MainWindow", "Eye Mouse Controller"))
         self.cameralabel.setText(_translate("MainWindow", "Camera Number"))
         self.lineEdit.setText(_translate("MainWindow", "1"))
-        self.camerastatus.setText(_translate("MainWindow", "Current Camera Status : GOOD"))
+        # self.camerastatus.setText(_translate("MainWindow", "Current Camera Status : GOOD"))
         self.cameralabel_3.setText(_translate("MainWindow", "NOTE: Only one person in frame is needed for program to work fine"))
-    def Enterbuttonclicked(self):#this function is added too manually
+    
+    def Enterbuttonclicked(self):#this function is added manually too
+        
         camerainput=int(self.lineEdit.text())
         eyemouse=eyetracking.eye_mouse(camerainput)
         eyemouse.eyetrack()
