@@ -119,7 +119,6 @@ class eye_mouse:
                     cv2.destroyAllWindows()
                     break
             except :
-                
                 cv2.destroyAllWindows()
                 break
 

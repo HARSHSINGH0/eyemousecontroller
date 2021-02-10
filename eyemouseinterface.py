@@ -1,6 +1,14 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import eyetracking
-
+from PyQt5 import sip
+import cv2 as cv
+cv2=cv
+import dlib
+import mousecontrol_eye
+from win32.win32api import GetSystemMetrics
+from pynput.mouse import Listener,Button,Controller
+import sys
+from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
