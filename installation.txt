@@ -13,3 +13,8 @@ pip install opencv-python-headless
 pip install pygubu-designer
 pip install pygubu
 pip install device
+pip install https://github.com/pyinstaller/pyinstaller/archive/develop.zip
+pip install cx_freeze
+pip install pyzmq
+pip install --upgrade --user pyqtwebengine==5.12
+pip install --upgrade --user pyqt5==5.12
