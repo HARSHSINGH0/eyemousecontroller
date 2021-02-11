@@ -115,7 +115,7 @@ class eye_mouse:
                 
                 cv.imshow("frame",frame)
                 if cv2.waitKey(1) & 0xFF == ord('q'):
-                    self.cap.release()
+                    # self.cap.release()
                     cv2.destroyAllWindows()
                     break
             except :
