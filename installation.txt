@@ -18,3 +18,8 @@ pip install cx_freeze
 pip install pyzmq
 pip install --upgrade --user pyqtwebengine==5.12
 pip install --upgrade --user pyqt5==5.12
+pip install pyzmq
+pip install h5py
+if not working uninstall and install 
+still not working install previous releases
+python setup.py build
