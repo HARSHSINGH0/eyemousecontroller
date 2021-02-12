@@ -8,10 +8,11 @@ from pynput.mouse import Listener,Button,Controller
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 class eye_mouse:
-    def __init__(self,camerainput):
+    def __init__(self,camerainput,cameracheck):
             self.camerainput=int(camerainput)
             self.blinking_frames=0
             self.mousecontrol=mousecontrol_eye.mousecontrol()
+            self.cameracheck=cameracheck
             width = GetSystemMetrics(0)
             height = GetSystemMetrics(1)
             middlepoint1=width/2
@@ -25,6 +26,7 @@ class eye_mouse:
     def eyetrack(self):
         blinking_frames=self.blinking_frames
         self.cap=cv.VideoCapture(self.camerainput-1,cv.CAP_DSHOW)
+        cameracheck=self.cameracheck
         self.detector=dlib.get_frontal_face_detector()
         self.predictor=dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
         mouse=Controller()
@@ -32,11 +34,19 @@ class eye_mouse:
         while True:
             try:
                 errornumber=0
-                _,frame=self.cap.read()
-                gray=cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
-                gray=self.rescaleFrame(gray)
-                frame=self.rescaleFrame(frame)
-                faces=self.detector(gray)
+                if cameracheck==False:
+                    _,frame=self.cap.read()
+                    gray=cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
+                    gray=self.rescaleFrame(gray)
+                    frame=self.rescaleFrame(frame)
+                    faces=self.detector(gray)
+                else:#this will flip the camera if checkbox is clicked
+                    _,frame=self.cap.read()
+                    gray=cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
+                    gray=cv.flip(self.rescaleFrame(gray),1)
+                    frame=cv.flip(self.rescaleFrame(frame),1)
+                    faces=self.detector(gray)
+                
                 cv.putText(frame,"Q to exit",(230,50),cv.FONT_HERSHEY_SIMPLEX,1,(255,0,0),2)
                 for face in faces:
                     x,y=face.left(),face.right()
@@ -98,7 +108,7 @@ class eye_mouse:
                         value_of_blink=10
                     if((up_point[1]-down_point[1])>=value_of_blink):
                         blinking_frames+=1
-                        print(blinking_frames)
+                        
                         if (blinking_frames>2):
                             blinking_frames=0#this will reduce multiple clicks
                             cv.putText(frame,"Left click",(250,150),cv.FONT_HERSHEY_SIMPLEX,1,(0,0,0),3)
