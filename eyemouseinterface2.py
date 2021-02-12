@@ -11,6 +11,13 @@ import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 import time
 class Ui_MainWindow(object):
+    def __init__(self):
+        self.f=open("cameranumbersaved.txt","r+")#this is for saved camera number to access on startup
+        self.cameranumbersaved=self.f.read()
+        if(self.cameranumbersaved==""):
+            open("cameranumbersaved.txt","r+").write("1")#this will save default value 1 if no number is saved in cameranumbersaved
+            self.cameranumbersaved=self.f.read()
+        self.f.close()
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setEnabled(True)
@@ -168,11 +175,23 @@ class Ui_MainWindow(object):
         self.cameralabel_4.setText(_translate("MainWindow", "If no result after pressing enter then camera number is wrong "))
         self.cameralabel_5.setText(_translate("MainWindow", "Flip Camera:"))
         
-    def Enterbuttonclicked(self):#this function is added manually too
-        camerainput=int(self.lineEdit.text())
-        cameracheck=self.inversecameracheck.isChecked()
-        eyemouse=eyetracking.eye_mouse(camerainput,cameracheck)
-        eyemouse.eyetrack()
+    def Enterbuttonclicked(self,savedornot):#this function is added manually too
+        if savedornot==False:#this will only run if cameranumbersaved file has some value
+            camerainput=int(self.lineEdit.text())
+            cameracheck=self.inversecameracheck.isChecked()
+            open("cameranumbersaved.txt","r+").truncate()
+            if camerainput==None:#this is no values in camernumbersaved file:ValueError: invalid literal for int() with base 10: ''
+                camerainput=1
+                
+            open("cameranumbersaved.txt","r+").write(str(camerainput))#this will save previous used camera number data for easy use
+            eyemouse=eyetracking.eye_mouse(camerainput,cameracheck)
+            eyemouse.eyetrack()
+        else:
+            self.lineEdit.setText(self.cameranumbersaved)
+            camerainput=int(self.lineEdit.text())#this runs on startup and prints value
+            cameracheck=self.inversecameracheck.isChecked()
+            eyemouse=eyetracking.eye_mouse(camerainput,cameracheck)
+            eyemouse.eyetrack()
 
 if __name__ == "__main__":
     import sys
@@ -181,5 +200,5 @@ if __name__ == "__main__":
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
-    ui.Enterbuttonclicked()#this is for running it on startup of program without any clicks
+    ui.Enterbuttonclicked(True)#this is for running it on startup of program without any clicks
     sys.exit(app.exec_())
