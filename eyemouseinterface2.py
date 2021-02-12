@@ -167,6 +167,7 @@ class Ui_MainWindow(object):
         self.cameralabel_3.setText(_translate("MainWindow", "NOTE: Only one person in frame is needed for program to work fine"))
         self.cameralabel_4.setText(_translate("MainWindow", "If no result after pressing enter then camera number is wrong "))
         self.cameralabel_5.setText(_translate("MainWindow", "Flip Camera:"))
+        
     def Enterbuttonclicked(self):#this function is added manually too
         camerainput=int(self.lineEdit.text())
         cameracheck=self.inversecameracheck.isChecked()
@@ -180,4 +181,5 @@ if __name__ == "__main__":
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
+    ui.Enterbuttonclicked()#this is for running it on startup of program without any clicks
     sys.exit(app.exec_())
