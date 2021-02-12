@@ -16,7 +16,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 base = 'Win32GUI' if sys.platform=='win32' else None
 
 executables = [
-    cx_Freeze.Executable('eyemouseinterface2.py', base=base, target_name = 'eyemouseinterface2.py')
+    cx_Freeze.Executable('eyemouseinterface.py', base=base, target_name = 'eyemouseinterface.py',icon='icon.ico')
 ]
 PYTHON_INSTALL_DIR = os.path.dirname(os.path.dirname(os.__file__))
 os.environ['TCL_LIBRARY'] = os.path.join(PYTHON_INSTALL_DIR, 'tcl', 'tcl8.6')
@@ -27,5 +27,5 @@ cx_Freeze.setup(name='Eye Mouse Controller',
       version = '1',
       description = 'Handle Mouse Control with your face',
       options = {'build_exe': {"packages":["zmq","cv2","PyQt5","dlib","win32","pynput","sys","tkinter","PyQt5.QtCore","PyQt5.QtGui","PyQt5.QtWidgets","time"],
-      "include_files":include_files+["icon.ico","eyemouseinterface2.py","eyetracking.py","mousecontrol_eye.py","instruction.png","shape_predictor_68_face_landmarks.dat"]}},
+      "include_files":include_files+["icon.ico","eyemouseinterface.py","eyetracking.py","mousecontrol_eye.py","instruction.png","shape_predictor_68_face_landmarks.dat"]}},
       executables = executables)
