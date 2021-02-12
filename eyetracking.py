@@ -3,7 +3,7 @@ cv2=cv
 import dlib
 import mousecontrol_eye
 from win32.win32api import GetSystemMetrics
-import pyautogui
+import time
 from pynput.mouse import Listener,Button,Controller
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
