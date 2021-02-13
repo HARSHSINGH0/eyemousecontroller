@@ -11,10 +11,17 @@ import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 import time
 class Ui_MainWindow(object):
+    def __init__(self):
+        self.f=open("cameranumbersaved.txt","r+")#this is for saved camera number to access on startup
+        self.cameranumbersaved=self.f.read()
+        if(self.cameranumbersaved==""):
+            open("cameranumbersaved.txt","r+").write("1")#this will save default value 1 if no number is saved in cameranumbersaved
+            self.cameranumbersaved=self.f.read()
+        self.f.close()
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setEnabled(True)
-        MainWindow.resize(1092, 643)
+        MainWindow.resize(1092, 684)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -97,7 +104,7 @@ class Ui_MainWindow(object):
         self.lineEdit.setAlignment(QtCore.Qt.AlignCenter)
         self.lineEdit.setObjectName("lineEdit")
         self.cameralabel_3 = QtWidgets.QLabel(self.centralwidget)
-        self.cameralabel_3.setGeometry(QtCore.QRect(310, 560, 421, 61))
+        self.cameralabel_3.setGeometry(QtCore.QRect(310, 590, 421, 61))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -114,7 +121,7 @@ class Ui_MainWindow(object):
         self.cameralabel_3.setWordWrap(False)
         self.cameralabel_3.setObjectName("cameralabel_3")
         self.cameralabel_4 = QtWidgets.QLabel(self.centralwidget)
-        self.cameralabel_4.setGeometry(QtCore.QRect(310, 590, 421, 61))
+        self.cameralabel_4.setGeometry(QtCore.QRect(310, 620, 421, 61))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -130,6 +137,27 @@ class Ui_MainWindow(object):
         self.cameralabel_4.setAlignment(QtCore.Qt.AlignCenter)
         self.cameralabel_4.setWordWrap(False)
         self.cameralabel_4.setObjectName("cameralabel_4")
+        self.cameralabel_5 = QtWidgets.QLabel(self.centralwidget)
+        self.cameralabel_5.setGeometry(QtCore.QRect(420, 560, 111, 61))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.cameralabel_5.sizePolicy().hasHeightForWidth())
+        self.cameralabel_5.setSizePolicy(sizePolicy)
+        font = QtGui.QFont()
+        font.setFamily("Rockwell")
+        font.setPointSize(9)
+        font.setBold(False)
+        font.setWeight(50)
+        self.cameralabel_5.setFont(font)
+        self.cameralabel_5.setTextFormat(QtCore.Qt.AutoText)
+        self.cameralabel_5.setAlignment(QtCore.Qt.AlignCenter)
+        self.cameralabel_5.setWordWrap(False)
+        self.cameralabel_5.setObjectName("cameralabel_5")
+        self.inversecameracheck = QtWidgets.QCheckBox(self.centralwidget)
+        self.inversecameracheck.setGeometry(QtCore.QRect(540, 580, 70, 21))
+        self.inversecameracheck.setText("")
+        self.inversecameracheck.setObjectName("inversecameracheck")
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -145,10 +173,28 @@ class Ui_MainWindow(object):
         self.lineEdit.setText(_translate("MainWindow", "1"))
         self.cameralabel_3.setText(_translate("MainWindow", "NOTE: Only one person in frame is needed for program to work fine"))
         self.cameralabel_4.setText(_translate("MainWindow", "If no result after pressing enter then camera number is wrong "))
-    def Enterbuttonclicked(self):#this function is added manually too
-        camerainput=int(self.lineEdit.text())
-        eyemouse=eyetracking.eye_mouse(camerainput)
-        eyemouse.eyetrack()
+        self.cameralabel_5.setText(_translate("MainWindow", "Flip Camera:"))
+        
+    def Enterbuttonclicked(self,savedornot):#this function is added manually too
+        try:
+            if savedornot==False:#this will only run if cameranumbersaved file has some value
+                camerainput=int(self.lineEdit.text())
+                cameracheck=self.inversecameracheck.isChecked()
+                open("cameranumbersaved.txt","r+").truncate()
+                if camerainput==None:#this is no values in camernumbersaved file:ValueError: invalid literal for int() with base 10: ''
+                    camerainput=1
+
+                open("cameranumbersaved.txt","r+").write(str(camerainput))#this will save previous used camera number data for easy use
+                eyemouse=eyetracking.eye_mouse(camerainput,cameracheck)
+                eyemouse.eyetrack()
+            else:
+                self.lineEdit.setText(self.cameranumbersaved)
+                camerainput=int(self.lineEdit.text())#this runs on startup and prints value
+                cameracheck=self.inversecameracheck.isChecked()
+                eyemouse=eyetracking.eye_mouse(camerainput,cameracheck)
+                eyemouse.eyetrack()
+        except(Exception):
+            pass
 
 if __name__ == "__main__":
     import sys
@@ -157,4 +203,5 @@ if __name__ == "__main__":
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
+    ui.Enterbuttonclicked(True)#this is for running it on startup of program without any clicks
     sys.exit(app.exec_())

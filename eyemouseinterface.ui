@@ -23,7 +23,11 @@
    <enum>Qt::NoContextMenu</enum>
   </property>
   <property name="windowTitle">
-   <string>EYE MOUSE </string>
+   <string>Eye Mouse Controller</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>icon.ico</normaloff>icon.ico</iconset>
   </property>
   <property name="toolTip">
    <string notr="true"/>
@@ -39,6 +43,9 @@
   </property>
   <property name="accessibleDescription">
    <string notr="true"/>
+  </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
   </property>
   <property name="windowFilePath">
    <string notr="true"/>
@@ -87,8 +94,8 @@
    <widget class="QLabel" name="Eyemouselabel">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>0</y>
+      <x>130</x>
+      <y>-10</y>
       <width>761</width>
       <height>91</height>
      </rect>
@@ -319,12 +326,46 @@
      <rect>
       <x>540</x>
       <y>580</y>
-      <width>70</width>
+      <width>20</width>
       <height>21</height>
      </rect>
     </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
     <property name="text">
      <string/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>16</width>
+      <height>16</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QLabel" name="GithubLogo">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>0</y>
+      <width>71</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>githublogo.png</pixmap>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
   </widget>

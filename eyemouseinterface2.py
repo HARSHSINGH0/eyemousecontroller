@@ -10,6 +10,10 @@ from pynput.mouse import Listener,Button,Controller
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 import time
+from PyQt5.QtGui import QDesktopServices
+from PyQt5.QtCore import QUrl
+
+
 class Ui_MainWindow(object):
     def __init__(self):
         self.f=open("cameranumbersaved.txt","r+")#this is for saved camera number to access on startup
@@ -28,11 +32,15 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
         MainWindow.setSizePolicy(sizePolicy)
         MainWindow.setContextMenuPolicy(QtCore.Qt.NoContextMenu)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("icon.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        MainWindow.setWindowIcon(icon)
         MainWindow.setToolTip("")
         MainWindow.setStatusTip("")
         MainWindow.setWhatsThis("")
         MainWindow.setAccessibleName("")
         MainWindow.setAccessibleDescription("")
+        MainWindow.setAutoFillBackground(False)
         MainWindow.setWindowFilePath("")
         MainWindow.setDocumentMode(False)
         MainWindow.setTabShape(QtWidgets.QTabWidget.Rounded)
@@ -50,7 +58,7 @@ class Ui_MainWindow(object):
         self.EnterButton.setObjectName("EnterButton")
         self.EnterButton.clicked.connect(self.Enterbuttonclicked)
         self.Eyemouselabel = QtWidgets.QLabel(self.centralwidget)
-        self.Eyemouselabel.setGeometry(QtCore.QRect(170, 0, 761, 91))
+        self.Eyemouselabel.setGeometry(QtCore.QRect(130, -10, 761, 91))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -155,9 +163,22 @@ class Ui_MainWindow(object):
         self.cameralabel_5.setWordWrap(False)
         self.cameralabel_5.setObjectName("cameralabel_5")
         self.inversecameracheck = QtWidgets.QCheckBox(self.centralwidget)
-        self.inversecameracheck.setGeometry(QtCore.QRect(540, 580, 70, 21))
+        self.inversecameracheck.setGeometry(QtCore.QRect(540, 580, 20, 21))
+        self.inversecameracheck.setAutoFillBackground(False)
         self.inversecameracheck.setText("")
+        self.inversecameracheck.setIconSize(QtCore.QSize(16, 16))
         self.inversecameracheck.setObjectName("inversecameracheck")
+        self.GithubLogo = QtWidgets.QLabel(self.centralwidget)
+        self.GithubLogo.setGeometry(QtCore.QRect(660, 0, 71, 71))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.GithubLogo.sizePolicy().hasHeightForWidth())
+        self.GithubLogo.setSizePolicy(sizePolicy)
+        self.GithubLogo.setText("")
+        self.GithubLogo.setPixmap(QtGui.QPixmap("githublogo.png"))
+        self.GithubLogo.setAlignment(QtCore.Qt.AlignCenter)
+        self.GithubLogo.setObjectName("GithubLogo")
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -165,7 +186,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "EYE MOUSE "))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Eye Mouse Controller"))
         self.EnterButton.setText(_translate("MainWindow", "Enter"))
         self.EnterButton.setShortcut(_translate("MainWindow", "Return"))
         self.Eyemouselabel.setText(_translate("MainWindow", "Eye Mouse Controller"))
@@ -173,26 +194,32 @@ class Ui_MainWindow(object):
         self.lineEdit.setText(_translate("MainWindow", "1"))
         self.cameralabel_3.setText(_translate("MainWindow", "NOTE: Only one person in frame is needed for program to work fine"))
         self.cameralabel_4.setText(_translate("MainWindow", "If no result after pressing enter then camera number is wrong "))
-        self.cameralabel_5.setText(_translate("MainWindow", "Flip Camera:"))
+        self.cameralabel_5.setText(_translate("MainWindow", "Inverse Camera:"))
         
+        self.GithubLogo.linkActivated.connect(self.linktogithub)
+        self.GithubLogo.setText('<a href="https://github.com/HARSHSINGH0/EYE_MOUSE/</a>')
     def Enterbuttonclicked(self,savedornot):#this function is added manually too
-        if savedornot==False:#this will only run if cameranumbersaved file has some value
-            camerainput=int(self.lineEdit.text())
-            cameracheck=self.inversecameracheck.isChecked()
-            open("cameranumbersaved.txt","r+").truncate()
-            if camerainput==None:#this is no values in camernumbersaved file:ValueError: invalid literal for int() with base 10: ''
-                camerainput=1
-                
-            open("cameranumbersaved.txt","r+").write(str(camerainput))#this will save previous used camera number data for easy use
-            eyemouse=eyetracking.eye_mouse(camerainput,cameracheck)
-            eyemouse.eyetrack()
-        else:
-            self.lineEdit.setText(self.cameranumbersaved)
-            camerainput=int(self.lineEdit.text())#this runs on startup and prints value
-            cameracheck=self.inversecameracheck.isChecked()
-            eyemouse=eyetracking.eye_mouse(camerainput,cameracheck)
-            eyemouse.eyetrack()
+        try:
+            if savedornot==False:#this will only run if cameranumbersaved file has some value
+                camerainput=int(self.lineEdit.text())
+                cameracheck=self.inversecameracheck.isChecked()
+                open("cameranumbersaved.txt","r+").truncate()
+                if camerainput==None:#this is no values in camernumbersaved file:ValueError: invalid literal for int() with base 10: ''
+                    camerainput=1
 
+                open("cameranumbersaved.txt","r+").write(str(camerainput))#this will save previous used camera number data for easy use
+                eyemouse=eyetracking.eye_mouse(camerainput,cameracheck)
+                eyemouse.eyetrack()
+            else:
+                self.lineEdit.setText(self.cameranumbersaved)
+                camerainput=int(self.lineEdit.text())#this runs on startup and prints value
+                cameracheck=self.inversecameracheck.isChecked()
+                eyemouse=eyetracking.eye_mouse(camerainput,cameracheck)
+                eyemouse.eyetrack()
+        except(Exception):
+            pass
+    def linktogithub(self, linkStr):
+        QDesktopServices.openUrl(QUrl(linkStr))
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
