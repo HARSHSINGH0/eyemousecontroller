@@ -12,7 +12,7 @@ import time
 from pynput.mouse import Listener,Button,Controller
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+import webbrowser
 base = 'Win32GUI' if sys.platform=='win32' else None
 
 executables = [
@@ -26,6 +26,6 @@ include_files = [(os.path.join(PYTHON_INSTALL_DIR, 'DLLs', 'tk86t.dll'), os.path
 cx_Freeze.setup(name='Eye Mouse Controller',
       version = '1',
       description = 'Handle Mouse Control with your face',
-      options = {'build_exe': {"packages":["zmq","cv2","PyQt5","dlib","win32","pynput","sys","tkinter","PyQt5.QtCore","PyQt5.QtGui","PyQt5.QtWidgets","time"],
-      "include_files":include_files+["icon.ico","eyemouseinterface.py","eyetracking.py","mousecontrol_eye.py","instruction.png","shape_predictor_68_face_landmarks.dat","cameranumbersaved.txt"]}},
+      options = {'build_exe': {"packages":["webbrowser","zmq","cv2","PyQt5","dlib","win32","pynput","sys","tkinter","PyQt5.QtCore","PyQt5.QtGui","PyQt5.QtWidgets","time"],
+      "include_files":include_files+["githublogo.png","icon.ico","eyemouseinterface.py","eyetracking.py","mousecontrol_eye.py","instruction.png","shape_predictor_68_face_landmarks.dat","cameranumbersaved.txt"]}},
       executables = executables)
