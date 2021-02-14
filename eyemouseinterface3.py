@@ -9,10 +9,8 @@ from win32.win32api import GetSystemMetrics
 from pynput.mouse import Listener,Button,Controller
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
-import time
-from PyQt5.QtGui import QDesktopServices
-from PyQt5.QtCore import QUrl
-
+import time 
+import webbrowser
 
 class Ui_MainWindow(object):
     def __init__(self):
@@ -179,8 +177,21 @@ class Ui_MainWindow(object):
         self.GithubLogo.setPixmap(QtGui.QPixmap("githublogo.png"))
         self.GithubLogo.setAlignment(QtCore.Qt.AlignCenter)
         self.GithubLogo.setObjectName("GithubLogo")
+        self.GithubButton = QtWidgets.QPushButton(self.centralwidget)
+        self.GithubButton.setGeometry(QtCore.QRect(660, 0, 71, 71))
+        font = QtGui.QFont()
+        font.setFamily("Rockwell")
+        font.setPointSize(18)
+        self.GithubButton.setFont(font)
+        self.GithubButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.GithubButton.setStyleSheet("\n"
+"background-color: rgba(255, 255, 255, 0);")
+        self.GithubButton.setText("")
+        self.GithubButton.setIconSize(QtCore.QSize(16, 16))
+        self.GithubButton.setObjectName("GithubButton")
+        url="https://github.com/HARSHSINGH0/EYE_MOUSE"
+        self.GithubButton.clicked.connect(lambda:self.linktogithub(url))#edited
         MainWindow.setCentralWidget(self.centralwidget)
-
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -195,9 +206,7 @@ class Ui_MainWindow(object):
         self.cameralabel_3.setText(_translate("MainWindow", "NOTE: Only one person in frame is needed for program to work fine"))
         self.cameralabel_4.setText(_translate("MainWindow", "If no result after pressing enter then camera number is wrong "))
         self.cameralabel_5.setText(_translate("MainWindow", "Inverse Camera:"))
-        
-        self.GithubLogo.linkActivated.connect(self.linktogithub("https://github.com/HARSHSINGH0/EYE_MOUSE"))
-        # self.GithubLogo.setText('<a href="https://github.com/HARSHSINGH0/EYE_MOUSE/</a>')
+        self.GithubButton.setShortcut(_translate("MainWindow", "Return"))
     def Enterbuttonclicked(self,savedornot):#this function is added manually too
         try:
             if savedornot==False:#this will only run if cameranumbersaved file has some value
@@ -218,8 +227,11 @@ class Ui_MainWindow(object):
                 eyemouse.eyetrack()
         except(Exception):
             pass
-    def linktogithub(self, linkStr):
-        QDesktopServices.openUrl(QUrl(linkStr))
+    def linktogithub(self, link):
+        self.link=link
+        webbrowser.open(self.link, new=0)
+
+
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
