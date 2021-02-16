@@ -21,7 +21,7 @@ current_value=[0,0]
 width = GetSystemMetrics(0)
 height = GetSystemMetrics(1)
 class eye_mouse:
-    def __init__(self,blinking_frames,camerainput):
+    def __init__(self,blinking_frames,camerainput=1):
             self.camerainput=camerainput
             self.blinking_frames=blinking_frames
             
