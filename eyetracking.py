@@ -66,21 +66,30 @@ class eye_mouse:
                     cv.line(frame,(eyestonosepointx,eyestonosepointy),(nose_to_cursorx,nose_to_cursory),(255,255,255),thickness=2)
                     positivecursorvalue=15
                     negativesursorvalue=-15
-                    if((eyestonosepointx-nose_to_cursorx)>positivecursorvalue):
-                        if((eyestonosepointx-nose_to_cursorx)>40):
+                    if((eyestonosepointx-nose_to_cursorx)>positivecursorvalue):#this is for gradually increasing speed
+                        if((eyestonosepointx-nose_to_cursorx)>60):
                             mouse.move(8,0) #this is for gradually increasing the speed
+                        elif((eyestonosepointx-nose_to_cursorx)>30):
+                            mouse.move(4,0)
                         elif((eyestonosepointx-nose_to_cursorx)>15):
                             mouse.move(2,0)#this is moving right
                     if((eyestonosepointx-nose_to_cursorx)<negativesursorvalue):
-                        if((eyestonosepointx-nose_to_cursorx)<-40):
+                        if((eyestonosepointx-nose_to_cursorx)<-60):
                             mouse.move(-8,0) #this is for gradually increasing the speed
+                        elif((eyestonosepointx-nose_to_cursorx)<-30):
+                            mouse.move(-4,0)
                         elif((eyestonosepointx-nose_to_cursorx)<-15):
                             mouse.move(-2,0)#this is moving left
                     if(eyestonosepointy-nose_to_cursory)<positivecursorvalue:
-                        if(eyestonosepointy-nose_to_cursory)<15:
+                        
+                        if(eyestonosepointy-nose_to_cursory)<30:
+                            mouse.move(0,-6)#this is moving up
+                        elif(eyestonosepointy-nose_to_cursory)<15:
                             mouse.move(0,-3)#this is moving up
                     if(eyestonosepointy-nose_to_cursory)>negativesursorvalue:
-                        if(eyestonosepointy-nose_to_cursory)>-15:
+                        if(eyestonosepointy-nose_to_cursory)>-30:
+                            mouse.move(0,6)# this is moving down
+                        elif(eyestonosepointy-nose_to_cursory)>-15:
                             mouse.move(0,3)# this is moving down
                     left_point=(landmarks.part(36).x,landmarks.part(36).y)
                     right_point=(landmarks.part(39).x,landmarks.part(39).y)
