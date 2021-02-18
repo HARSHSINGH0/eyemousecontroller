@@ -81,7 +81,6 @@ class eye_mouse:
                         elif((eyestonosepointx-nose_to_cursorx)<-15):
                             mouse.move(-2,0)#this is moving left
                     if(eyestonosepointy-nose_to_cursory)<positivecursorvalue:
-                        
                         if(eyestonosepointy-nose_to_cursory)<30:
                             mouse.move(0,-6)#this is moving up
                         elif(eyestonosepointy-nose_to_cursory)<15:
@@ -117,14 +116,16 @@ class eye_mouse:
                         value_of_blink=10
                     if((up_point[1]-down_point[1])>=value_of_blink):
                         blinking_frames+=1
-                        
-                        if (blinking_frames>2):
+                        if (blinking_frames>3):
                             blinking_frames=0#this will reduce multiple clicks
                             cv.putText(frame,"Left click",(250,150),cv.FONT_HERSHEY_SIMPLEX,1,(0,0,0),3)
                             self.mousecontrol.left_click()
-                    elif((up_point_r[1]-down_point_r[1])>=value_of_blink):
+                    else:
+                        while blinking_frames!=0:
+                            blinking_frames-=1
+                    if((up_point_r[1]-down_point_r[1])>=value_of_blink):
                         blinking_frames+=1
-                        if (blinking_frames>1):
+                        if (blinking_frames>3):
                             blinking_frames=0#this will reduce multiple clicks
                             cv.putText(frame,"Right click",(250,150),cv.FONT_HERSHEY_SIMPLEX,1,(0,0,0),3)
                             self.mousecontrol.right_click()
