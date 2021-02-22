@@ -68,6 +68,15 @@ class eye_mouse:
                     cv.rectangle(frame,(eyestonosepointx,eyestonosepointy),(eyestonosepointx,eyestonosepointy),(255,255,255),thickness=4)
                     cv.rectangle(frame,(nose_to_cursorx,nose_to_cursory),(nose_to_cursorx,nose_to_cursory),(0,0,0),thickness=5)
                     cv.line(frame,(eyestonosepointx,eyestonosepointy),(nose_to_cursorx,nose_to_cursory),(255,255,255),thickness=2)
+                    center_coordinates = (325, 270)
+                    # Radius of circle
+                    radius = 30
+                    # Blue color in BGR
+                    color = (255, 255, 255)
+                    
+                    cv2.circle(frame, center_coordinates, radius, color, thickness=2)
+                    cv2.circle(frame, center_coordinates,50, color, thickness=2)#here 50 is radius
+                    cv2.circle(frame, center_coordinates,70, color, thickness=2)
                     positivecursorvalue=15
                     negativesursorvalue=-15
                     if((eyestonosepointx-nose_to_cursorx)>positivecursorvalue):#this is for gradually increasing speed
