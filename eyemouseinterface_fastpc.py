@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-import eyetracking
+import eyetracking_fastpc
 from PyQt5 import sip
 import cv2 as cv
 cv2=cv
@@ -12,6 +12,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QCoreApplication
 import time 
 import webbrowser
+from imutils.video import WebcamVideoStream
+
 class Ui_MainWindow(object):
     def __init__(self):
         self.f=open("cameranumbersaved.txt","r+")#this is for saved camera number to access on startup
@@ -217,13 +219,13 @@ class Ui_MainWindow(object):
                     camerainput=1
 
                 open("cameranumbersaved.txt","r+").write(str(camerainput))#this will save previous used camera number data for easy use
-                eyemouse=eyetracking.eye_mouse(camerainput,cameracheck)
+                eyemouse=eyetracking_fastpc.eye_mouse(camerainput,cameracheck)
                 eyemouse.eyetrack()
             else:
                 self.lineEdit.setText(self.cameranumbersaved)
                 camerainput=int(self.lineEdit.text())#this runs on startup and prints value
                 cameracheck=self.inversecameracheck.isChecked()
-                eyemouse=eyetracking.eye_mouse(camerainput,cameracheck)
+                eyemouse=eyetracking_fastpc.eye_mouse(camerainput,cameracheck)
                 eyemouse.eyetrack()
         except(Exception):
             pass

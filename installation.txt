@@ -23,3 +23,4 @@ pip install h5py
 if not working uninstall and install 
 still not working install previous releases
 python setup.py build
+pip install imutils

@@ -121,8 +121,8 @@ class eye_mouse:
                     elif((y1-x1)<105):
                         cv.putText(frame,"come close to the camera",(50,70),cv.FONT_HERSHEY_SIMPLEX,0.5,(255,255,255),1)
                         value_of_blink=10
-                    print("up to down",y1-x1)
-                    print((up_point[1]-down_point[1]))
+                    # print("up to down",y1-x1)
+                    # print((up_point[1]-down_point[1]))
                     if((up_point[1]-down_point[1])>=value_of_blink):
                         blinking_frames+=1
                         if (blinking_frames>3):
@@ -146,11 +146,11 @@ class eye_mouse:
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     # self.cap.release()
                     cv2.destroyAllWindows()
-                    vs.stop()
+                    
                     break
             except:
                 cv2.destroyAllWindows()
-                vs.stop()
+                
                 break
 
 cv2.destroyAllWindows()

@@ -7,6 +7,7 @@ import time
 from pynput.mouse import Listener,Button,Controller
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
+from imutils.video import WebcamVideoStream
 class eye_mouse:
     def __init__(self,camerainput,cameracheck):
             self.camerainput=int(camerainput)
@@ -25,7 +26,8 @@ class eye_mouse:
         return int((p1.x+p2.x)/2),int((p1.y+p2.y)/2)
     def eyetrack(self):
         blinking_frames=self.blinking_frames
-        self.cap=cv.VideoCapture(self.camerainput-1,cv.CAP_DSHOW)
+        self.cap=WebcamVideoStream(src=self.camerainput-1).start()
+        #self.cap=cv.VideoCapture(self.camerainput-1,cv.CAP_DSHOW)
         cameracheck=self.cameracheck
         self.detector=dlib.get_frontal_face_detector()
         self.predictor=dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
@@ -35,13 +37,15 @@ class eye_mouse:
             try:
                 errornumber=0
                 if cameracheck==False:
-                    _,frame=self.cap.read()
+                    #_,frame=self.cap.read()
+                    frame=self.cap.read()
                     gray=cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
                     gray=self.rescaleFrame(gray)
                     frame=self.rescaleFrame(frame)
                     faces=self.detector(gray)
                 else:#this will flip the camera if checkbox is clicked
-                    _,frame=self.cap.read()
+                    frame=self.cap.read()
+                    #_,frame=self.cap.read()
                     gray=cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
                     gray=cv.flip(self.rescaleFrame(gray),1)
                     frame=cv.flip(self.rescaleFrame(frame),1)
@@ -60,7 +64,7 @@ class eye_mouse:
                     yvaluerectsmall_r=350
                     eyestonosepointx,eyestonosepointy=landmarks.part(30).x,landmarks.part(30).y
                     nose_to_cursorx=325
-                    nose_to_cursory=290
+                    nose_to_cursory=270
                     cv.rectangle(frame,(eyestonosepointx,eyestonosepointy),(eyestonosepointx,eyestonosepointy),(255,255,255),thickness=4)
                     cv.rectangle(frame,(nose_to_cursorx,nose_to_cursory),(nose_to_cursorx,nose_to_cursory),(0,0,0),thickness=5)
                     cv.line(frame,(eyestonosepointx,eyestonosepointy),(nose_to_cursorx,nose_to_cursory),(255,255,255),thickness=2)
@@ -68,6 +72,8 @@ class eye_mouse:
                     negativesursorvalue=-15
                     if((eyestonosepointx-nose_to_cursorx)>positivecursorvalue):#this is for gradually increasing speed
                         if((eyestonosepointx-nose_to_cursorx)>70):
+                            mouse.move(12,0)
+                        elif((eyestonosepointx-nose_to_cursorx)>70):
                             mouse.move(8,0) #this is for gradually increasing the speed
                         elif((eyestonosepointx-nose_to_cursorx)>50):
                             mouse.move(4,0)
@@ -75,6 +81,8 @@ class eye_mouse:
                             mouse.move(2,0)#this is moving right
                     if((eyestonosepointx-nose_to_cursorx)<negativesursorvalue):
                         if((eyestonosepointx-nose_to_cursorx)<-70):
+                            mouse.move(-12,0)
+                        elif((eyestonosepointx-nose_to_cursorx)<-70):
                             mouse.move(-8,0) #this is for gradually increasing the speed
                         elif((eyestonosepointx-nose_to_cursorx)<-50):
                             mouse.move(-4,0)
@@ -137,9 +145,11 @@ class eye_mouse:
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     # self.cap.release()
                     cv2.destroyAllWindows()
+                    self.cap.stop()
                     break
             except :
                 cv2.destroyAllWindows()
+                self.cap.stop()
                 break
 
 cv2.destroyAllWindows()
