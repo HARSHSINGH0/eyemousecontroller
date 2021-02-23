@@ -20,13 +20,16 @@ class eye_mouse:
             middlepoint2=height/2
             self.mousecontrol.firstpos(middlepoint1,middlepoint2)
     def rescaleFrame(self,frame):
-        dimension=(600,450)
+        #dimension=(600,450)#this is 4:3
+        dimension=(600,380)
         return cv.resize(frame,dimension,interpolation=cv.INTER_AREA)
     def midlinepoint(self,p1,p2):
         return int((p1.x+p2.x)/2),int((p1.y+p2.y)/2)
     def eyetrack(self):
         blinking_frames=self.blinking_frames
-        self.cap=WebcamVideoStream(src=self.camerainput-1).start()
+        self.cap=cv.VideoCapture("videos/testvideo.mp4")#using this to lower the fps because video is 30 fps and it is taking it in 60 fps
+
+        # self.cap=WebcamVideoStream(src="videos/testvideo.mp4").start()
         #self.cap=cv.VideoCapture(self.camerainput-1,cv.CAP_DSHOW)
         cameracheck=self.cameracheck
         self.detector=dlib.get_frontal_face_detector()
@@ -38,7 +41,7 @@ class eye_mouse:
                 errornumber=0
                 if cameracheck==False:
                     #_,frame=self.cap.read()
-                    frame=self.cap.read()
+                    _,frame=self.cap.read()
                     gray=cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
                     gray=self.rescaleFrame(gray)
                     frame=self.rescaleFrame(frame)
@@ -154,11 +157,11 @@ class eye_mouse:
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     # self.cap.release()
                     cv2.destroyAllWindows()
-                    self.cap.stop()
+                    
                     break
             except :
                 cv2.destroyAllWindows()
-                self.cap.stop()
+                
                 break
 camerainput=1
 cameracheck=False
