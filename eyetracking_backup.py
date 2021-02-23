@@ -7,6 +7,7 @@ import time
 from pynput.mouse import Listener,Button,Controller
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
+from imutils.video import WebcamVideoStream
 class eye_mouse:
     def __init__(self,camerainput,cameracheck):
             self.camerainput=int(camerainput)
@@ -25,7 +26,8 @@ class eye_mouse:
         return int((p1.x+p2.x)/2),int((p1.y+p2.y)/2)
     def eyetrack(self):
         blinking_frames=self.blinking_frames
-        self.cap=cv.VideoCapture(self.camerainput-1,cv.CAP_DSHOW)
+        self.cap=WebcamVideoStream(src=self.camerainput-1).start()
+        #self.cap=cv.VideoCapture(self.camerainput-1,cv.CAP_DSHOW)
         cameracheck=self.cameracheck
         self.detector=dlib.get_frontal_face_detector()
         self.predictor=dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
@@ -35,13 +37,15 @@ class eye_mouse:
             try:
                 errornumber=0
                 if cameracheck==False:
-                    _,frame=self.cap.read()
+                    #_,frame=self.cap.read()
+                    frame=self.cap.read()
                     gray=cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
                     gray=self.rescaleFrame(gray)
                     frame=self.rescaleFrame(frame)
                     faces=self.detector(gray)
                 else:#this will flip the camera if checkbox is clicked
-                    _,frame=self.cap.read()
+                    frame=self.cap.read()
+                    #_,frame=self.cap.read()
                     gray=cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
                     gray=cv.flip(self.rescaleFrame(gray),1)
                     frame=cv.flip(self.rescaleFrame(frame),1)
@@ -60,36 +64,49 @@ class eye_mouse:
                     yvaluerectsmall_r=350
                     eyestonosepointx,eyestonosepointy=landmarks.part(30).x,landmarks.part(30).y
                     nose_to_cursorx=325
-                    nose_to_cursory=290
+                    nose_to_cursory=270
                     cv.rectangle(frame,(eyestonosepointx,eyestonosepointy),(eyestonosepointx,eyestonosepointy),(255,255,255),thickness=4)
                     cv.rectangle(frame,(nose_to_cursorx,nose_to_cursory),(nose_to_cursorx,nose_to_cursory),(0,0,0),thickness=5)
                     cv.line(frame,(eyestonosepointx,eyestonosepointy),(nose_to_cursorx,nose_to_cursory),(255,255,255),thickness=2)
+                    center_coordinates = (325, 270)
+                    # Radius of circle
+                    radius = 30
+                    # Blue color in BGR
+                    color = (255, 255, 255)
+                    
+                    cv2.circle(frame, center_coordinates, radius, color, thickness=2)
+                    cv2.circle(frame, center_coordinates,50, color, thickness=2)#here 50 is radius
+                    cv2.circle(frame, center_coordinates,70, color, thickness=2)
                     positivecursorvalue=15
                     negativesursorvalue=-15
                     if((eyestonosepointx-nose_to_cursorx)>positivecursorvalue):#this is for gradually increasing speed
-                        if((eyestonosepointx-nose_to_cursorx)>60):
+                        if((eyestonosepointx-nose_to_cursorx)>70):
+                            mouse.move(12,0)
+                        elif((eyestonosepointx-nose_to_cursorx)>70):
                             mouse.move(8,0) #this is for gradually increasing the speed
-                        elif((eyestonosepointx-nose_to_cursorx)>30):
+                        elif((eyestonosepointx-nose_to_cursorx)>50):
                             mouse.move(4,0)
-                        elif((eyestonosepointx-nose_to_cursorx)>15):
+                        elif((eyestonosepointx-nose_to_cursorx)>30):
                             mouse.move(2,0)#this is moving right
                     if((eyestonosepointx-nose_to_cursorx)<negativesursorvalue):
-                        if((eyestonosepointx-nose_to_cursorx)<-60):
+                        if((eyestonosepointx-nose_to_cursorx)<-70):
+                            mouse.move(-12,0)
+                        elif((eyestonosepointx-nose_to_cursorx)<-70):
                             mouse.move(-8,0) #this is for gradually increasing the speed
-                        elif((eyestonosepointx-nose_to_cursorx)<-30):
+                        elif((eyestonosepointx-nose_to_cursorx)<-50):
                             mouse.move(-4,0)
-                        elif((eyestonosepointx-nose_to_cursorx)<-15):
+                        elif((eyestonosepointx-nose_to_cursorx)<-30):
                             mouse.move(-2,0)#this is moving left
                     if(eyestonosepointy-nose_to_cursory)<positivecursorvalue:
-                        if(eyestonosepointy-nose_to_cursory)<30:
+                        if(eyestonosepointy-nose_to_cursory)<50:
                             mouse.move(0,-6)#this is moving up
-                        elif(eyestonosepointy-nose_to_cursory)<15:
-                            mouse.move(0,-3)#this is moving up
+                        elif(eyestonosepointy-nose_to_cursory)<30:
+                            mouse.move(0,-2)#this is moving up
                     if(eyestonosepointy-nose_to_cursory)>negativesursorvalue:
-                        if(eyestonosepointy-nose_to_cursory)>-30:
+                        if(eyestonosepointy-nose_to_cursory)>-50:
                             mouse.move(0,6)# this is moving down
-                        elif(eyestonosepointy-nose_to_cursory)>-15:
-                            mouse.move(0,3)# this is moving down
+                        elif(eyestonosepointy-nose_to_cursory)>-30:
+                            mouse.move(0,2)# this is moving down
                     left_point=(landmarks.part(36).x,landmarks.part(36).y)
                     right_point=(landmarks.part(39).x,landmarks.part(39).y)
                     hor_line=cv.line(frame,left_point,right_point,(255,255,255),2)
@@ -125,7 +142,7 @@ class eye_mouse:
                             blinking_frames-=1
                     if((up_point_r[1]-down_point_r[1])>=value_of_blink):
                         blinking_frames+=1
-                        if (blinking_frames>3):
+                        if (blinking_frames>4):#putting less value then left click it runs after left clicks,so when it runs blinking frames increases in moment of performing if statement too
                             blinking_frames=0#this will reduce multiple clicks
                             cv.putText(frame,"Right click",(250,150),cv.FONT_HERSHEY_SIMPLEX,1,(0,0,0),3)
                             self.mousecontrol.right_click()
@@ -137,9 +154,14 @@ class eye_mouse:
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     # self.cap.release()
                     cv2.destroyAllWindows()
+                    self.cap.stop()
                     break
             except :
                 cv2.destroyAllWindows()
+                self.cap.stop()
                 break
-
+camerainput=1
+cameracheck=False
+eyemouse=eye_mouse(camerainput,cameracheck)
+eyemouse.eyetrack()
 cv2.destroyAllWindows()
