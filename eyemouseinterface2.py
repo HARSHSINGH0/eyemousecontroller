@@ -253,7 +253,8 @@ class Ui_MainWindow(object):
                 self.lineEdit.setText(self.cameranumbersaved)
                 camerainput=int(self.lineEdit.text())#this runs on startup and prints value
                 cameracheck=self.inversecameracheck.isChecked()
-                eyemouse=eyetracking_fastpc.eye_mouse(camerainput,cameracheck)
+                aspectratio169check=self.aspectratio169.isChecked()
+                eyemouse=eyetracking_fastpc.eye_mouse(camerainput,cameracheck,aspectratio169check)
                 eyemouse.eyetrack()
         except(Exception):
             pass
