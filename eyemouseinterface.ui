@@ -288,7 +288,7 @@
    <widget class="QLabel" name="cameralabel_5">
     <property name="geometry">
      <rect>
-      <x>420</x>
+      <x>510</x>
       <y>560</y>
       <width>111</width>
       <height>61</height>
@@ -324,7 +324,7 @@
    <widget class="QCheckBox" name="inversecameracheck">
     <property name="geometry">
      <rect>
-      <x>540</x>
+      <x>630</x>
       <y>580</y>
       <width>20</width>
       <height>21</height>
@@ -401,6 +401,64 @@ background-color: rgba(255, 255, 255, 0);</string>
     </property>
     <property name="shortcut">
      <string>Return</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="cameralabel_6">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>560</y>
+      <width>111</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="font">
+     <font>
+      <family>Rockwell</family>
+      <pointsize>9</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Aspect Ratio 16:9</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::AutoText</enum>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="wordWrap">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="aspectratio169">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>580</y>
+      <width>20</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>16</width>
+      <height>16</height>
+     </size>
     </property>
    </widget>
   </widget>

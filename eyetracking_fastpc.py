@@ -24,6 +24,14 @@ class eye_mouse:
         return cv.resize(frame,dimension,interpolation=cv.INTER_AREA)
     def midlinepoint(self,p1,p2):
         return int((p1.x+p2.x)/2),int((p1.y+p2.y)/2)
+    def aspectratiochanger(self,ratio):
+
+        if ratio=="4by3":
+            
+            src = self.frame
+            new_width = 450
+            dsize = (new_width, src.shape[0])
+            self.frame= cv2.resize(src, dsize, interpolation = cv2.INTER_AREA)
     def eyetrack(self):
         blinking_frames=self.blinking_frames
         self.cap=WebcamVideoStream(src=self.camerainput-1).start()

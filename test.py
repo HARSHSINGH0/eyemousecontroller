@@ -21,14 +21,14 @@ class eye_mouse:
             self.mousecontrol.firstpos(middlepoint1,middlepoint2)
     def rescaleFrame(self,frame):
         #dimension=(600,450)#this is 4:3
-        dimension=(600,380)
+        dimension=(600,337)
         return cv.resize(frame,dimension,interpolation=cv.INTER_AREA)
     def midlinepoint(self,p1,p2):
         return int((p1.x+p2.x)/2),int((p1.y+p2.y)/2)
     def aspectratiochanger(self,ratio):
 
         if ratio=="4by3":
-            print("if statement ran")
+            
             src = self.frame
             new_width = 450
             dsize = (new_width, src.shape[0])
@@ -39,7 +39,7 @@ class eye_mouse:
         blinking_frames=self.blinking_frames
         #self.cap=cv.VideoCapture("videos/testvideo.mp4")#using this to lower the fps because video is 30 fps and it is taking it in 60 fps
     
-        self.cap=WebcamVideoStream(src="videos/testvideo.mp4").start()
+        self.cap=cv2.VideoCapture("videos/testvideo.mp4")
         #self.cap=cv.VideoCapture(self.camerainput-1,cv.CAP_DSHOW)
         cameracheck=self.cameracheck
         self.detector=dlib.get_frontal_face_detector()
@@ -50,13 +50,13 @@ class eye_mouse:
             try:
                 errornumber=0
                 if cameracheck==False:
-                    #_,frame=self.cap.read()
-                    frame=self.cap.read()
+                    _,frame=self.cap.read()
+                    # frame=self.cap.read()
                     self.frame=frame
-                    print("This  is running before function")
+                    
                     self.aspectratiochanger("4by3")
                     frame=self.frame
-                    print("This  is running after function")
+                    
                     gray=cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
                     gray=self.rescaleFrame(gray)
                     frame=self.rescaleFrame(frame)
