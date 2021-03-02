@@ -10,11 +10,12 @@ import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 from imutils.video import WebcamVideoStream
 class eye_mouse:
-    def __init__(self,camerainput,cameracheck):
+    def __init__(self,camerainput,cameracheck,aspectratio169):
             self.camerainput=int(camerainput)
             self.blinking_frames=0
             self.mousecontrol=mousecontrol_eye.mousecontrol()
             self.cameracheck=cameracheck
+            self.aspectratio169=aspectratio169
             width = GetSystemMetrics(0)
             height = GetSystemMetrics(1)
             middlepoint1=width/2
@@ -25,6 +26,16 @@ class eye_mouse:
         return cv.resize(frame,dimension,interpolation=cv.INTER_AREA)
     def midlinepoint(self,p1,p2):
         return int((p1.x+p2.x)/2),int((p1.y+p2.y)/2)
+    def aspectratiochanger(self,ratio,frame):
+        if ratio=="16by9":
+            # src = self.frame
+            # new_width = 450
+            # dsize = (new_width, src.shape[0])
+            # self.frame= cv2.resize(src, dsize, interpolation = cv2.INTER_AREA)
+            dimension=(426,240)
+            print(frame.shape[1])
+            return cv.resize(frame,dimension,interpolation=cv.INTER_AREA)
+            # frame=cv.resize(frame,dimension,interpolation=cv.INTER_AREA)
     def eyetrack(self):
         blinking_frames=self.blinking_frames
         self.cap=WebcamVideoStream(src=self.camerainput-1).start()
@@ -43,6 +54,9 @@ class eye_mouse:
                     gray=cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
                     gray=self.rescaleFrame(gray)
                     frame=self.rescaleFrame(frame)
+                    if self.aspectratio169==True:
+                        gray=self.aspectratiochanger("16by9",gray)
+                        frame=self.aspectratiochanger("16by9",frame)
                     faces=self.detector(gray)
                 else:#this will flip the camera if checkbox is clicked
                     frame=self.cap.read()
@@ -50,6 +64,10 @@ class eye_mouse:
                     gray=cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
                     gray=cv.flip(self.rescaleFrame(gray),1)
                     frame=cv.flip(self.rescaleFrame(frame),1)
+                    if self.aspectratio169==True:
+                        gray=self.aspectratiochanger("16by9",gray)
+                        frame=self.aspectratiochanger("16by9",frame)
+                        
                     faces=self.detector(gray)
                 
                 cv.putText(frame,"Q to exit",(120,50),cv.FONT_HERSHEY_SIMPLEX,0.5,(255,255,255),1)
@@ -66,6 +84,16 @@ class eye_mouse:
                     cv.rectangle(frame,(eyestonosepointx,eyestonosepointy),(eyestonosepointx,eyestonosepointy),(255,255,255),thickness=4)
                     cv.rectangle(frame,(nose_to_cursorx,nose_to_cursory),(nose_to_cursorx,nose_to_cursory),(0,0,0),thickness=5)
                     cv.line(frame,(eyestonosepointx,eyestonosepointy),(nose_to_cursorx,nose_to_cursory),(255,255,255),thickness=1)
+                    center_coordinates = (325, 270)
+                    # Radius of circle
+                    radius = 30
+                    # Blue color in BGR
+                    color = (220,220,220)
+                    
+                    cv2.circle(frame, center_coordinates, radius, color, thickness=-1,lineType=cv.FILLED)
+                    
+                    cv2.circle(frame, center_coordinates,50, color, thickness=2,lineType=cv.FILLED)#here 50 is radius
+                    cv2.circle(frame, center_coordinates,70, color, thickness=2,lineType=cv.FILLED)
                     positivecursorvalue=15
                     negativesursorvalue=-15
                     if((eyestonosepointx-nose_to_cursorx)>positivecursorvalue):#this is for gradually increasing speed
@@ -146,11 +174,11 @@ class eye_mouse:
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     # self.cap.release()
                     cv2.destroyAllWindows()
-                    
+                    self.cap.stop()
                     break
             except:
                 cv2.destroyAllWindows()
-                
+                self.cap.stop()
                 break
 
 cv2.destroyAllWindows()

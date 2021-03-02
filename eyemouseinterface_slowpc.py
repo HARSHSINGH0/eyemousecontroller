@@ -14,6 +14,7 @@ import time
 import webbrowser
 from imutils.video import WebcamVideoStream
 
+
 class Ui_MainWindow(object):
     def __init__(self):
         self.f=open("cameranumbersaved.txt","r+")#this is for saved camera number to access on startup
@@ -146,7 +147,7 @@ class Ui_MainWindow(object):
         self.cameralabel_4.setWordWrap(False)
         self.cameralabel_4.setObjectName("cameralabel_4")
         self.cameralabel_5 = QtWidgets.QLabel(self.centralwidget)
-        self.cameralabel_5.setGeometry(QtCore.QRect(420, 560, 111, 61))
+        self.cameralabel_5.setGeometry(QtCore.QRect(510, 560, 111, 61))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -163,7 +164,7 @@ class Ui_MainWindow(object):
         self.cameralabel_5.setWordWrap(False)
         self.cameralabel_5.setObjectName("cameralabel_5")
         self.inversecameracheck = QtWidgets.QCheckBox(self.centralwidget)
-        self.inversecameracheck.setGeometry(QtCore.QRect(540, 580, 20, 21))
+        self.inversecameracheck.setGeometry(QtCore.QRect(630, 580, 20, 21))
         self.inversecameracheck.setAutoFillBackground(False)
         self.inversecameracheck.setText("")
         self.inversecameracheck.setIconSize(QtCore.QSize(16, 16))
@@ -179,6 +180,7 @@ class Ui_MainWindow(object):
         self.GithubLogo.setPixmap(QtGui.QPixmap("githublogo.png"))
         self.GithubLogo.setAlignment(QtCore.Qt.AlignCenter)
         self.GithubLogo.setObjectName("GithubLogo")
+        
         self.GithubButton = QtWidgets.QPushButton(self.centralwidget)
         self.GithubButton.setGeometry(QtCore.QRect(660, 0, 71, 71))
         font = QtGui.QFont()
@@ -191,9 +193,34 @@ class Ui_MainWindow(object):
         self.GithubButton.setText("")
         self.GithubButton.setIconSize(QtCore.QSize(16, 16))
         self.GithubButton.setObjectName("GithubButton")
+        
         url="https://github.com/HARSHSINGH0/EYE_MOUSE"
         self.GithubButton.clicked.connect(lambda:self.linktogithub(url))#edited
+        self.cameralabel_6 = QtWidgets.QLabel(self.centralwidget)
+        self.cameralabel_6.setGeometry(QtCore.QRect(360, 560, 111, 61))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.cameralabel_6.sizePolicy().hasHeightForWidth())
+        self.cameralabel_6.setSizePolicy(sizePolicy)
+        font = QtGui.QFont()
+        font.setFamily("Rockwell")
+        font.setPointSize(9)
+        font.setBold(False)
+        font.setWeight(50)
+        self.cameralabel_6.setFont(font)
+        self.cameralabel_6.setTextFormat(QtCore.Qt.AutoText)
+        self.cameralabel_6.setAlignment(QtCore.Qt.AlignCenter)
+        self.cameralabel_6.setWordWrap(False)
+        self.cameralabel_6.setObjectName("cameralabel_6")
+        self.aspectratio169 = QtWidgets.QCheckBox(self.centralwidget)
+        self.aspectratio169.setGeometry(QtCore.QRect(480, 580, 20, 21))
+        self.aspectratio169.setAutoFillBackground(False)
+        self.aspectratio169.setText("")
+        self.aspectratio169.setIconSize(QtCore.QSize(16, 16))
+        self.aspectratio169.setObjectName("aspectratio169")
         MainWindow.setCentralWidget(self.centralwidget)
+
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -209,30 +236,32 @@ class Ui_MainWindow(object):
         self.cameralabel_4.setText(_translate("MainWindow", "If no result after pressing enter then camera number is wrong "))
         self.cameralabel_5.setText(_translate("MainWindow", "Inverse Camera:"))
         self.GithubButton.setShortcut(_translate("MainWindow", "Return"))
+        self.cameralabel_6.setText(_translate("MainWindow", "Aspect Ratio 16:9"))
     def Enterbuttonclicked(self,savedornot):#this function is added manually too
         try:
             if savedornot==False:#this will only run if cameranumbersaved file has some value
                 camerainput=int(self.lineEdit.text())
                 cameracheck=self.inversecameracheck.isChecked()
+                aspectratio169check=self.aspectratio169.isChecked()
                 open("cameranumbersaved.txt","r+").truncate()
                 if camerainput==None:#this is no values in camernumbersaved file:ValueError: invalid literal for int() with base 10: ''
                     camerainput=1
 
                 open("cameranumbersaved.txt","r+").write(str(camerainput))#this will save previous used camera number data for easy use
-                eyemouse=eyetracking_slowpc.eye_mouse(camerainput,cameracheck)
+                eyemouse=eyetracking_slowpc.eye_mouse(camerainput,cameracheck,aspectratio169check)
                 eyemouse.eyetrack()
             else:
                 self.lineEdit.setText(self.cameranumbersaved)
                 camerainput=int(self.lineEdit.text())#this runs on startup and prints value
                 cameracheck=self.inversecameracheck.isChecked()
-                eyemouse=eyetracking_slowpc.eye_mouse(camerainput,cameracheck)
+                aspectratio169check=self.aspectratio169.isChecked()
+                eyemouse=eyetracking_slowpc.eye_mouse(camerainput,cameracheck,aspectratio169check)
                 eyemouse.eyetrack()
         except(Exception):
             pass
     def linktogithub(self, link):
         self.link=link
         webbrowser.open(self.link, new=0)
-
 
 if __name__ == "__main__":
     import sys

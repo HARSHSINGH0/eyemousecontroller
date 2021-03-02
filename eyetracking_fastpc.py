@@ -21,7 +21,7 @@ class eye_mouse:
             middlepoint1=width/2
             middlepoint2=height/2
             self.mousecontrol.firstpos(middlepoint1,middlepoint2)
-            self.font=cv
+            
     def rescaleFrame(self,frame):
         dimension=(600,450)
         return cv.resize(frame,dimension,interpolation=cv.INTER_AREA)
