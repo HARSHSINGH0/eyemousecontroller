@@ -33,7 +33,8 @@ class eye_mouse:
             # new_width = 450
             # dsize = (new_width, src.shape[0])
             # self.frame= cv2.resize(src, dsize, interpolation = cv2.INTER_AREA)
-            dimension=(600,200)
+            dimension=(640,360)
+            print(frame.shape[1])
             return cv.resize(frame,dimension,interpolation=cv.INTER_AREA)
             # frame=cv.resize(frame,dimension,interpolation=cv.INTER_AREA)
 
@@ -173,7 +174,7 @@ class eye_mouse:
                             blinking_frames-=1
                 
                 cv.imshow("frame",frame)
-                if cv2.waitKey(1) & 0xFF == ord('q'):
+                if cv2.waitKey(1) & 0xFF == ord('q') :
                     # self.cap.release()
                     cv2.destroyAllWindows()
                     self.cap.stop()
