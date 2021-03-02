@@ -242,12 +242,13 @@ class Ui_MainWindow(object):
             if savedornot==False:#this will only run if cameranumbersaved file has some value
                 camerainput=int(self.lineEdit.text())
                 cameracheck=self.inversecameracheck.isChecked()
+                aspectratio169check=self.aspectratio169.isChecked()
                 open("cameranumbersaved.txt","r+").truncate()
                 if camerainput==None:#this is no values in camernumbersaved file:ValueError: invalid literal for int() with base 10: ''
                     camerainput=1
 
                 open("cameranumbersaved.txt","r+").write(str(camerainput))#this will save previous used camera number data for easy use
-                eyemouse=eyetracking_fastpc.eye_mouse(camerainput,cameracheck)
+                eyemouse=eyetracking_fastpc.eye_mouse(camerainput,cameracheck,aspectratio169check)
                 eyemouse.eyetrack()
             else:
                 self.lineEdit.setText(self.cameranumbersaved)

@@ -27,14 +27,17 @@ class eye_mouse:
         return cv.resize(frame,dimension,interpolation=cv.INTER_AREA)
     def midlinepoint(self,p1,p2):
         return int((p1.x+p2.x)/2),int((p1.y+p2.y)/2)
-    def aspectratiochanger(self,ratio):
+    def aspectratiochanger(self,ratio,frame):
         if ratio=="16by9":
-            src = self.frame
-            new_width = 450
-            dsize = (new_width, src.shape[0])
-            self.frame= cv2.resize(src, dsize, interpolation = cv2.INTER_AREA)
+            # src = self.frame
+            # new_width = 450
+            # dsize = (new_width, src.shape[0])
+            # self.frame= cv2.resize(src, dsize, interpolation = cv2.INTER_AREA)
+            dimension=(600,200)
+            return cv.resize(frame,dimension,interpolation=cv.INTER_AREA)
+            # frame=cv.resize(frame,dimension,interpolation=cv.INTER_AREA)
+
     def eyetrack(self):
-        
         blinking_frames=self.blinking_frames
         self.cap=WebcamVideoStream(src=self.camerainput-1).start()
         #self.cap=cv.VideoCapture(self.camerainput-1,cv.CAP_DSHOW)
@@ -52,6 +55,10 @@ class eye_mouse:
                     gray=cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
                     gray=self.rescaleFrame(gray)
                     frame=self.rescaleFrame(frame)
+                    if self.aspectratio169==True:
+                        gray=self.aspectratiochanger("16by9",gray)
+                        frame=self.aspectratiochanger("16by9",frame)
+                        
                     faces=self.detector(gray)
                 else:#this will flip the camera if checkbox is clicked
                     frame=self.cap.read()
@@ -59,10 +66,13 @@ class eye_mouse:
                     gray=cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
                     gray=cv.flip(self.rescaleFrame(gray),1)
                     frame=cv.flip(self.rescaleFrame(frame),1)
+                    if self.aspectratio169==True:
+                        gray=self.aspectratiochanger("16by9",gray)
+                        frame=self.aspectratiochanger("16by9",frame)
+                        
                     faces=self.detector(gray)
-                if self.aspectratio169=="True":
-                    self.aspectratiochanger("16by9")
-                cv.putText(frame,"Q to exit",(230,50),cv.FONT_HERSHEY_SCRIPT_SIMPLEX,1,(255,0,0),2)
+                
+                cv.putText(frame,"Q to exit",(230,50),cv.FONT_HERSHEY_DUPLEX,1,(255,0,0),1)
                 for face in faces:
                     x,y=face.left(),face.right()
                     x1,y1=face.top(),face.bottom()
@@ -141,13 +151,13 @@ class eye_mouse:
                     elif((y1-x1)>120):
                         value_of_blink=-4
                     elif((y1-x1)<105):
-                        cv.putText(frame,"come close to the camera",(80,150),cv.FONT_HERSHEY_SIMPLEX,1,(0,0,0),3)
+                        cv.putText(frame,"come close to the camera",(80,150),cv.FONT_HERSHEY_DUPLEX,1,(0,0,0),1)
                         value_of_blink=10
                     if((up_point[1]-down_point[1])>=value_of_blink):
                         blinking_frames+=1
                         if (blinking_frames>3):
                             blinking_frames=0#this will reduce multiple clicks
-                            cv.putText(frame,"Left click",(250,150),cv.FONT_HERSHEY_SIMPLEX,1,(0,0,0),3)
+                            cv.putText(frame,"Left click",(250,150),cv.FONT_HERSHEY_DUPLEX,1,(0,0,0),1)
                             self.mousecontrol.left_click()
                     else:
                         while blinking_frames!=0:
@@ -156,7 +166,7 @@ class eye_mouse:
                         blinking_frames+=1
                         if (blinking_frames>4):#putting less value then left click it runs after left clicks,so when it runs blinking frames increases in moment of performing if statement too
                             blinking_frames=0#this will reduce multiple clicks
-                            cv.putText(frame,"Right click",(250,150),cv.FONT_HERSHEY_SIMPLEX,1,(0,0,0),3)
+                            cv.putText(frame,"Right click",(250,150),cv.FONT_HERSHEY_DUPLEX,1,(0,0,0),1)
                             self.mousecontrol.right_click()
                     else:
                         while blinking_frames!=0:
