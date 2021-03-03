@@ -34,7 +34,6 @@ class eye_mouse:
             # dsize = (new_width, src.shape[0])
             # self.frame= cv2.resize(src, dsize, interpolation = cv2.INTER_AREA)
             dimension=(640,360)
-            print(frame.shape[1])
             return cv.resize(frame,dimension,interpolation=cv.INTER_AREA)
             # frame=cv.resize(frame,dimension,interpolation=cv.INTER_AREA)
 
@@ -54,23 +53,26 @@ class eye_mouse:
                     #_,frame=self.cap.read()
                     frame=self.cap.read()
                     gray=cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
-                    gray=self.rescaleFrame(gray)
-                    frame=self.rescaleFrame(frame)
+                    
                     if self.aspectratio169==True:
                         gray=self.aspectratiochanger("16by9",gray)
                         frame=self.aspectratiochanger("16by9",frame)
-                        
+                    else:
+                        gray=self.rescaleFrame(gray)
+                        frame=self.rescaleFrame(frame)
                     faces=self.detector(gray)
                 else:#this will flip the camera if checkbox is clicked
                     frame=self.cap.read()
                     #_,frame=self.cap.read()
                     gray=cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
-                    gray=cv.flip(self.rescaleFrame(gray),1)
-                    frame=cv.flip(self.rescaleFrame(frame),1)
+                    
                     if self.aspectratio169==True:
-                        gray=self.aspectratiochanger("16by9",gray)
-                        frame=self.aspectratiochanger("16by9",frame)
-                        
+                        gray=cv.flip(self.aspectratiochanger("16by9",gray),1)#flipping if cameracheck is checked
+                        frame=cv.flip(self.aspectratiochanger("16by9",frame),1)
+                    else:
+                        gray=cv.flip(self.rescaleFrame(gray),1)
+                        frame=cv.flip(self.rescaleFrame(frame),1)
+
                     faces=self.detector(gray)
                 
                 cv.putText(frame,"Q to exit",(230,50),cv.FONT_HERSHEY_DUPLEX,1,(255,0,0),1)

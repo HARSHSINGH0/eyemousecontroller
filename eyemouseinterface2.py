@@ -13,8 +13,6 @@ from PyQt5.QtCore import QCoreApplication
 import time 
 import webbrowser
 from imutils.video import WebcamVideoStream
-
-
 class Ui_MainWindow(object):
     def __init__(self):
         self.f=open("cameranumbersaved.txt","r+")#this is for saved camera number to access on startup
