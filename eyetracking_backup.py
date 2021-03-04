@@ -28,7 +28,7 @@ class eye_mouse:
     def eyetrack(self):
         blinking_frames=self.blinking_frames
         self.cap=cv.VideoCapture("videos/testvideo4.mp4")#using this to lower the fps because video is 30 fps and it is taking it in 60 fps
-
+        self.cap.set(cv2.CAP_PROP_EXPOSURE, 50000) 
         # self.cap=WebcamVideoStream(src="videos/testvideo.mp4").start()
         #self.cap=cv.VideoCapture(self.camerainput-1,cv.CAP_DSHOW)
         cameracheck=self.cameracheck

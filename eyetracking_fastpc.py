@@ -40,7 +40,9 @@ class eye_mouse:
     def eyetrack(self):
         blinking_frames=self.blinking_frames
         self.cap=WebcamVideoStream(src=self.camerainput-1).start()
-        #self.cap=cv.VideoCapture(self.camerainput-1,cv.CAP_DSHOW)
+        
+        # self.cap=cv.VideoCapture(self.camerainput-1,cv.CAP_DSHOW)
+        # self.cap.set(cv2.CAP_PROP_EXPOSURE, 40)
         cameracheck=self.cameracheck
         self.detector=dlib.get_frontal_face_detector()
         self.predictor=dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
