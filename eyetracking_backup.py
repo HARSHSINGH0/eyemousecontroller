@@ -27,7 +27,7 @@ class eye_mouse:
         return int((p1.x+p2.x)/2),int((p1.y+p2.y)/2)
     def eyetrack(self):
         blinking_frames=self.blinking_frames
-        self.cap=cv.VideoCapture("videos/testvideo.mp4")#using this to lower the fps because video is 30 fps and it is taking it in 60 fps
+        self.cap=cv.VideoCapture("videos/testvideo4.mp4")#using this to lower the fps because video is 30 fps and it is taking it in 60 fps
 
         # self.cap=WebcamVideoStream(src="videos/testvideo.mp4").start()
         #self.cap=cv.VideoCapture(self.camerainput-1,cv.CAP_DSHOW)
@@ -77,9 +77,10 @@ class eye_mouse:
                     # Blue color in BGR
                     color = (255, 255, 255)
                     
-                    cv2.circle(frame, center_coordinates, radius, color, thickness=2)
-                    cv2.circle(frame, center_coordinates,50, color, thickness=2)#here 50 is radius
-                    cv2.circle(frame, center_coordinates,70, color, thickness=2)
+                    cv2.circle(frame, center_coordinates, radius, color, thickness=-1,lineType=cv.FILLED)
+                    
+                    cv2.circle(frame, center_coordinates,50, color, thickness=2,lineType=cv.FILLED)#here 50 is radius
+                    cv2.circle(frame, center_coordinates,70, color, thickness=2,lineType=cv.FILLED)
                     positivecursorvalue=15
                     negativesursorvalue=-15
                     if((eyestonosepointx-nose_to_cursorx)>positivecursorvalue):#this is for gradually increasing speed
