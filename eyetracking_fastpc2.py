@@ -10,7 +10,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from imutils.video import WebcamVideoStream
 import numpy as np
 class eye_mouse:
-    def __init__(self,camerainput,cameracheck,aspectratio169):
+    def __init__(self,camerainput,cameracheck,aspectratio169,illumination):
             self.camerainput=int(camerainput)
             self.blinking_frames=0
             self.mousecontrol=mousecontrol_eye.mousecontrol()
@@ -21,6 +21,9 @@ class eye_mouse:
             middlepoint1=width/2
             middlepoint2=height/2
             self.mousecontrol.firstpos(middlepoint1,middlepoint2)
+            self.illumination=illumination
+            if self.illumination==None:
+                self.illumination=1
             
     def rescaleFrame(self,frame):
         dimension=(600,450)
@@ -37,10 +40,13 @@ class eye_mouse:
             return cv.resize(frame,dimension,interpolation=cv.INTER_AREA)
             # frame=cv.resize(frame,dimension,interpolation=cv.INTER_AREA)
     def adjust_gamma(self,frame, gamma=1.0):
-
-        invGamma = 1.0 / gamma
-        table = np.array([((i / 255.0) ** invGamma) * 255 for i in np.arange(0, 256)]).astype("uint8")
-        return cv2.LUT(frame, table)
+        if gamma==1:
+            return frame
+        else:
+            invGamma = 1.0 / gamma
+            table = np.array([((i / 255.0) ** invGamma) * 255
+               for i in np.arange(0, 256)]).astype("uint8")
+            return cv2.LUT(frame, table)
     def eyetrack(self):
         blinking_frames=self.blinking_frames
         self.cap=WebcamVideoStream(src=self.camerainput-1).start()
@@ -56,13 +62,13 @@ class eye_mouse:
             try:
                 errornumber=0
                 if cameracheck==False:
+                    #_,frame=self.cap.read()
                     frame=self.cap.read()
-                    # frame=self.cap.read()
                     #this is where gamma value is gonna change
-                    frame2=self.adjust_gamma(frame, 1)
-                    # frame=adjust_gamma(frame,2)
-                    gray=cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
                     
+                    frame=self.adjust_gamma(frame,self.illumination)
+                    
+                    gray=cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
                     if self.aspectratio169==True:
                         gray=self.aspectratiochanger("16by9",gray)
                         frame=self.aspectratiochanger("16by9",frame)
@@ -185,7 +191,6 @@ class eye_mouse:
                             blinking_frames-=1
                 
                 cv.imshow("frame",frame)
-                cv.imshow("frame2",frame2)
                 if cv2.waitKey(1) & 0xFF == ord('q') :
                     # self.cap.release()
                     cv2.destroyAllWindows()
@@ -193,8 +198,7 @@ class eye_mouse:
                     break
             except :
                 cv2.destroyAllWindows()
-                # self.cap.stop()
+                self.cap.stop()
                 break
-eyemouse=eye_mouse(1,False,False)
-eyemouse.eyetrack()
+
 cv2.destroyAllWindows()
