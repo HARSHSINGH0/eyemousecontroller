@@ -43,7 +43,7 @@ class eye_mouse:
         return cv2.LUT(frame, table)
     def eyetrack(self):
         blinking_frames=self.blinking_frames
-        self.cap=WebcamVideoStream(src=self.camerainput-1).start()
+        self.cap=cv.VideoCapture("videos/testvideo4.mp4")
         
         # self.cap=cv.VideoCapture(self.camerainput-1,cv.CAP_DSHOW)
         # self.cap.set(cv2.CAP_PROP_EXPOSURE, 40)
@@ -59,7 +59,7 @@ class eye_mouse:
                     frame=self.cap.read()
                     # frame=self.cap.read()
                     #this is where gamma value is gonna change
-                    frame2=self.adjust_gamma(frame, 1)
+                    frame2=self.adjust_gamma(frame, 3)
                     # frame=adjust_gamma(frame,2)
                     gray=cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
                     
@@ -189,7 +189,6 @@ class eye_mouse:
                 if cv2.waitKey(1) & 0xFF == ord('q') :
                     # self.cap.release()
                     cv2.destroyAllWindows()
-                    self.cap.stop()
                     break
             except :
                 cv2.destroyAllWindows()
