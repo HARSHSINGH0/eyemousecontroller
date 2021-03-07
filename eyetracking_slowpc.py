@@ -62,11 +62,15 @@ class eye_mouse:
                     #_,frame=self.cap.read()
                     frame=self.cap.read()
                     gray=cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
-                    
+                    self.aspectratioranned=False#this is false until aspectratiofunction runs
                     if self.aspectratio169==True:
+                        
                         gray=self.aspectratiochanger("16by9",gray)
                         frame=self.aspectratiochanger("16by9",frame)
-
+                        self.aspectratioranned=True#this wil determine if aspectratioranned or not for further use
+                    else:
+                        gray=self.rescaleFrame(gray)
+                        frame=self.rescaleFrame(frame)
                     
                     faces=self.detector(gray)
                 else:#this will flip the camera if checkbox is clicked
@@ -77,13 +81,14 @@ class eye_mouse:
                     if self.aspectratio169==True:
                         gray=cv.flip(self.aspectratiochanger("16by9",gray),1)#flipping if cameracheck is checked
                         frame=cv.flip(self.aspectratiochanger("16by9",frame),1)
+                        self.aspectratioranned=True
                     else:
                         gray=cv.flip(self.rescaleFrame(gray),1)
                         frame=cv.flip(self.rescaleFrame(frame),1)
                         
                     faces=self.detector(gray)
                 
-                cv.putText(frame,"Q to exit",(120,50),cv.FONT_HERSHEY_SIMPLEX,0.5,(255,255,255),1)
+                cv.putText(frame,"Q to exit",(120,50),cv.FONT_HERSHEY_DUPLEX,0.5,(255,255,255),1)
                 for face in faces:
                     x,y=face.left(),face.right()
                     x1,y1=face.top(),face.bottom()
@@ -92,8 +97,12 @@ class eye_mouse:
                     noselandmark=(landmarks.part(30).x,landmarks.part(30).y)
                     
                     eyestonosepointx,eyestonosepointy=landmarks.part(30).x,landmarks.part(30).y
-                    nose_to_cursorx=160
-                    nose_to_cursory=150
+                    if self.aspectratioranned==True:#this if else is for changing midpoint of camera
+                        nose_to_cursorx=213
+                        nose_to_cursory=150
+                    else:#this will run if there aspectratio button is not clicked 
+                        nose_to_cursorx=160
+                        nose_to_cursory=150
                     cv.rectangle(frame,(eyestonosepointx,eyestonosepointy),(eyestonosepointx,eyestonosepointy),(255,255,255),thickness=4)
                     cv.rectangle(frame,(nose_to_cursorx,nose_to_cursory),(nose_to_cursorx,nose_to_cursory),(0,0,0),thickness=5)
                     cv.line(frame,(eyestonosepointx,eyestonosepointy),(nose_to_cursorx,nose_to_cursory),(255,255,255),thickness=1)
@@ -103,10 +112,10 @@ class eye_mouse:
                     # Blue color in BGR
                     color = (220,220,220)
                     
-                    cv2.circle(frame, center_coordinates, radius, color, thickness=-1,lineType=cv.FILLED)
+                    # cv2.circle(frame, center_coordinates, radius, color, thickness=-1,lineType=cv.FILLED)
                     
-                    cv2.circle(frame, center_coordinates,50, color, thickness=2,lineType=cv.FILLED)#here 50 is radius
-                    cv2.circle(frame, center_coordinates,70, color, thickness=2,lineType=cv.FILLED)
+                    # cv2.circle(frame, center_coordinates,50, color, thickness=2,lineType=cv.FILLED)#here 50 is radius
+                    # cv2.circle(frame, center_coordinates,70, color, thickness=2,lineType=cv.FILLED)
                     positivecursorvalue=15
                     negativesursorvalue=-15
                     if((eyestonosepointx-nose_to_cursorx)>positivecursorvalue):#this is for gradually increasing speed
@@ -160,7 +169,7 @@ class eye_mouse:
                         value_of_blink=-5
                         #value_of_blink=-4
                     elif((y1-x1)<105):
-                        cv.putText(frame,"come close to the camera",(50,70),cv.FONT_HERSHEY_SIMPLEX,0.5,(255,255,255),1)
+                        cv.putText(frame,"come close to the camera",(50,70),cv.FONT_HERSHEY_DUPLEX,0.5,(255,255,255),1)
                         value_of_blink=10
                     # print("up to down",y1-x1)
                     # print((up_point[1]-down_point[1]))
@@ -168,7 +177,7 @@ class eye_mouse:
                         blinking_frames+=1
                         if (blinking_frames>3):
                             blinking_frames=0#this will reduce multiple clicks
-                            cv.putText(frame,"Left click",(250,150),cv.FONT_HERSHEY_SIMPLEX,1,(0,0,0),3)
+                            cv.putText(frame,"Left click",(250,150),cv.FONT_HERSHEY_DUPLEX,1,(0,0,0),3)
                             self.mousecontrol.left_click()
                     # else:
                     #     while blinking_frames!=0:
@@ -177,7 +186,7 @@ class eye_mouse:
                         blinking_frames+=1
                         if (blinking_frames>3):
                             blinking_frames=0#this will reduce multiple clicks
-                            cv.putText(frame,"Right click",(250,150),cv.FONT_HERSHEY_SIMPLEX,1,(0,0,0),3)
+                            cv.putText(frame,"Right click",(250,150),cv.FONT_HERSHEY_DUPLEX,1,(0,0,0),3)
                             self.mousecontrol.right_click()
                     else:
                         while blinking_frames!=0:
