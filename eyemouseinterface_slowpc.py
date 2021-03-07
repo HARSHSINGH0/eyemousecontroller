@@ -13,8 +13,7 @@ from PyQt5.QtCore import QCoreApplication
 import time 
 import webbrowser
 from imutils.video import WebcamVideoStream
-
-
+import numpy as np
 class Ui_MainWindow(object):
     def __init__(self):
         self.f=open("cameranumbersaved.txt","r+")#this is for saved camera number to access on startup
@@ -113,7 +112,7 @@ class Ui_MainWindow(object):
         self.lineEdit.setAlignment(QtCore.Qt.AlignCenter)
         self.lineEdit.setObjectName("lineEdit")
         self.cameralabel_3 = QtWidgets.QLabel(self.centralwidget)
-        self.cameralabel_3.setGeometry(QtCore.QRect(310, 590, 421, 61))
+        self.cameralabel_3.setGeometry(QtCore.QRect(310, 620, 421, 61))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -130,7 +129,7 @@ class Ui_MainWindow(object):
         self.cameralabel_3.setWordWrap(False)
         self.cameralabel_3.setObjectName("cameralabel_3")
         self.cameralabel_4 = QtWidgets.QLabel(self.centralwidget)
-        self.cameralabel_4.setGeometry(QtCore.QRect(310, 620, 421, 61))
+        self.cameralabel_4.setGeometry(QtCore.QRect(310, 640, 421, 61))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -147,7 +146,7 @@ class Ui_MainWindow(object):
         self.cameralabel_4.setWordWrap(False)
         self.cameralabel_4.setObjectName("cameralabel_4")
         self.cameralabel_5 = QtWidgets.QLabel(self.centralwidget)
-        self.cameralabel_5.setGeometry(QtCore.QRect(510, 560, 111, 61))
+        self.cameralabel_5.setGeometry(QtCore.QRect(410, 560, 111, 61))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -164,7 +163,7 @@ class Ui_MainWindow(object):
         self.cameralabel_5.setWordWrap(False)
         self.cameralabel_5.setObjectName("cameralabel_5")
         self.inversecameracheck = QtWidgets.QCheckBox(self.centralwidget)
-        self.inversecameracheck.setGeometry(QtCore.QRect(630, 580, 20, 21))
+        self.inversecameracheck.setGeometry(QtCore.QRect(520, 580, 20, 21))
         self.inversecameracheck.setAutoFillBackground(False)
         self.inversecameracheck.setText("")
         self.inversecameracheck.setIconSize(QtCore.QSize(16, 16))
@@ -180,7 +179,6 @@ class Ui_MainWindow(object):
         self.GithubLogo.setPixmap(QtGui.QPixmap("githublogo.png"))
         self.GithubLogo.setAlignment(QtCore.Qt.AlignCenter)
         self.GithubLogo.setObjectName("GithubLogo")
-        
         self.GithubButton = QtWidgets.QPushButton(self.centralwidget)
         self.GithubButton.setGeometry(QtCore.QRect(660, 0, 71, 71))
         font = QtGui.QFont()
@@ -193,11 +191,10 @@ class Ui_MainWindow(object):
         self.GithubButton.setText("")
         self.GithubButton.setIconSize(QtCore.QSize(16, 16))
         self.GithubButton.setObjectName("GithubButton")
-        
         url="https://github.com/HARSHSINGH0/EYE_MOUSE"
         self.GithubButton.clicked.connect(lambda:self.linktogithub(url))#edited
         self.cameralabel_6 = QtWidgets.QLabel(self.centralwidget)
-        self.cameralabel_6.setGeometry(QtCore.QRect(360, 560, 111, 61))
+        self.cameralabel_6.setGeometry(QtCore.QRect(260, 560, 111, 61))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -214,11 +211,53 @@ class Ui_MainWindow(object):
         self.cameralabel_6.setWordWrap(False)
         self.cameralabel_6.setObjectName("cameralabel_6")
         self.aspectratio169 = QtWidgets.QCheckBox(self.centralwidget)
-        self.aspectratio169.setGeometry(QtCore.QRect(480, 580, 20, 21))
+        self.aspectratio169.setGeometry(QtCore.QRect(380, 580, 20, 21))
         self.aspectratio169.setAutoFillBackground(False)
         self.aspectratio169.setText("")
         self.aspectratio169.setIconSize(QtCore.QSize(16, 16))
         self.aspectratio169.setObjectName("aspectratio169")
+        self.cameralabel_7 = QtWidgets.QLabel(self.centralwidget)
+        self.cameralabel_7.setGeometry(QtCore.QRect(540, 560, 111, 61))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.cameralabel_7.sizePolicy().hasHeightForWidth())
+        self.cameralabel_7.setSizePolicy(sizePolicy)
+        font = QtGui.QFont()
+        font.setFamily("Rockwell")
+        font.setPointSize(9)
+        font.setBold(False)
+        font.setWeight(50)
+        self.cameralabel_7.setFont(font)
+        self.cameralabel_7.setTextFormat(QtCore.Qt.AutoText)
+        self.cameralabel_7.setAlignment(QtCore.Qt.AlignCenter)
+        self.cameralabel_7.setWordWrap(False)
+        self.cameralabel_7.setObjectName("cameralabel_7")
+        self.cameralabel_8 = QtWidgets.QLabel(self.centralwidget)
+        self.cameralabel_8.setGeometry(QtCore.QRect(610, 570, 171, 61))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.cameralabel_8.sizePolicy().hasHeightForWidth())
+        self.cameralabel_8.setSizePolicy(sizePolicy)
+        font = QtGui.QFont()
+        font.setFamily("Rockwell")
+        font.setPointSize(9)
+        font.setBold(False)
+        font.setWeight(50)
+        self.cameralabel_8.setFont(font)
+        self.cameralabel_8.setTextFormat(QtCore.Qt.AutoText)
+        self.cameralabel_8.setAlignment(QtCore.Qt.AlignCenter)
+        self.cameralabel_8.setWordWrap(False)
+        self.cameralabel_8.setObjectName("cameralabel_8")
+        self.horizontalSlider = QtWidgets.QSlider(self.centralwidget)
+        self.horizontalSlider.setGeometry(QtCore.QRect(640, 580, 111, 16))
+        self.horizontalSlider.setMinimum(1)
+        self.horizontalSlider.setMaximum(3)
+        self.horizontalSlider.setPageStep(1)
+        self.horizontalSlider.setProperty("value", 1)
+        self.horizontalSlider.setOrientation(QtCore.Qt.Horizontal)
+        self.horizontalSlider.setObjectName("horizontalSlider")
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -236,7 +275,9 @@ class Ui_MainWindow(object):
         self.cameralabel_4.setText(_translate("MainWindow", "If no result after pressing enter then camera number is wrong "))
         self.cameralabel_5.setText(_translate("MainWindow", "Inverse Camera:"))
         self.GithubButton.setShortcut(_translate("MainWindow", "Return"))
-        self.cameralabel_6.setText(_translate("MainWindow", "Aspect Ratio 16:9"))
+        self.cameralabel_6.setText(_translate("MainWindow", "Aspect Ratio 16:9:"))
+        self.cameralabel_7.setText(_translate("MainWindow", "Illumination:"))
+        self.cameralabel_8.setText(_translate("MainWindow", "1                2                3"))
     def Enterbuttonclicked(self,savedornot):#this function is added manually too
         try:
             if savedornot==False:#this will only run if cameranumbersaved file has some value
@@ -248,14 +289,20 @@ class Ui_MainWindow(object):
                     camerainput=1
 
                 open("cameranumbersaved.txt","r+").write(str(camerainput))#this will save previous used camera number data for easy use
-                eyemouse=eyetracking_slowpc.eye_mouse(camerainput,cameracheck,aspectratio169check)
+                illumination=int(self.horizontalSlider.value())
+                eyemouse=eyetracking_slowpc.eye_mouse(camerainput,cameracheck,aspectratio169check,illumination)
+                
                 eyemouse.eyetrack()
             else:
+                
                 self.lineEdit.setText(self.cameranumbersaved)
                 camerainput=int(self.lineEdit.text())#this runs on startup and prints value
                 cameracheck=self.inversecameracheck.isChecked()
                 aspectratio169check=self.aspectratio169.isChecked()
-                eyemouse=eyetracking_slowpc.eye_mouse(camerainput,cameracheck,aspectratio169check)
+                illumination=int(self.horizontalSlider.value())
+                
+                eyemouse=eyetracking_slowpc.eye_mouse(camerainput,cameracheck,aspectratio169check,illumination)
+                
                 eyemouse.eyetrack()
         except(Exception):
             pass

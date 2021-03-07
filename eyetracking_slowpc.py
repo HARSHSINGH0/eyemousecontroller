@@ -1,4 +1,3 @@
-#new eyetracking.py
 import cv2 as cv
 cv2=cv
 import dlib
@@ -9,8 +8,9 @@ from pynput.mouse import Listener,Button,Controller
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 from imutils.video import WebcamVideoStream
+import numpy as np
 class eye_mouse:
-    def __init__(self,camerainput,cameracheck,aspectratio169):
+    def __init__(self,camerainput,cameracheck,aspectratio169,illumination):
             self.camerainput=int(camerainput)
             self.blinking_frames=0
             self.mousecontrol=mousecontrol_eye.mousecontrol()
@@ -21,6 +21,9 @@ class eye_mouse:
             middlepoint1=width/2
             middlepoint2=height/2
             self.mousecontrol.firstpos(middlepoint1,middlepoint2)
+            self.illumination=illumination
+            if self.illumination==None:
+                self.illumination=1
     def rescaleFrame(self,frame):
         dimension=(320,240)
         return cv.resize(frame,dimension,interpolation=cv.INTER_AREA)
@@ -35,6 +38,14 @@ class eye_mouse:
             dimension=(426,240)
             return cv.resize(frame,dimension,interpolation=cv.INTER_AREA)
             # frame=cv.resize(frame,dimension,interpolation=cv.INTER_AREA)
+    def adjust_gamma(self,frame, gamma=1.0):
+        if gamma==1:
+            return frame
+        else:
+            invGamma = 1.0 / gamma
+            table = np.array([((i / 255.0) ** invGamma) * 255
+               for i in np.arange(0, 256)]).astype("uint8")
+            return cv2.LUT(frame, table)
     def eyetrack(self):
         blinking_frames=self.blinking_frames
         self.cap=WebcamVideoStream(src=self.camerainput-1).start()
@@ -171,7 +182,6 @@ class eye_mouse:
                     else:
                         while blinking_frames!=0:
                             blinking_frames-=1
-                
                 cv.imshow("frame",frame)
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     # self.cap.release()
