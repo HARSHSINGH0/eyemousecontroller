@@ -10,7 +10,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from imutils.video import WebcamVideoStream
 import numpy as np
 class eye_mouse:
-    def __init__(self,camerainput,cameracheck,aspectratio169):
+    def __init__(self,camerainput,cameracheck,aspectratio169,illumination):
             self.camerainput=int(camerainput)
             self.blinking_frames=0
             self.mousecontrol=mousecontrol_eye.mousecontrol()
@@ -37,10 +37,14 @@ class eye_mouse:
             return cv.resize(frame,dimension,interpolation=cv.INTER_AREA)
             # frame=cv.resize(frame,dimension,interpolation=cv.INTER_AREA)
     def adjust_gamma(self,frame, gamma=1.0):
-
-        invGamma = 1.0 / gamma
-        table = np.array([((i / 255.0) ** invGamma) * 255 for i in np.arange(0, 256)]).astype("uint8")
-        return cv2.LUT(frame, table)
+        if gamma==1:
+            return frame
+        else:
+            invGamma = 1.0 / gamma
+            table = np.array([((i / 255.0) ** invGamma) * 255
+               for i in np.arange(0, 256)]).astype("uint8")
+            return cv2.LUT(frame, table)
+       
     def eyetrack(self):
         blinking_frames=self.blinking_frames
         self.cap=cv.VideoCapture("videos/testvideo4.mp4")
@@ -190,10 +194,17 @@ class eye_mouse:
                     # self.cap.release()
                     cv2.destroyAllWindows()
                     break
-            except :
+            except Exception as inst:
+                print(type(inst))    # the exception instance
+                print(inst.args)     # arguments stored in .args
+                print(inst)          # __str__ allows args to be printed directly,
+                                     # but may be overridden in exception subclasses
+                
                 cv2.destroyAllWindows()
                 # self.cap.stop()
                 break
-eyemouse=eye_mouse(1,False,False)
+            
+                
+eyemouse=eye_mouse(1,False,False,1)
 eyemouse.eyetrack()
 cv2.destroyAllWindows()

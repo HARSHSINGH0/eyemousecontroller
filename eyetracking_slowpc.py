@@ -61,6 +61,8 @@ class eye_mouse:
                 if cameracheck==False:
                     #_,frame=self.cap.read()
                     frame=self.cap.read()
+                    frame=self.adjust_gamma(frame,self.illumination)
+                    
                     gray=cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
                     self.aspectratioranned=False#this is false until aspectratiofunction runs
                     if self.aspectratio169==True:
@@ -76,6 +78,7 @@ class eye_mouse:
                 else:#this will flip the camera if checkbox is clicked
                     frame=self.cap.read()
                     #_,frame=self.cap.read()
+                    frame=self.adjust_gamma(frame,self.illumination)
                     gray=cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
                     
                     if self.aspectratio169==True:
