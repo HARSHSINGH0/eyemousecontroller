@@ -178,10 +178,10 @@ class eye_mouse:
                             blinking_frames=0#this will reduce multiple clicks
                             cv.putText(frame,"Left click",(250,150),cv.FONT_HERSHEY_DUPLEX,1,(0,0,0),1)
                             self.mousecontrol.left_click()
-                    else:
-                        while blinking_frames!=0:
-                            blinking_frames-=1
-                    if((up_point_r[1]-down_point_r[1])>=value_of_blink):
+                    # else:
+                    #     while blinking_frames!=0:
+                    #         blinking_frames-=1
+                    elif((up_point_r[1]-down_point_r[1])>=value_of_blink):
                         blinking_frames+=1
                         if (blinking_frames>4):#putting less value then left click it runs after left clicks,so when it runs blinking frames increases in moment of performing if statement too
                             blinking_frames=0#this will reduce multiple clicks
