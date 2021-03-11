@@ -51,7 +51,6 @@ class eye_mouse:
         blinking_frames=self.blinking_frames
         self.cap=WebcamVideoStream(src=self.camerainput-1).start()
         
-        # self.cap=cv.VideoCapture(self.camerainput-1,cv.CAP_DSHOW)
         # self.cap.set(cv2.CAP_PROP_EXPOSURE, 40)
         cameracheck=self.cameracheck
         self.detector=dlib.get_frontal_face_detector()
@@ -183,7 +182,7 @@ class eye_mouse:
                     #         blinking_frames-=1
                     elif((up_point_r[1]-down_point_r[1])>=value_of_blink):
                         blinking_frames+=1
-                        if (blinking_frames>4):#putting less value then left click it runs after left clicks,so when it runs blinking frames increases in moment of performing if statement too
+                        if (blinking_frames>3):#putting less value then left click it runs after left clicks,so when it runs blinking frames increases in moment of performing if statement too
                             blinking_frames=0#this will reduce multiple clicks
                             cv.putText(frame,"Right click",(250,150),cv.FONT_HERSHEY_DUPLEX,1,(0,0,0),1)
                             self.mousecontrol.right_click()
