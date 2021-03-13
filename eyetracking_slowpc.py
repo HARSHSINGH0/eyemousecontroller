@@ -48,6 +48,7 @@ class eye_mouse:
             return cv2.LUT(frame, table)
     def eyetrack(self):
         blinking_frames=self.blinking_frames
+        blinking_frames1=self.blinking_frames
         self.cap=WebcamVideoStream(src=self.camerainput-1).start()
         #self.cap=cv.VideoCapture(self.camerainput-1,cv.CAP_DSHOW)
         cameracheck=self.cameracheck
@@ -182,18 +183,18 @@ class eye_mouse:
                             blinking_frames=0#this will reduce multiple clicks
                             cv.putText(frame,"Left click",(250,150),cv.FONT_HERSHEY_DUPLEX,1,(0,0,0),3)
                             self.mousecontrol.left_click()
-                    # else:
-                    #     while blinking_frames!=0:
-                    #         blinking_frames-=1
-                    elif((up_point_r[1]-down_point_r[1])>=value_of_blink):
-                        blinking_frames+=1
-                        if (blinking_frames>3):
-                            blinking_frames=0#this will reduce multiple clicks
-                            cv.putText(frame,"Right click",(250,150),cv.FONT_HERSHEY_DUPLEX,1,(0,0,0),3)
-                            self.mousecontrol.right_click()
                     else:
                         while blinking_frames!=0:
                             blinking_frames-=1
+                    if((up_point_r[1]-down_point_r[1])>=value_of_blink):
+                        blinking_frames1+=1
+                        if (blinking_frames1>3):
+                            blinking_frames1=0#this will reduce multiple clicks
+                            cv.putText(frame,"Right click",(250,150),cv.FONT_HERSHEY_DUPLEX,1,(0,0,0),3)
+                            self.mousecontrol.right_click()
+                    else:
+                        while blinking_frames1!=0:
+                            blinking_frames1-=1
                 cv.imshow("frame",frame)
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     # self.cap.release()
