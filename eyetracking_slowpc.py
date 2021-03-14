@@ -161,22 +161,7 @@ class eye_mouse:
                     down_point_r=(self.midlinepoint(landmarks.part(47),landmarks.part(46)))            
                     ver_line_r=cv.line(frame,up_point_r,down_point_r,(255,255,255),1)
                     value_of_blink=-3#this is for distance about 1 feet
-                    # if((y1-x1)>170):
-                    #     value_of_blink=-8
-                    #     #value_of_blink=-7
-                    # elif((y1-x1)>140):
-                    #     value_of_blink=-7
-                    #     #value_of_blink=-6
-                    # elif((y1-x1)>130):
-                    #     value_of_blink=-6
-                    #     #value_of_blink=-5
-                    # elif((y1-x1)>120):
-                    #     value_of_blink=-5
-                    #     #value_of_blink=-4
-                    # elif((y1-x1)<105):
-                    #     cv.putText(frame,"come close to the camera",(50,70),cv.FONT_HERSHEY_DUPLEX,0.5,(255,255,255),1)
-                    #     value_of_blink=10
-
+                    
                     if((y1-x1)>123):
                         value_of_blink=-5
                         #value_of_blink=-7
