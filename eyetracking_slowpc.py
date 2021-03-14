@@ -96,6 +96,7 @@ class eye_mouse:
                 for face in faces:
                     x,y=face.left(),face.right()
                     x1,y1=face.top(),face.bottom()
+                    
                     facerect=cv2.rectangle(frame,(x,x1),(y,y1),(255,255,255),1)
                     landmarks=self.predictor(gray,face)
                     noselandmark=(landmarks.part(30).x,landmarks.part(30).y)
@@ -160,28 +161,44 @@ class eye_mouse:
                     down_point_r=(self.midlinepoint(landmarks.part(47),landmarks.part(46)))            
                     ver_line_r=cv.line(frame,up_point_r,down_point_r,(255,255,255),1)
                     value_of_blink=-3#this is for distance about 1 feet
-                    if((y1-x1)>170):
-                        value_of_blink=-8
-                        #value_of_blink=-7
-                    elif((y1-x1)>140):
-                        value_of_blink=-7
-                        #value_of_blink=-6
-                    elif((y1-x1)>130):
-                        value_of_blink=-6
-                        #value_of_blink=-5
-                    elif((y1-x1)>120):
+                    # if((y1-x1)>170):
+                    #     value_of_blink=-8
+                    #     #value_of_blink=-7
+                    # elif((y1-x1)>140):
+                    #     value_of_blink=-7
+                    #     #value_of_blink=-6
+                    # elif((y1-x1)>130):
+                    #     value_of_blink=-6
+                    #     #value_of_blink=-5
+                    # elif((y1-x1)>120):
+                    #     value_of_blink=-5
+                    #     #value_of_blink=-4
+                    # elif((y1-x1)<105):
+                    #     cv.putText(frame,"come close to the camera",(50,70),cv.FONT_HERSHEY_DUPLEX,0.5,(255,255,255),1)
+                    #     value_of_blink=10
+
+                    if((y1-x1)>123):
                         value_of_blink=-5
+                        #value_of_blink=-7
+                    elif((y1-x1)>102):
+                        value_of_blink=-4
+                        #value_of_blink=-6
+                    elif((y1-x1)>85):
+                        value_of_blink=-3
+                        #value_of_blink=-5
+                    elif((y1-x1)>71):
+                        value_of_blink=-2
+                        cv.putText(frame,"dont go far than this",(50,70),cv.FONT_HERSHEY_DUPLEX,0.5,(255,255,255),1)
                         #value_of_blink=-4
-                    elif((y1-x1)<105):
+                    elif((y1-x1)<73):
                         cv.putText(frame,"come close to the camera",(50,70),cv.FONT_HERSHEY_DUPLEX,0.5,(255,255,255),1)
                         value_of_blink=10
-                    # print("up to down",y1-x1)
-                    # print((up_point[1]-down_point[1]))
+                    
                     if((up_point[1]-down_point[1])>=value_of_blink):
                         blinking_frames+=1
                         if (blinking_frames>3):
                             blinking_frames=0#this will reduce multiple clicks
-                            cv.putText(frame,"Left click",(250,150),cv.FONT_HERSHEY_DUPLEX,1,(0,0,0),3)
+                            cv.putText(frame,"Left click",(125,65),cv.FONT_HERSHEY_DUPLEX,0.5,(0,0,0),1)
                             self.mousecontrol.left_click()
                     else:
                         while blinking_frames!=0:
@@ -190,7 +207,7 @@ class eye_mouse:
                         blinking_frames1+=1
                         if (blinking_frames1>3):
                             blinking_frames1=0#this will reduce multiple clicks
-                            cv.putText(frame,"Right click",(250,150),cv.FONT_HERSHEY_DUPLEX,1,(0,0,0),3)
+                            cv.putText(frame,"Right click",(125,65),cv.FONT_HERSHEY_DUPLEX,0.5,(0,0,0),1)
                             self.mousecontrol.right_click()
                     else:
                         while blinking_frames1!=0:
