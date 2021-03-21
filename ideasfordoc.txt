@@ -1,0 +1,31 @@
+who needs one of mouse when u have two of eyes,
+thats the idea behind the eyemousecontroller
+and when it works,its amazing
+look at the screen drag your face and snap
+it'll teleport the place where you wanted
+this software will figure out where your face is moving
+but there is couple of catches basically u need is good resoultion camera
+as a webcam to give every video frame to computer
+using a mouse means using your hands lifting your hands clicking
+then replacing your hands in your keyboard
+in eyemousecontroller u dont need to lift your hand from keyboard
+move your face blink and it will click and work like a charm
+thats not all recent update added new feature like
+invert camera for flip video frames
+better illumination settings
+aspect ratio changer for more device support
+if you stop your face from moving and place near to center to camera
+it'll automatically stop moving the cursor
+eyemousecontroller even works with number of video games
+its pretty cool to shoot or throw virtual boulders just by looking your target
+i love eyemousecontroller because of easy replacements of tobii's eye gaze tracker or
+other tracker .
+it can replace mouse for heavy keyboard centric user ,it will make them never use there hands to use 
+mouse 
+it can be used by the people with severe disabilities which can use their eye to communicate to the computers
+one can see the result what eye tracking technology can work when we using it with interface of a laptops
+so basically there will be camera attached to the camera which will detect faces
+and basically it will predict the points of your face structure and it will predict yout
+where your eyelid is is , and on the basis of that it will click event takes place
+
+based on face moving you actually be telling the computer where to move
